@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import { Plus, Trash2, Save, ArrowLeft, Loader2, ImageIcon, X } from 'lucide-react';
 import { useRouter, useParams } from 'next/navigation';
 import Link from 'next/link';
-import { COMMON_ITEMS } from '@/lib/constants';
+// import { COMMON_ITEMS } from '@/lib/constants';
 import SearchableSelect from '@/components/ui/SearchableSelect';
 
 interface QuotationItem {
@@ -44,9 +44,29 @@ export default function EditQuotationPage() {
     const [notes, setNotes] = useState('');
     const [sections, setSections] = useState<QuotationSection[]>([]);
 
+    // Catalog State
+    const [catalogItems, setCatalogItems] = useState<any[]>([]);
+
     useEffect(() => {
-        if (id) fetchQuotation();
-    }, [id]);
+        fetchQuotation();
+        fetchCatalog();
+    }, []);
+
+    const fetchCatalog = async () => {
+        try {
+            const res = await fetch('/api/catalog');
+            if (res.ok) {
+                const data = await res.json();
+                const mapped = data.map((item: any) => ({
+                    ...item,
+                    label: item.name
+                }));
+                setCatalogItems(mapped);
+            }
+        } catch (error) {
+            console.error('Failed to fetch catalog', error);
+        }
+    };
 
     const fetchQuotation = async () => {
         try {
@@ -160,11 +180,16 @@ export default function EditQuotationPage() {
         else if (lowerName.includes('dining')) validIds = ['dining', 'all'];
         else if (lowerName.includes('study')) validIds = ['study', 'all'];
         else if (lowerName.includes('foyer')) validIds = ['foyer', 'all'];
-        else return COMMON_ITEMS;
+        else return catalogItems;
 
-        return COMMON_ITEMS.filter(item => {
-            if (!item.categories) return true;
-            return item.categories.some(c => validIds.includes(c) || c === 'general');
+        return catalogItems.filter(item => {
+            if (typeof item.category === 'string') {
+                return validIds.includes(item.category) || item.category === 'general';
+            }
+            if (Array.isArray(item.categories)) {
+                return item.categories.some((c: string) => validIds.includes(c) || c === 'general');
+            }
+            return true;
         });
     }
 
@@ -173,7 +198,7 @@ export default function EditQuotationPage() {
         const item = newSections[sectionIndex].items[itemIndex];
 
         if (field === 'description') {
-            const commonItem = COMMON_ITEMS.find(ci => ci.label === value);
+            const commonItem = catalogItems.find(ci => ci.label === value);
             if (commonItem) {
                 if (!item.unitPrice) item.unitPrice = commonItem.defaultRate;
                 if (!item.image && commonItem.image) item.image = commonItem.image;

@@ -14,7 +14,8 @@ import {
     CheckSquare,
     BarChart3,
     Settings,
-    LogOut
+    LogOut,
+    Book
 } from 'lucide-react';
 import { logout } from '@/lib/adminAuth';
 import { useRouter } from 'next/navigation';
@@ -26,6 +27,7 @@ const menuItems = [
     { icon: Briefcase, label: 'Projects', href: '/admin/projects' },
     { icon: FileImage, label: 'Designs & Files', href: '/admin/designs' },
     { icon: FileText, label: 'Quotations', href: '/admin/quotations' },
+    { icon: Book, label: 'Master Catalog', href: '/admin/catalog' },
     { icon: CreditCard, label: 'Payments', href: '/admin/payments' },
     { icon: CheckSquare, label: 'Tasks', href: '/admin/tasks' },
     { icon: BarChart3, label: 'Reports', href: '/admin/reports' },

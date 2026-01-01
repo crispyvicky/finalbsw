@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import { Plus, Trash2, Save, ArrowLeft, Loader2, ImageIcon, X } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { COMMON_ITEMS } from '@/lib/constants';
+// import { COMMON_ITEMS } from '@/lib/constants'; // Removed in favor of dynamic catalog
 import SearchableSelect from '@/components/ui/SearchableSelect';
 
 interface QuotationItem {
@@ -43,6 +43,33 @@ export default function CreateQuotationPage() {
             subTotal: 0
         }
     ]);
+
+    // Catalog State
+    const [catalogItems, setCatalogItems] = useState<any[]>([]);
+
+    useEffect(() => {
+        const fetchCatalog = async () => {
+            try {
+                const res = await fetch('/api/catalog');
+                if (res.ok) {
+                    const data = await res.json();
+                    // Transform for compatibility if needed, or just use as is
+                    // API returns { name, category, defaultRate, ... }
+                    // UI expects { label, ... } for SearchableSelect? 
+                    // SearchableSelect expects { label: string }
+                    // So we map it.
+                    const mapped = data.map((item: any) => ({
+                        ...item,
+                        label: item.name // Map name to label for SearchableSelect
+                    }));
+                    setCatalogItems(mapped);
+                }
+            } catch (error) {
+                console.error('Failed to fetch catalog', error);
+            }
+        };
+        fetchCatalog();
+    }, []);
 
     // Calculations
     // Note: Totals are derived from state during render or updated in handlers.
@@ -98,12 +125,19 @@ export default function CreateQuotationPage() {
         else if (lowerName.includes('dining')) validIds = ['dining', 'all'];
         else if (lowerName.includes('study')) validIds = ['study', 'all'];
         else if (lowerName.includes('foyer')) validIds = ['foyer', 'all'];
-        else return COMMON_ITEMS; // No specific category detected, return all
+        else return catalogItems; // No specific category detected, return all
 
-        return COMMON_ITEMS.filter(item => {
-            // If item.categories is missing (older config), show it
-            if (!item.categories) return true;
-            return item.categories.some(c => validIds.includes(c) || c === 'general');
+        return catalogItems.filter(item => {
+            // New Catalog has 'category' string, assuming single category for now or we map it properly
+            // If item.category is a string (new model):
+            if (typeof item.category === 'string') {
+                return validIds.includes(item.category) || item.category === 'general';
+            }
+            // Fallback for older data structure if mixed
+            if (Array.isArray(item.categories)) {
+                return item.categories.some((c: string) => validIds.includes(c) || c === 'general');
+            }
+            return true;
         });
     }
 
@@ -163,7 +197,7 @@ export default function CreateQuotationPage() {
 
         // If Description selected from dropdown, try to set default rate and image
         if (field === 'description') {
-            const commonItem = COMMON_ITEMS.find(ci => ci.label === value);
+            const commonItem = catalogItems.find(ci => ci.label === value);
             if (commonItem) {
                 if (!item.unitPrice) item.unitPrice = commonItem.defaultRate;
                 if (!item.image && commonItem.image) item.image = commonItem.image;
