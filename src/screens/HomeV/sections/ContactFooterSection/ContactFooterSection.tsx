@@ -43,12 +43,21 @@ export const ContactFooterSection = (): JSX.Element => {
   return (
     <footer className="w-full bg-primary-01 relative z-50 py-12 md:py-16 lg:py-20 px-4 md:px-8 lg:px-[170px]">
       <div className="flex flex-col gap-8 md:gap-[79px]">
-        <div className="flex flex-col items-center gap-8 md:gap-[79px]">
-          <h2 className="w-full max-w-[809px] font-heading-03 font-[number:var(--heading-03-font-weight)] [font-style:var(--heading-03-font-style)] text-primary-03 text-3xl md:text-4xl lg:text-5xl text-center tracking-[var(--heading-03-letter-spacing)] leading-tight mb-4">
+        <div className="flex flex-col items-center gap-8 md:gap-[79px] relative group">
+          {/* Hover Pop-up Image */}
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[200px] md:w-[400px] transition-all duration-500 ease-out opacity-100 scale-100 group-hover:opacity-100 group-hover:scale-100 pointer-events-none z-0">
+            <img
+              src="/q.png"
+              alt=""
+              className="w-full h-full object-contain opacity-20"
+            />
+          </div>
+
+          <h2 className="relative z-10 w-full max-w-[809px] font-heading-03 font-[number:var(--heading-03-font-weight)] [font-style:var(--heading-03-font-style)] text-primary-03 text-3xl md:text-4xl lg:text-5xl text-center tracking-[var(--heading-03-letter-spacing)] leading-tight mb-4">
             TRANSFORMING HOUSES INTO HOMES WITH SOUL.
           </h2>
 
-          <div className="flex flex-col items-center gap-4">
+          <div className="relative z-10 flex flex-col items-center gap-4">
             <Link href="/contact">
               <Button
                 variant="outline"

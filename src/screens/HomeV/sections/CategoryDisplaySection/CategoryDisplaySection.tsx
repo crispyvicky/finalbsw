@@ -112,9 +112,9 @@ export const CategoryDisplaySection = (): JSX.Element => {
         </div>
 
         {/* CTA Button */}
-        {/* CTA Button */}
-        <div className="relative z-20 mt-8">
-          <Link href="/portfolio">
+        {/* CTA Button Area */}
+        <div className="w-full relative flex items-center justify-center mt-12 mb-8">
+          <Link href="/portfolio" className="relative z-20">
             <Button
               variant="link"
               className="h-auto p-0 font-button-01 font-[number:var(--button-01-font-weight)]
@@ -126,6 +126,17 @@ export const CategoryDisplaySection = (): JSX.Element => {
               SEE MORE
             </Button>
           </Link>
+
+          {/* Decorative Image */}
+          <div className="absolute h-auto pointer-events-none z-0 transition-all duration-500
+            top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 
+            w-[220px] md:w-[350px] opacity-15">
+            <img
+              src="/seemore.png"
+              alt=""
+              className="w-full h-full object-contain"
+            />
+          </div>
         </div>
 
       </div>

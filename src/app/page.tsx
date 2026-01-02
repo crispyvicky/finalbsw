@@ -12,8 +12,8 @@ export default function Home() {
     return (
         <div className="bg-primary-03 overflow-hidden w-full relative">
             <HeroSection />
-            <UniqueFeaturesSection />
             <NewArrivalsSection />
+            <UniqueFeaturesSection />
             <CategoryDisplaySection />
             <TaglineSection />
             <RoomSelectionSection />

@@ -4,8 +4,17 @@ import { Button } from "../../../../components/ui/button";
 
 export const TaglineSection = (): JSX.Element => {
   return (
-    <section className="w-full py-20 md:py-32 px-4 bg-secondary-05">
-      <div className="container mx-auto flex flex-col items-center justify-center text-center max-w-4xl">
+    <section className="relative w-full py-20 md:py-32 px-4 bg-secondary-05 overflow-hidden">
+      {/* Background Image */}
+      <div className="absolute inset-0 z-0 flex items-center justify-center opacity-30 pointer-events-none">
+        <img
+          src="/p.png"
+          alt="Quote Background"
+          className="w-auto h-[200px] md:h-[400px] object-contain opacity-100 mix-blend-multiply brightness-[0.4] contrast-125 saturate-150"
+        />
+      </div>
+
+      <div className="relative z-10 container mx-auto flex flex-col items-center justify-center text-center max-w-4xl">
         <span className="font-label-medium text-secondary-02 tracking-[0.2em] mb-6 uppercase text-sm md:text-base">
           Our Philosophy
         </span>

@@ -291,3 +291,39 @@
     font-feature-settings: "rlig" 1, "calt" 1;
   }
 }
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #fdfbf7;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #3d5a45;
+  /* Brand Green */
+  border: 3px solid #fdfbf7;
+  /* Padding effect */
+  border-radius: 99px;
+  /* Pill shape for elegance */
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: #ce7e48;
+  /* Brand Orange */
+}
+
+/* Hide Default Cursor for fine pointers (Mouse) */
+@media (pointer: fine) {
+
+  body,
+  a,
+  button,
+  input,
+  select,
+  textarea {
+    cursor: none !important;
+  }
+}

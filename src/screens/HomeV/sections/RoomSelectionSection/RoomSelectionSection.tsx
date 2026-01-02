@@ -86,7 +86,7 @@ export const RoomSelectionSection = (): JSX.Element => {
               onMouseEnter={() => setHoveredIndex(index)}
               onMouseLeave={() => setHoveredIndex(null)}
               className={`
-                relative group cursor-pointer overflow-hidden rounded-2xl 
+                relative group cursor-pointer overflow-hidden rounded-none 
                 ${room.colSpan}
                 transition-all duration-500 ease-out
                 ${hoveredIndex !== null && hoveredIndex !== index ? 'opacity-90 scale-[0.98]' : 'scale-100 opacity-100'}
