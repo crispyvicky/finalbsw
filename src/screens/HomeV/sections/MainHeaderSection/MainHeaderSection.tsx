@@ -12,6 +12,7 @@ const navigationItems = [
   { label: "PROCESS", path: "/process" },
   { label: "LOOKBOOK", path: "/lookbook" },
   { label: "ABOUT", path: "/about" },
+  { label: "COST ESTIMATOR", path: "/cost-estimator" },
   { label: "CONTACT", path: "/contact" },
 ];
 

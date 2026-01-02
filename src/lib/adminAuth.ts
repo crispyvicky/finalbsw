@@ -1,22 +1,12 @@
-'use client';
-
-const AUTH_KEY = 'bsw_admin_auth';
-
 export const ADMIN_CREDENTIALS = {
     name: 'SATHISH',
-    pass: 'SSAATHISH@123' // Simple hardcoded implementation as requested "takes name and pass"
+    pass: 'SSAATHISH@123'
 };
 
-export const checkAuth = (): boolean => {
-    if (typeof window === 'undefined') return false;
-    const auth = localStorage.getItem(AUTH_KEY);
-    return auth === 'true';
-};
-
-export const login = (name: string, pass: string): boolean => {
+export const login = (name: string, pass: string) => {
     if (name === ADMIN_CREDENTIALS.name && pass === ADMIN_CREDENTIALS.pass) {
         if (typeof window !== 'undefined') {
-            localStorage.setItem(AUTH_KEY, 'true');
+            localStorage.setItem('admin_session', 'true');
         }
         return true;
     }
@@ -25,6 +15,13 @@ export const login = (name: string, pass: string): boolean => {
 
 export const logout = () => {
     if (typeof window !== 'undefined') {
-        localStorage.removeItem(AUTH_KEY);
+        localStorage.removeItem('admin_session');
     }
+};
+
+export const checkAuth = () => {
+    if (typeof window !== 'undefined') {
+        return localStorage.getItem('admin_session') === 'true';
+    }
+    return false;
 };

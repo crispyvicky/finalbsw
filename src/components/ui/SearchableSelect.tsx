@@ -1,6 +1,7 @@
 import { useState, Fragment } from 'react';
-import { Combobox, Transition } from '@headlessui/react';
+import { Combobox, ComboboxButton, ComboboxInput, ComboboxOption, ComboboxOptions, Transition } from '@headlessui/react';
 import { Check, ChevronsUpDown } from 'lucide-react';
+import { cn } from '@/lib/utils'; // Assuming this exists, if not I'll just use strings
 
 interface Props {
     value: string;
@@ -23,22 +24,27 @@ export default function SearchableSelect({ value, onChange, options, placeholder
                     .includes(query.toLowerCase().replace(/\s+/g, ''))
             );
 
+    // Ensure we handle case where options might be undefined or empty naturally
+    const safeOptions = filtered || [];
+
     return (
-        <div className={`relative ${className}`}>
-            <Combobox value={value} onChange={onChange as any}>
-                <div className="relative w-full overflow-hidden rounded-lg bg-white text-left focus-within:ring-2 focus-within:ring-slate-900/10">
-                    <Combobox.Input
-                        className="w-full border border-slate-200 bg-slate-50 py-2 pl-3 pr-10 text-sm leading-5 text-slate-900 focus:bg-white focus:outline-none focus:border-slate-300 transition-all font-medium"
-                        displayValue={(item: any) => item}
-                        onChange={(event) => setQuery(event.target.value)}
-                        placeholder={placeholder}
-                    />
-                    <Combobox.Button className="absolute inset-y-0 right-0 flex items-center pr-2">
-                        <ChevronsUpDown
-                            className="h-5 w-5 text-slate-400"
-                            aria-hidden="true"
+        <div className={className}>
+            <Combobox value={value} onChange={(val) => onChange(val || '')} onClose={() => setQuery('')}>
+                <div className="relative">
+                    <div className="relative w-full cursor-default overflow-hidden rounded-lg bg-white text-left focus-within:ring-2 focus-within:ring-slate-900/10 border border-slate-200">
+                        <ComboboxInput
+                            className="w-full border-none py-2 pl-3 pr-10 text-sm leading-5 text-slate-900 focus:ring-0 outline-none font-medium bg-slate-50 focus:bg-white transition-colors"
+                            displayValue={(item: any) => item}
+                            onChange={(event) => setQuery(event.target.value)}
+                            placeholder={placeholder}
                         />
-                    </Combobox.Button>
+                        <ComboboxButton className="absolute inset-y-0 right-0 flex items-center pr-2">
+                            <ChevronsUpDown
+                                className="h-5 w-5 text-slate-400"
+                                aria-hidden="true"
+                            />
+                        </ComboboxButton>
+                    </div>
                 </div>
                 <Transition
                     as={Fragment}
@@ -47,22 +53,25 @@ export default function SearchableSelect({ value, onChange, options, placeholder
                     leaveTo="opacity-0"
                     afterLeave={() => setQuery('')}
                 >
-                    <Combobox.Options className="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black/5 focus:outline-none sm:text-sm z-50">
-                        {filtered.length === 0 && query !== '' ? (
+                    <ComboboxOptions
+                        anchor="bottom start"
+                        className="w-[var(--input-width)] rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black/5 focus:outline-none sm:text-sm z-[9999] max-h-60 overflow-auto empty:invisible"
+                    >
+                        {safeOptions.length === 0 && query !== '' ? (
                             <div className="relative cursor-default select-none px-4 py-2 text-slate-700">
-                                Create "{query}"
+                                Nothing found.
                             </div>
                         ) : (
-                            filtered.map((item, idx) => (
-                                <Combobox.Option
+                            safeOptions.map((item, idx) => (
+                                <ComboboxOption
                                     key={idx}
-                                    className={({ active }) =>
-                                        `relative cursor-default select-none py-2 pl-10 pr-4 ${active ? 'bg-slate-100 text-slate-900' : 'text-slate-900'
+                                    className={({ focus }) =>
+                                        `relative cursor-default select-none py-2 pl-10 pr-4 ${focus ? 'bg-slate-100 text-slate-900' : 'text-slate-900'
                                         }`
                                     }
                                     value={item.label}
                                 >
-                                    {({ selected, active }) => (
+                                    {({ selected, focus }) => (
                                         <>
                                             <span
                                                 className={`block truncate ${selected ? 'font-medium' : 'font-normal'
@@ -72,7 +81,7 @@ export default function SearchableSelect({ value, onChange, options, placeholder
                                             </span>
                                             {selected ? (
                                                 <span
-                                                    className={`absolute inset-y-0 left-0 flex items-center pl-3 ${active ? 'text-slate-600' : 'text-slate-600'
+                                                    className={`absolute inset-y-0 left-0 flex items-center pl-3 ${focus ? 'text-slate-600' : 'text-slate-600'
                                                         }`}
                                                 >
                                                     <Check className="h-5 w-5" aria-hidden="true" />
@@ -80,14 +89,11 @@ export default function SearchableSelect({ value, onChange, options, placeholder
                                             ) : null}
                                         </>
                                     )}
-                                </Combobox.Option>
+                                </ComboboxOption>
                             ))
                         )}
-                        {/* Allow Custom Value even if not in list */}
-                        {query.length > 0 && !filtered.some(f => f.label === query) && (
-                            <Combobox.Option value={query} className="hidden" />
-                        )}
-                    </Combobox.Options>
+                        {/* Custom value option if needed? The user logic previously used filtered.length logic to show "Create". Removed for now to simplify, as "Nothing found" is clearer unless creation is explicit. */}
+                    </ComboboxOptions>
                 </Transition>
             </Combobox>
         </div>

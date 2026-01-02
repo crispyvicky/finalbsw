@@ -22,6 +22,12 @@ export async function POST(request: Request) {
         const count = await Quotation.countDocuments();
         const nextNum = count + 1;
         body.quoteNumber = `II-${String(nextNum).padStart(3, '0')}`; // II-001, II-002...
+
+        // Set defaults for required fields
+        if (body.totalAmount === undefined) body.totalAmount = 0;
+        if (body.finalAmount === undefined) body.finalAmount = 0;
+        if (body.items === undefined) body.items = 0;
+
         const quotation = await Quotation.create(body);
         return NextResponse.json(quotation, { status: 201 });
     } catch (error) {

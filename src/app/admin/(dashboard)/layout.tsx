@@ -36,11 +36,11 @@ export default function AdminDashboardLayout({
     }
 
     return (
-        <div className="min-h-screen bg-slate-50 relative">
+        <div className="min-h-screen bg-[#FDFCFB] relative font-sans text-[#2C2420]">
             {/* Mobile Sidebar Overlay */}
             {sidebarOpen && (
                 <div
-                    className="fixed inset-0 bg-black/50 z-40 lg:hidden"
+                    className="fixed inset-0 bg-black/60 backdrop-blur-sm z-40 lg:hidden"
                     onClick={() => setSidebarOpen(false)}
                 />
             )}
@@ -48,7 +48,7 @@ export default function AdminDashboardLayout({
             {/* Sidebar */}
             <div
                 className={cn(
-                    "fixed inset-y-0 left-0 z-50 transform lg:transform-none lg:static transition-transform duration-300 ease-in-out",
+                    "fixed inset-y-0 left-0 z-50 transform lg:transform-none lg:static transition-transform duration-300 ease-in-out font-body-02",
                     sidebarOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"
                 )}
             >
@@ -58,18 +58,18 @@ export default function AdminDashboardLayout({
             {/* Main Content */}
             <div className="lg:pl-64 min-h-screen flex flex-col transition-all duration-300">
                 {/* Mobile Header */}
-                <header className="h-16 bg-white border-b border-slate-200 lg:hidden flex items-center px-4 sticky top-0 z-30">
+                <header className="h-16 bg-white border-b border-gray-100 lg:hidden flex items-center px-4 sticky top-0 z-30 shadow-sm">
                     <button
                         onClick={() => setSidebarOpen(true)}
-                        className="p-2 text-slate-600 hover:bg-slate-100 rounded-lg"
+                        className="p-2 text-gray-600 hover:bg-gray-50 rounded-lg"
                     >
                         <Menu className="w-6 h-6" />
                     </button>
-                    <span className="ml-4 font-semibold text-slate-800">Admin Dashboard</span>
+                    <span className="ml-4 font-bold text-[#1a1a1a] tracking-wide">Admin Dashboard</span>
                 </header>
 
                 {/* Page Content */}
-                <main className="flex-1 p-4 lg:p-8">
+                <main className="flex-1 p-4 lg:p-8 overflow-x-hidden">
                     {children}
                 </main>
             </div>

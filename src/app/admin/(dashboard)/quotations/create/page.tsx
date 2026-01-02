@@ -127,11 +127,10 @@ export default function CreateQuotationPage() {
         else if (lowerName.includes('foyer')) validIds = ['foyer', 'all'];
         else return catalogItems; // No specific category detected, return all
 
-        return catalogItems.filter(item => {
-            // New Catalog has 'category' string, assuming single category for now or we map it properly
-            // If item.category is a string (new model):
+        const filtered = catalogItems.filter(item => {
+            // New Catalog has 'category' string
             if (typeof item.category === 'string') {
-                return validIds.includes(item.category) || item.category === 'general';
+                return validIds.includes(item.category.toLowerCase()) || item.category === 'general';
             }
             // Fallback for older data structure if mixed
             if (Array.isArray(item.categories)) {
@@ -139,6 +138,10 @@ export default function CreateQuotationPage() {
             }
             return true;
         });
+
+        // Fallback: If filter is too strict (no items found for category), return ALL items
+        // This ensures the user always sees something.
+        return filtered.length > 0 ? filtered : catalogItems;
     }
 
     const updateSectionName = (index: number, name: string) => {
@@ -330,7 +333,7 @@ export default function CreateQuotationPage() {
                 {/* Sections */}
                 <div className="space-y-6">
                     {sections.map((section, sIndex) => (
-                        <div key={sIndex} className="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden animate-in fade-in slide-in-from-bottom-4 duration-500">
+                        <div key={sIndex} className="bg-white rounded-xl border border-slate-200 shadow-sm animate-in fade-in slide-in-from-bottom-4 duration-500">
                             {/* Section Header */}
                             <div className="bg-slate-50 p-4 border-b border-slate-200 flex justify-between items-center">
                                 <SearchableSelect
@@ -366,7 +369,7 @@ export default function CreateQuotationPage() {
                             {/* Items */}
                             <div className="p-4 space-y-4">
                                 {section.items.map((item, iIndex) => (
-                                    <div key={iIndex} className="grid grid-cols-12 gap-4 items-start group">
+                                    <div key={iIndex} className="grid grid-cols-12 gap-4 items-start group relative hover:z-10 focus-within:z-10">
                                         <div className="col-span-4 space-y-2">
                                             <SearchableSelect
                                                 options={getFilteredItems(section.name)}

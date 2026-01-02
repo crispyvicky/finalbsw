@@ -44,29 +44,44 @@ export function AdminSidebar() {
     };
 
     return (
-        <aside className="fixed left-0 top-0 h-screen w-64 bg-slate-900 text-white flex flex-col z-50 transition-all duration-300">
-            <div className="p-6 border-b border-slate-800">
-                <h1 className="text-2xl font-bold tracking-tight text-amber-500">BSW Admin</h1>
-                <p className="text-xs text-slate-400 mt-1">Interior Management</p>
+        <aside className="fixed left-0 top-0 h-screen w-64 bg-[#1a1a1a] text-white flex flex-col z-50 transition-all duration-300 shadow-2xl border-r border-white/5">
+            {/* Header */}
+            <div className="p-8 pb-6 border-b border-white/5">
+                <div className="mb-1">
+                    <span className="text-[10px] uppercase tracking-[0.2em] text-[#D4AF37]/80">Admin Panel</span>
+                </div>
+                <h1 className="text-2xl font-heading-02 font-bold tracking-tight text-white">
+                    BRAVOO
+                </h1>
+                <p className="text-xs text-white/40 font-light mt-1 tracking-wide">Interior Management System</p>
             </div>
 
-            <nav className="flex-1 overflow-y-auto py-4">
-                <ul className="space-y-1 px-3">
+            {/* Nav */}
+            <nav className="flex-1 overflow-y-auto py-6 px-4">
+                <ul className="space-y-1.5">
                     {menuItems.map((item) => {
-                        const isActive = pathname === item.href;
+                        const isActive = pathname === item.href || pathname.startsWith(`${item.href}/`);
+                        // Fix for dashboard exact match since other routes start with /admin
+                        const isDashboard = item.href === '/admin';
+                        const active = isDashboard ? pathname === '/admin' : isActive;
+
                         return (
                             <li key={item.href}>
                                 <Link
                                     href={item.href}
                                     className={cn(
-                                        "flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors",
-                                        isActive
-                                            ? "bg-amber-500/10 text-amber-500"
-                                            : "text-slate-400 hover:text-white hover:bg-slate-800"
+                                        "flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition-all duration-300 group relative overflow-hidden",
+                                        active
+                                            ? "bg-[#D4AF37] text-black shadow-lg shadow-[#D4AF37]/20"
+                                            : "text-white/60 hover:text-white hover:bg-white/5"
                                     )}
                                 >
-                                    <item.icon className="w-5 h-5" />
-                                    {item.label}
+                                    <item.icon className={cn("w-4 h-4 transition-transform group-hover:scale-110", active ? "scale-110" : "")} strokeWidth={2} />
+                                    <span className="tracking-wide">{item.label}</span>
+
+                                    {active && (
+                                        <div className="absolute right-0 top-1/2 -translate-y-1/2 w-1 h-8 bg-white/20 rounded-l-full" />
+                                    )}
                                 </Link>
                             </li>
                         );
@@ -74,12 +89,13 @@ export function AdminSidebar() {
                 </ul>
             </nav>
 
-            <div className="p-4 border-t border-slate-800">
+            {/* Footer */}
+            <div className="p-6 border-t border-white/5 bg-black/20">
                 <button
                     onClick={handleLogout}
-                    className="flex w-full items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-red-400 hover:bg-red-400/10 hover:text-red-300 transition-colors"
+                    className="flex w-full items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium text-red-400 hover:bg-red-500/10 hover:text-red-300 transition-all group"
                 >
-                    <LogOut className="w-5 h-5" />
+                    <LogOut className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
                     Logout
                 </button>
             </div>
