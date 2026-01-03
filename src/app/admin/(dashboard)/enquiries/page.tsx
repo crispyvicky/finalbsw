@@ -36,7 +36,9 @@ export default function EnquiriesPage() {
     const filteredEnquiries = enquiries.filter(item =>
         item.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
         item.phone.includes(searchTerm) ||
-        (item.location && item.location.toLowerCase().includes(searchTerm.toLowerCase()))
+        (item.email && item.email.toLowerCase().includes(searchTerm.toLowerCase())) ||
+        (item.location && item.location.toLowerCase().includes(searchTerm.toLowerCase())) ||
+        (item.source && item.source.toLowerCase().includes(searchTerm.toLowerCase()))
     );
 
     const getStatusColor = (status: EnquiryStatus) => {
@@ -129,6 +131,7 @@ export default function EnquiriesPage() {
                     <thead className="bg-slate-50 border-b border-slate-200">
                         <tr>
                             <th className="px-6 py-4 font-semibold text-sm text-slate-700">Client Details</th>
+                            <th className="px-6 py-4 font-semibold text-sm text-slate-700">Source</th>
                             <th className="px-6 py-4 font-semibold text-sm text-slate-700">Budget & Location</th>
                             <th className="px-6 py-4 font-semibold text-sm text-slate-700">Status</th>
                             <th className="px-6 py-4 font-semibold text-sm text-slate-700">Notes</th>
@@ -144,6 +147,16 @@ export default function EnquiriesPage() {
                                         <Phone className="w-3 h-3" />
                                         {enquiry.phone}
                                     </div>
+                                    {enquiry.email && (
+                                        <div className="text-xs text-slate-500 mt-1">
+                                            {enquiry.email}
+                                        </div>
+                                    )}
+                                </td>
+                                <td className="px-6 py-4">
+                                    <span className="px-2 py-1 bg-slate-100 text-slate-700 rounded text-xs font-medium">
+                                        {enquiry.source || 'Manual'}
+                                    </span>
                                 </td>
                                 <td className="px-6 py-4">
                                     <div className="flex items-center gap-1.5 text-sm text-slate-700">

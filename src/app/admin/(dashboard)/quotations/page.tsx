@@ -140,9 +140,24 @@ export default function QuotationsPage() {
                                     </span>
                                 </td>
                                 <td className="px-6 py-5 text-right">
-                                    <Link href={`/admin/quotations/${quote.id}/print`} className="inline-flex items-center justify-center w-8 h-8 rounded-full hover:bg-black hover:text-[#D4AF37] text-gray-400 transition-all">
-                                        <ArrowRight className="w-4 h-4" />
-                                    </Link>
+                                    <div className="flex items-center justify-end gap-2">
+                                        <Link
+                                            href={`/admin/quotations/${quote.id}/edit`}
+                                            className="inline-flex items-center justify-center w-8 h-8 rounded-full hover:bg-blue-50 hover:text-blue-600 text-gray-400 transition-all"
+                                            title="Edit Quotation"
+                                        >
+                                            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                                            </svg>
+                                        </Link>
+                                        <Link
+                                            href={`/admin/quotations/${quote.id}/print`}
+                                            className="inline-flex items-center justify-center w-8 h-8 rounded-full hover:bg-black hover:text-[#D4AF37] text-gray-400 transition-all"
+                                            title="View & Download"
+                                        >
+                                            <ArrowRight className="w-4 h-4" />
+                                        </Link>
+                                    </div>
                                 </td>
                             </tr>
                         ))}

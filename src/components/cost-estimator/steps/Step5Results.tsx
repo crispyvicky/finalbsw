@@ -2,11 +2,11 @@
 
 import React, { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
-import { Utils } from "@/lib/utils";
+// import { Utils } from "@/lib/utils";
 import { ESTIMATOR_ROOM_DATA } from "@/lib/constants";
 import { EstimatorState } from "../types";
 import { Button } from "@/components/ui/button";
-import { Download, Calendar, Mail, Phone, User, ChevronDown, CheckCircle } from "lucide-react";
+import { Download, Calendar, Mail, Phone, User, ChevronDown, CheckCircle, Loader2 } from "lucide-react";
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
 
@@ -18,6 +18,14 @@ interface Step5Props {
 export default function Step5Results({ onBack, data }: Step5Props) {
     const containerRef = useRef<HTMLDivElement>(null);
     const [showForm, setShowForm] = useState(false);
+    const [consultationForm, setConsultationForm] = useState({
+        name: '',
+        phone: '',
+        email: ''
+    });
+    const [submitting, setSubmitting] = useState(false);
+    const [submitSuccess, setSubmitSuccess] = useState(false);
+    const [submitError, setSubmitError] = useState('');
 
     // User Pricing Logic (normalized per sq ft based on BHK complexity)
     const getRateRange = (bhk: string): [number, number] => {
@@ -57,6 +65,58 @@ export default function Step5Results({ onBack, data }: Step5Props) {
             currency: 'INR',
             maximumFractionDigits: 0,
         }).format(amount);
+    };
+
+    const handleConsultationSubmit = async () => {
+        if (!consultationForm.name || !consultationForm.phone || !consultationForm.email) {
+            setSubmitError('Please fill in all fields');
+            return;
+        }
+
+        setSubmitting(true);
+        setSubmitError('');
+        setSubmitSuccess(false);
+
+        try {
+            const response = await fetch('/api/enquiries', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    name: consultationForm.name,
+                    phone: consultationForm.phone,
+                    email: consultationForm.email,
+                    source: 'Cost Estimator',
+                    status: 'New',
+                    budget: `${formatCurrency(estimatedMin)} - ${formatCurrency(estimatedMax)}`,
+                    estimateData: {
+                        propertyType: data.type || data.propertyType,
+                        bhk: data.bhk,
+                        size: data.size,
+                        city: data.city,
+                        rooms: data.rooms,
+                        style: data.style,
+                        addons: data.addons,
+                        estimatedMin,
+                        estimatedMax
+                    }
+                }),
+            });
+
+            if (response.ok) {
+                setSubmitSuccess(true);
+                setConsultationForm({ name: '', phone: '', email: '' });
+                setTimeout(() => {
+                    setSubmitSuccess(false);
+                    setShowForm(false);
+                }, 3000);
+            } else {
+                setSubmitError('Failed to submit. Please try again.');
+            }
+        } catch (err) {
+            setSubmitError('An error occurred. Please try again.');
+        } finally {
+            setSubmitting(false);
+        }
     };
 
     const generatePDF = async () => {
@@ -443,21 +503,67 @@ export default function Step5Results({ onBack, data }: Step5Props) {
             {showForm && (
                 <div className="bg-white border border-[#ce7e48]/20 shadow-2xl p-10 max-w-xl mx-auto animate-in slide-in-from-bottom-10 fade-in duration-700 relative mt-10">
                     <h3 className="text-3xl font-heading-03 font-bold text-[#3d5a45] mb-8 text-center italic">Get Professional Advice</h3>
+
+                    {submitSuccess && (
+                        <div className="mb-6 p-4 bg-green-500/10 border border-green-500/30 rounded-lg flex items-center gap-3">
+                            <CheckCircle className="w-5 h-5 text-green-600" />
+                            <p className="text-green-800 text-sm">Thank you! We'll contact you soon with detailed recommendations.</p>
+                        </div>
+                    )}
+
+                    {submitError && (
+                        <div className="mb-6 p-4 bg-red-500/10 border border-red-500/30 rounded-lg">
+                            <p className="text-red-800 text-sm">{submitError}</p>
+                        </div>
+                    )}
+
                     <div className="space-y-6">
                         <div className="relative group">
                             <User className="absolute left-0 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-[#ce7e48] transition-colors w-5 h-5" />
-                            <input type="text" placeholder="Your Name" className="w-full bg-transparent border-b border-gray-200 py-4 pl-8 text-[#3d5a45] focus:outline-none focus:border-[#ce7e48] placeholder:text-gray-400 font-body-02 transition-all" />
+                            <input
+                                type="text"
+                                placeholder="Your Name"
+                                value={consultationForm.name}
+                                onChange={(e) => setConsultationForm({ ...consultationForm, name: e.target.value })}
+                                className="w-full bg-transparent border-b border-gray-200 py-4 pl-8 text-[#3d5a45] focus:outline-none focus:border-[#ce7e48] placeholder:text-gray-400 font-body-02 transition-all"
+                                required
+                            />
                         </div>
                         <div className="relative group">
                             <Phone className="absolute left-0 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-[#ce7e48] transition-colors w-5 h-5" />
-                            <input type="tel" placeholder="Phone Number" className="w-full bg-transparent border-b border-gray-200 py-4 pl-8 text-[#3d5a45] focus:outline-none focus:border-[#ce7e48] placeholder:text-gray-400 font-body-02 transition-all" />
+                            <input
+                                type="tel"
+                                placeholder="Phone Number"
+                                value={consultationForm.phone}
+                                onChange={(e) => setConsultationForm({ ...consultationForm, phone: e.target.value })}
+                                className="w-full bg-transparent border-b border-gray-200 py-4 pl-8 text-[#3d5a45] focus:outline-none focus:border-[#ce7e48] placeholder:text-gray-400 font-body-02 transition-all"
+                                required
+                            />
                         </div>
                         <div className="relative group">
                             <Mail className="absolute left-0 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-[#ce7e48] transition-colors w-5 h-5" />
-                            <input type="email" placeholder="Email Address" className="w-full bg-transparent border-b border-gray-200 py-4 pl-8 text-[#3d5a45] focus:outline-none focus:border-[#ce7e48] placeholder:text-gray-400 font-body-02 transition-all" />
+                            <input
+                                type="email"
+                                placeholder="Email Address"
+                                value={consultationForm.email}
+                                onChange={(e) => setConsultationForm({ ...consultationForm, email: e.target.value })}
+                                className="w-full bg-transparent border-b border-gray-200 py-4 pl-8 text-[#3d5a45] focus:outline-none focus:border-[#ce7e48] placeholder:text-gray-400 font-body-02 transition-all"
+                                required
+                            />
                         </div>
-                        <Button className="w-full bg-[#3d5a45] text-white h-16 text-xs tracking-[0.2em] font-bold uppercase rounded-none hover:bg-[#2F4F2F] transition-colors mt-6">
-                            SUBMIT REQUEST
+                        <Button
+                            onClick={handleConsultationSubmit}
+                            disabled={submitting}
+                            className="w-full bg-[#3d5a45] text-white h-16 text-xs tracking-[0.2em] font-bold uppercase rounded-none hover:bg-[#2F4F2F] transition-colors mt-6 disabled:opacity-50 disabled:cursor-not-allowed"
+                        >
+                            {submitting ? (
+                                <>
+                                    <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                                    SUBMITTING...
+                                </>
+                            ) : (
+                                'SUBMIT REQUEST'
+                            )}
                         </Button>
                     </div>
                 </div>

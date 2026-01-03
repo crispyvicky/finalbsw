@@ -1,8 +1,8 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useParams } from 'next/navigation';
-import { Printer, Mail, MessageCircle, ArrowLeft, Loader2 } from 'lucide-react';
+import { Download, Mail, MessageCircle, ArrowLeft, Loader2 } from 'lucide-react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import QuotationTemplate from '@/components/quotations/QuotationTemplate';
@@ -12,6 +12,8 @@ export default function PrintQuotationPage() {
     const router = useRouter();
     const [quotation, setQuotation] = useState<any>(null);
     const [loading, setLoading] = useState(true);
+    const [downloading, setDownloading] = useState(false);
+    const quotationRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
         if (id) fetchQuotation();
@@ -19,24 +21,11 @@ export default function PrintQuotationPage() {
 
     const fetchQuotation = async () => {
         try {
-            // Fetch single quotation (Assuming we have a get by ID API, which we do: /api/quotations/[id])
-            // Wait, we need to check if we enabled GET by ID in the API.
-            // Based on previous context, we might have generic ID routes. Checking...
-            // Use the standard route if available, else might need to implement it.
-            // Assuming the standard /api/quotations/[id] exists and returns the populated quote.
-            const res = await fetch(`/api/user_quotations/${id}`); // Placeholder, need to verify route
-            // Actually, let's use the one we built.
-            // Checking file structure... we have /api/quotations/route.ts. We likely need /api/quotations/[id]/route.ts.
-            // I will implement a fetch here assuming the endpoint exists or I will create it. 
-            // Let's assume for now I will use CLIENT SIDE filtering from the main list if API is missing, 
-            // OR better, I will implement the API route in the next step if it fails.
-            // For now, let's try to fetch from /api/quotations/<id> 
             const response = await fetch(`/api/quotations/${id}`);
             if (response.ok) {
                 const data = await response.json();
                 setQuotation(data);
             } else {
-                // Fallback or error
                 console.error("Failed to fetch");
             }
         } catch (error) {
@@ -46,16 +35,35 @@ export default function PrintQuotationPage() {
         }
     };
 
-    const handlePrint = () => {
-        window.print();
+    const handleDownloadPDF = async () => {
+        if (!quotationRef.current) return;
+
+        setDownloading(true);
+        try {
+            const html2pdf = (await import('html2pdf.js')).default;
+
+            const element = quotationRef.current;
+            const opt = {
+                margin: 0,
+                filename: `Quotation_${quotation.quotationNo || quotation.quoteNumber}.pdf`,
+                image: { type: 'jpeg' as const, quality: 0.98 },
+                html2canvas: { scale: 2, useCORS: true, logging: false },
+                jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' as const }
+            };
+
+            await html2pdf().set(opt).from(element).save();
+        } catch (error) {
+            console.error('PDF generation failed:', error);
+            window.print();
+        } finally {
+            setDownloading(false);
+        }
     };
 
     const handleWhatsApp = () => {
-        // Create Public Link
         const publicLink = `${window.location.origin}/quote/${id}`;
         const text = `Hi ${quotation.clientName}, I have created a quotation for your project ${quotation.projectName}.\n\nYou can view and download the detailed proposal here:\n${publicLink}\n\nTotal Amount: ₹${quotation.finalAmount || quotation.totalAmount}\n\nRegards,\nInfinity Interiors`;
 
-        // Use client phone if available. Remove non-digits.
         const phone = quotation.clientPhone ? quotation.clientPhone.replace(/\D/g, '') : '';
         const url = phone ? `https://wa.me/${phone}?text=${encodeURIComponent(text)}` : `https://wa.me/?text=${encodeURIComponent(text)}`;
 
@@ -84,7 +92,7 @@ export default function PrintQuotationPage() {
                     </Link>
                     <div>
                         <h1 className="font-bold text-lg">{quotation.projectName}</h1>
-                        <p className="text-xs text-slate-400">{quotation.quoteNumber}</p>
+                        <p className="text-xs text-slate-400">{quotation.quotationNo || quotation.quoteNumber}</p>
                     </div>
                 </div>
                 <div className="flex items-center gap-3">
@@ -97,14 +105,26 @@ export default function PrintQuotationPage() {
                             <Mail className="w-4 h-4" /> Email
                         </button>
                     </div>
-                    <button onClick={handlePrint} className="bg-white text-slate-900 hover:bg-slate-100 px-4 py-2 rounded-lg font-bold flex items-center gap-2 text-sm transition-colors">
-                        <Printer className="w-4 h-4" /> Print PDF
+                    <button
+                        onClick={handleDownloadPDF}
+                        disabled={downloading}
+                        className="bg-white text-slate-900 hover:bg-slate-100 px-4 py-2 rounded-lg font-bold flex items-center gap-2 text-sm transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                    >
+                        {downloading ? (
+                            <>
+                                <Loader2 className="w-4 h-4 animate-spin" /> Downloading...
+                            </>
+                        ) : (
+                            <>
+                                <Download className="w-4 h-4" /> Download PDF
+                            </>
+                        )}
                     </button>
                 </div>
             </div>
 
             {/* Premium Template */}
-            <div className="py-4 print:py-0">
+            <div className="py-4 print:py-0" ref={quotationRef}>
                 <QuotationTemplate quotation={quotation} />
             </div>
         </div>

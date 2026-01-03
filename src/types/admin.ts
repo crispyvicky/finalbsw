@@ -1,13 +1,17 @@
 export type EnquiryStatus = 'New' | 'Follow-up' | 'Converted' | 'Lost';
+export type EnquirySource = 'Contact Page' | 'Cost Estimator' | 'Newsletter' | 'Manual' | 'Other';
 
 export interface Enquiry {
     id: string;
     name: string;
     phone: string;
+    email?: string;
     location: string;
     budget: string;
+    source: EnquirySource;
     status: EnquiryStatus;
     notes: string;
+    estimateData?: any;
     date: string;
 }
 

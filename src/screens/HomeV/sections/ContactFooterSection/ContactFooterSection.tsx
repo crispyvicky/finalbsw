@@ -1,9 +1,12 @@
-import React from "react";
+'use client';
+
+import React, { useState } from "react";
 import Link from "next/link";
 import { Button } from "../../../../components/ui/button";
 import { Checkbox } from "../../../../components/ui/checkbox";
 import { Input } from "../../../../components/ui/input";
 import { Separator } from "../../../../components/ui/separator";
+import { Loader2, CheckCircle } from "lucide-react";
 
 const footerColumns = [
   {
@@ -35,12 +38,58 @@ const footerColumns = [
 
 const socialLinks = [
   { name: "INSTAGRAM" },
-  { name: "FACEBOOK" },
+  { label: "FACEBOOK" },
   { name: "PINTEREST" },
   { name: "TWITTER" },
 ];
 
 export const ContactFooterSection = (): JSX.Element => {
+  const [email, setEmail] = useState('');
+  const [consent, setConsent] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [success, setSuccess] = useState(false);
+  const [error, setError] = useState('');
+
+  const handleNewsletterSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    if (!email || !consent) {
+      setError('Please enter your email and accept the privacy policy');
+      return;
+    }
+
+    setLoading(true);
+    setError('');
+    setSuccess(false);
+
+    try {
+      const response = await fetch('/api/enquiries', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          email: email,
+          source: 'Newsletter',
+          status: 'New',
+          name: 'Newsletter Subscriber',
+          phone: '-'
+        }),
+      });
+
+      if (response.ok) {
+        setSuccess(true);
+        setEmail('');
+        setConsent(false);
+        setTimeout(() => setSuccess(false), 5000);
+      } else {
+        setError('Failed to subscribe. Please try again.');
+      }
+    } catch (err) {
+      setError('An error occurred. Please try again.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <footer className="w-full bg-primary-01 relative z-50 py-12 md:py-16 lg:py-20 px-4 md:px-8 lg:px-[170px]">
       <div className="flex flex-col gap-8 md:gap-[79px]">
@@ -83,19 +132,57 @@ export const ContactFooterSection = (): JSX.Element => {
               SUBSCRIBE TO RECEIVE DESIGN INSIGHTS
             </h3>
 
-            <div className="relative bg-white/5 h-[50px] md:h-[68px]">
-              <Input
-                placeholder="Enter your email"
-                className="h-full bg-transparent border-0 text-secondary-03 font-body-02 font-[number:var(--body-02-font-weight)] text-sm md:text-[length:var(--body-02-font-size)] tracking-[var(--body-02-letter-spacing)] leading-[var(--body-02-line-height)] [font-style:var(--body-02-font-style)] placeholder:text-secondary-03/50 px-4 md:px-6"
-              />
-            </div>
+            {success && (
+              <div className="p-3 bg-green-500/20 border border-green-500/50 rounded flex items-center gap-2">
+                <CheckCircle className="w-4 h-4 text-green-300" />
+                <p className="text-green-100 text-sm">Successfully subscribed!</p>
+              </div>
+            )}
 
-            <div className="flex gap-2 md:gap-4 items-start">
-              <Checkbox className="w-4 h-4 rounded border-[#f8f5f3] mt-1" />
-              <p className="flex-1 font-caption font-[number:var(--caption-font-weight)] text-secondary-03 text-xs md:text-[length:var(--caption-font-size)] tracking-[var(--caption-letter-spacing)] leading-[var(--caption-line-height)] [font-style:var(--caption-font-style)]">
-                I've read the Privacy Policy and I consent to INFINITY  Interiors sending me marketing communications
-              </p>
-            </div>
+            {error && (
+              <div className="p-3 bg-red-500/20 border border-red-500/50 rounded">
+                <p className="text-red-100 text-sm">{error}</p>
+              </div>
+            )}
+
+            <form onSubmit={handleNewsletterSubmit} className="space-y-4">
+              <div className="relative bg-white/5 h-[50px] md:h-[68px]">
+                <Input
+                  type="email"
+                  placeholder="Enter your email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  className="h-full bg-transparent border-0 text-secondary-03 font-body-02 font-[number:var(--body-02-font-weight)] text-sm md:text-[length:var(--body-02-font-size)] tracking-[var(--body-02-letter-spacing)] leading-[var(--body-02-line-height)] [font-style:var(--body-02-font-style)] placeholder:text-secondary-03/50 px-4 md:px-6"
+                  required
+                />
+              </div>
+
+              <div className="flex gap-2 md:gap-4 items-start">
+                <Checkbox
+                  checked={consent}
+                  onCheckedChange={(checked) => setConsent(checked as boolean)}
+                  className="w-4 h-4 rounded border-[#f8f5f3] mt-1"
+                />
+                <p className="flex-1 font-caption font-[number:var(--caption-font-weight)] text-secondary-03 text-xs md:text-[length:var(--caption-font-size)] tracking-[var(--caption-letter-spacing)] leading-[var(--caption-line-height)] [font-style:var(--caption-font-style)]">
+                  I've read the Privacy Policy and I consent to INFINITY  Interiors sending me marketing communications
+                </p>
+              </div>
+
+              <Button
+                type="submit"
+                disabled={loading}
+                className="w-full bg-secondary-03 text-primary-01 hover:bg-white transition-colors h-12 font-medium disabled:opacity-50"
+              >
+                {loading ? (
+                  <>
+                    <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                    SUBSCRIBING...
+                  </>
+                ) : (
+                  'SUBSCRIBE'
+                )}
+              </Button>
+            </form>
           </div>
 
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-[60px]">
