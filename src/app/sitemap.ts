@@ -1,4 +1,5 @@
 import { MetadataRoute } from 'next'
+import { blogPosts } from '@/lib/blog-data'
 
 export default function sitemap(): MetadataRoute.Sitemap {
     const baseUrl = 'https://infinityinteriors.co'
@@ -52,7 +53,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
             changeFrequency: 'yearly',
             priority: 0.5,
         },
-        // We will ensure to add dynamic blog routes here later if needed, 
-        // or rely on nextjs to pick them up if we make this dynamic based on fetch
+        ...blogPosts.map((post) => ({
+            url: `${baseUrl}/blog/${post.slug}`,
+            lastModified: new Date(post.date), // Using post date as last modified
+            changeFrequency: 'monthly' as const,
+            priority: 0.7,
+        })),
     ]
 }
