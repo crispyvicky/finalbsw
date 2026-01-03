@@ -1,10 +1,7 @@
 import type { Metadata } from "next";
 import { Inter, Playfair_Display } from "next/font/google";
 import "./globals.css";
-import { MainHeaderSection } from "../screens/HomeV/sections/MainHeaderSection/MainHeaderSection";
-import { ContactFooterSection } from "../screens/HomeV/sections/ContactFooterSection/ContactFooterSection";
-
-import { CustomCursor } from "@/components/ui/CustomCursor";
+import ClientLayout from "./client-layout"
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 const playfair = Playfair_Display({
@@ -25,7 +22,7 @@ export const metadata: Metadata = {
     siteName: 'Infinity Interiors',
     images: [
       {
-        url: '/opengraph-image.png', // We should make sure this exists or use a default
+        url: '/opengraph-image.png',
         width: 1200,
         height: 630,
         alt: 'Infinity Interiors - Best Interiors in Hyderabad',
@@ -38,7 +35,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: "Infinity Interiors | Luxury Interior Designers in Hyderabad",
     description: "Crafting legacies through timeless interior design. Hyderabad's premier luxury design agency.",
-    images: ['/twitter-image.png'], // We should make sure this exists or use a default
+    images: ['/twitter-image.png'],
   },
   robots: {
     index: true,
@@ -61,14 +58,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${inter.variable} ${playfair.variable} font-sans antialiased bg-white`}>
-        <CustomCursor />
-        <div className="flex flex-col min-h-screen">
-          <MainHeaderSection />
-          <main className="flex-grow">
-            {children}
-          </main>
-          <ContactFooterSection />
-        </div>
+        <ClientLayout>{children}</ClientLayout>
       </body>
     </html>
   );
