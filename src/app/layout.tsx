@@ -15,6 +15,11 @@ export const metadata: Metadata = {
   description: "Infinity Interiors: Rated the best interiors in Hyderabad. We craft timeless, luxury residential and commercial spaces since 2000. Transform your space with Hyderabad's premier design agency.",
   keywords: ["Best Interiors in Hyderabad", "Luxury Interior Designers Hyderabad", "Top Interior Designers Hyderabad", "Infinity Interiors", "Premium Home Design Hyderabad", "Commercial Interior Design Hyderabad"],
   metadataBase: new URL('https://infinityinteriors.co'),
+  icons: {
+    icon: '/logo.png',
+    shortcut: '/logo.png',
+    apple: '/logo.png',
+  },
   openGraph: {
     title: "Infinity Interiors | Luxury Interior Designers in Hyderabad",
     description: "Discover why Infinity Interiors is rated the best in Hyderabad. Luxury, timeless design for your dream home or office.",
