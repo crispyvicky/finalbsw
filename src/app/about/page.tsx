@@ -64,7 +64,7 @@ export default function About() {
                             <div className="relative z-10 w-full h-[600px] bg-white p-4 shadow-2xl rotate-1">
                                 <div className="w-full h-full bg-secondary-03/20 overflow-hidden relative grayscale hover:grayscale-0 transition-all duration-700">
                                     <img
-                                        src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=1000&auto=format&fit=crop"
+                                        src="/founder.png"
                                         alt="Founder of INFINITY Interiors"
                                         className="w-full h-full object-cover"
                                     />

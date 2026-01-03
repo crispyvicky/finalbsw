@@ -11,6 +11,7 @@ const navigationItems = [
   { label: "SERVICES", path: "/services" },
   { label: "PROCESS", path: "/process" },
   { label: "LOOKBOOK", path: "/lookbook" },
+  { label: "AI CREATOR", path: "/visualizer" },
   // { label: "BLOG", path: "/blog" },
   { label: "ABOUT", path: "/about" },
   { label: "COST ESTIMATOR", path: "/cost-estimator" },
@@ -36,9 +37,8 @@ export const MainHeaderSection = (): JSX.Element => {
 
         {/* Desktop Header */}
         <div className="w-full py-4 px-4 md:px-8 lg:px-[60px] hidden md:flex items-center justify-between border-b border-gray-100">
-          <Link href="/" className="flex flex-col items-start justify-center flex-shrink-0 group">
-            <h1 className="font-heading-03 font-bold text-2xl tracking-widest text-primary-01 group-hover:opacity-80 transition-opacity">INFINITY </h1>
-            <span className="text-[10px] tracking-[0.3em] text-primary-01">SINCE 2000</span>
+          <Link href="/" className="flex items-center justify-center flex-shrink-0 group">
+            <img src="/logo.png" alt="Infinity Interiors" className="h-16 w-24 object-contain group-hover:opacity-80 transition-opacity" />
           </Link>
 
           <nav className="flex-1 flex items-center justify-center gap-6 lg:gap-10 px-4">
@@ -77,9 +77,8 @@ export const MainHeaderSection = (): JSX.Element => {
             <Menu className="w-6 h-6 text-primary-01" />
           </Button>
 
-          <Link href="/" className="flex flex-col items-center justify-center">
-            <h1 className="font-heading-03 font-bold text-xl tracking-widest text-primary-01">INFINITY </h1>
-            <span className="text-[8px] tracking-[0.2em] text-primary-01">SINCE 2000</span>
+          <Link href="/" className="flex items-center justify-center">
+            <img src="/logo.png" alt="Infinity Interiors" className="h-10 w-auto object-contain" />
           </Link>
 
           <div className="w-6"></div> {/* Spacer for alignment */}

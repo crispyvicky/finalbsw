@@ -44,6 +44,26 @@ export default function Step2Rooms({ onBack, onNext, data, updateData }: Step2Pr
         }
     };
 
+    // Auto-select standard rooms based on BHK
+    useEffect(() => {
+        if ((!data.rooms || data.rooms.length === 0) && data.bhk) {
+            const bhk = data.bhk;
+            let defaults = ["Living Room", "Kitchen", "Bathroom", "Dining"]; // Base for most
+
+            if (bhk.includes("1 BHK")) {
+                defaults = ["Living Room", "Kitchen", "Master Bedroom", "Bathroom"];
+            } else if (bhk.includes("2 BHK")) {
+                defaults = ["Living Room", "Kitchen", "Master Bedroom", "Guest Room", "Bathroom", "Dining"];
+            } else if (bhk.includes("3 BHK")) {
+                defaults = ["Living Room", "Kitchen", "Master Bedroom", "Guest Room", "Kids Room", "Bathroom", "Dining", "Balcony"];
+            } else if (bhk.includes("4") || bhk.includes("Villa")) {
+                defaults = ["Living Room", "Kitchen", "Master Bedroom", "Guest Room", "Kids Room", "Bathroom", "Dining", "Balcony", "Study", "Pooja Room"];
+            }
+
+            updateData({ rooms: defaults });
+        }
+    }, [data.bhk]);
+
     return (
         <div ref={containerRef} className="space-y-8 max-w-5xl mx-auto">
             <div className="text-center space-y-3 mb-10">

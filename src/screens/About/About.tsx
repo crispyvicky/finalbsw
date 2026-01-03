@@ -58,22 +58,17 @@ export const About = (): JSX.Element => {
             <div className="w-full bg-primary-01 text-white py-32 px-4 relative overflow-hidden">
                 <div className="absolute top-0 right-0 w-1/3 h-full bg-white/5 skew-x-12 transform origin-top-right"></div>
 
-                <div className="container mx-auto relative z-10 flex flex-col md:flex-row items-center justify-between gap-12">
-                    <div className="md:w-1/2">
+                <div className="container mx-auto relative z-10 flex flex-col items-center justify-center text-center gap-12">
+                    <div className="w-full max-w-4xl">
                         <h3 className="font-heading-04 text-4xl md:text-5xl mb-6 italic text-[#d4af37]">
                             "Om Vishwakarmaiah Namoh Namaha"
                         </h3>
                         <p className="font-label-medium text-gray-400 tracking-widest text-sm uppercase mb-8">
                             HONORING THE DIVINE ARCHITECT
                         </p>
-                        <p className="font-body-01 text-lg text-gray-300 leading-relaxed max-w-xl">
+                        <p className="font-body-01 text-lg text-gray-300 leading-relaxed mx-auto">
                             Our roots are deeply embedded in the creative spirit. We approach every project with reverence for the craft, ensuring that every line drawn and every material chosen honors the art of making.
                         </p>
-                    </div>
-                    <div className="md:w-1/2 flex justify-center">
-                        <div className="w-64 h-64 md:w-80 md:h-80 rounded-full border border-[#d4af37]/30 flex items-center justify-center p-4 relative animate-spin-slow">
-                            <div className="w-full h-full rounded-full border border-dashed border-[#d4af37]/20"></div>
-                        </div>
                     </div>
                 </div>
             </div>

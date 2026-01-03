@@ -26,6 +26,7 @@
     "nodemailer": "^7.0.12",
     "react": "latest",
     "react-dom": "latest",
+    "replicate": "^1.4.0",
     "tailwind-merge": "2.5.4",
     "tailwindcss-animate": "1.0.7"
   },

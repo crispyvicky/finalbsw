@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import { Plus, Trash2, Save, ArrowLeft, Loader2, ImageIcon, X } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-// import { COMMON_ITEMS } from '@/lib/constants'; // Removed in favor of dynamic catalog
+import { COMMON_ITEMS } from '@/lib/constants'; // Restored for backward compatibility
 import SearchableSelect from '@/components/ui/SearchableSelect';
 
 interface QuotationItem {
@@ -44,8 +44,8 @@ export default function CreateQuotationPage() {
         }
     ]);
 
-    // Catalog State
-    const [catalogItems, setCatalogItems] = useState<any[]>([]);
+    // Catalog State - Initialize with Common Items immediately
+    const [catalogItems, setCatalogItems] = useState<any[]>(COMMON_ITEMS);
 
     useEffect(() => {
         const fetchCatalog = async () => {
@@ -53,16 +53,15 @@ export default function CreateQuotationPage() {
                 const res = await fetch('/api/catalog');
                 if (res.ok) {
                     const data = await res.json();
-                    // Transform for compatibility if needed, or just use as is
-                    // API returns { name, category, defaultRate, ... }
-                    // UI expects { label, ... } for SearchableSelect? 
-                    // SearchableSelect expects { label: string }
-                    // So we map it.
+
                     const mapped = data.map((item: any) => ({
                         ...item,
                         label: item.name // Map name to label for SearchableSelect
                     }));
-                    setCatalogItems(mapped);
+
+                    // Merge DB items with Common Items (avoid duplicates if needed, but simple merge for now to ensure availability)
+                    // We put DB items first so they take precedence in search if logic allowed (SearchableSelect matches text)
+                    setCatalogItems([...mapped, ...COMMON_ITEMS]);
                 }
             } catch (error) {
                 console.error('Failed to fetch catalog', error);
@@ -125,6 +124,7 @@ export default function CreateQuotationPage() {
         else if (lowerName.includes('dining')) validIds = ['dining', 'all'];
         else if (lowerName.includes('study')) validIds = ['study', 'all'];
         else if (lowerName.includes('foyer')) validIds = ['foyer', 'all'];
+        else if (lowerName.includes('bath')) validIds = ['bathroom', 'all'];
         else return catalogItems; // No specific category detected, return all
 
         const filtered = catalogItems.filter(item => {
@@ -142,7 +142,7 @@ export default function CreateQuotationPage() {
         // Fallback: If filter is too strict (no items found for category), return ALL items
         // This ensures the user always sees something.
         return filtered.length > 0 ? filtered : catalogItems;
-    }
+    };
 
     const updateSectionName = (index: number, name: string) => {
         const newSections = [...sections];

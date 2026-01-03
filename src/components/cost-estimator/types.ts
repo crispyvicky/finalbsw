@@ -8,4 +8,7 @@ export type EstimatorState = {
     style: string;
     materials: Record<string, string>;
     addons: string[];
+    // Lead Gen
+    name?: string;
+    phone?: string;
 };

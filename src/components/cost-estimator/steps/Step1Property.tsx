@@ -3,7 +3,7 @@
 import React, { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { cn } from "@/lib/utils";
-import { Building2, Home, MapPin } from "lucide-react";
+import { Building2, Home, MapPin, User, Phone } from "lucide-react";
 import { EstimatorState } from "../types";
 import { Button } from "@/components/ui/button";
 
@@ -35,6 +35,37 @@ export default function Step1Property({ onNext, data, updateData }: Step1Props) 
             <div className="step-item text-center space-y-3 mb-10">
                 <h2 className="font-heading-03 text-3xl md:text-4xl font-semi-bold text-primary-01 italic">Tell us about your space</h2>
                 <p className="font-body-02 text-gray-500 font-light">We'll customize options based on your property.</p>
+            </div>
+
+            {/* Lead Details */}
+            <div className="step-item grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div className="space-y-3">
+                    <label className="text-xs font-bold text-[#ce7e48] uppercase tracking-[0.2em] font-body-02 ml-1">Your Name</label>
+                    <div className="relative group">
+                        <User className="absolute left-0 top-1/2 -translate-y-1/2 text-[#3d5a45]/40 w-5 h-5" />
+                        <input
+                            type="text"
+                            placeholder="John Doe"
+                            value={data.name || ''}
+                            onChange={(e) => updateData({ name: e.target.value })}
+                            className="w-full bg-transparent border-b border-[#E0E0E0] py-3 pl-8 pr-4 text-[#3d5a45] font-heading-05 text-xl focus:outline-none focus:border-[#ce7e48] transition-all placeholder:text-[#3d5a45]/20 rounded-none"
+                        />
+                    </div>
+                </div>
+
+                <div className="space-y-3">
+                    <label className="text-xs font-bold text-[#ce7e48] uppercase tracking-[0.2em] font-body-02 ml-1">Phone Number</label>
+                    <div className="relative group">
+                        <Phone className="absolute left-0 top-1/2 -translate-y-1/2 text-[#3d5a45]/40 w-5 h-5" />
+                        <input
+                            type="tel"
+                            placeholder="98765 43210"
+                            value={data.phone || ''}
+                            onChange={(e) => updateData({ phone: e.target.value })}
+                            className="w-full bg-transparent border-b border-[#E0E0E0] py-3 pl-8 pr-4 text-[#3d5a45] font-heading-05 text-xl focus:outline-none focus:border-[#ce7e48] transition-all placeholder:text-[#3d5a45]/20 rounded-none"
+                        />
+                    </div>
+                </div>
             </div>
 
             {/* BHK Selection */}

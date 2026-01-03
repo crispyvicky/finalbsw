@@ -2,7 +2,8 @@
 
 import React, { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
-import { cn } from "@/lib/utils";
+import { Utils } from "@/lib/utils";
+import { ESTIMATOR_ROOM_DATA } from "@/lib/constants";
 import { EstimatorState } from "../types";
 import { Button } from "@/components/ui/button";
 import { Download, Calendar, Mail, Phone, User, ChevronDown, CheckCircle } from "lucide-react";
@@ -18,9 +19,31 @@ export default function Step5Results({ onBack, data }: Step5Props) {
     const containerRef = useRef<HTMLDivElement>(null);
     const [showForm, setShowForm] = useState(false);
 
-    // Calculate Base Cost
-    const baseRate = data.style === "Luxurious" ? 2800 : data.style === "Premium" ? 2200 : 1600;
-    const totalBase = baseRate * data.size;
+    // User Pricing Logic (normalized per sq ft based on BHK complexity)
+    const getRateRange = (bhk: string): [number, number] => {
+        if (!bhk) return [1000, 1500];
+        if (bhk.includes("1 BHK")) return [500, 800];
+        if (bhk.includes("2 BHK")) return [900, 1200];
+        if (bhk.includes("3 BHK")) return [1200, 1500];
+        if (bhk.includes("4")) return [2000, 2500];
+        if (bhk.includes("Villa")) return [3000, 4000];
+        return [1000, 1500];
+    };
+
+    const [minRate, maxRate] = getRateRange(data.bhk);
+
+    const getStyleFactor = (style?: string) => {
+        const s = style?.toLowerCase() || "";
+        if (s.includes("lux")) return 1.0;
+        if (s.includes("prem")) return 0.6;
+        if (s.includes("mod")) return 0.3;
+        return 0; // Standard/Minimal start at minRate
+    };
+
+    const styleFactor = getStyleFactor(data.style);
+    const calculatedRate = minRate + ((maxRate - minRate) * styleFactor);
+
+    const totalBase = calculatedRate * data.size;
 
     // Addons cost (Approx)
     const addonCost = (data.addons?.length || 0) * 50000;
@@ -36,7 +59,7 @@ export default function Step5Results({ onBack, data }: Step5Props) {
         }).format(amount);
     };
 
-    const generatePDF = () => {
+    const generatePDF = async () => {
         const doc = new jsPDF();
         const pageWidth = doc.internal.pageSize.getWidth();
         const pageHeight = doc.internal.pageSize.getHeight();
@@ -56,147 +79,248 @@ export default function Step5Results({ onBack, data }: Step5Props) {
             return "Rs. " + formatted;
         };
 
+        // Helper to load image with dimensions
+        const loadImage = (url: string): Promise<{ data: string; w: number; h: number }> => {
+            return new Promise((resolve, reject) => {
+                const img = new Image();
+                img.crossOrigin = "Anonymous";
+                img.onload = () => {
+                    const canvas = document.createElement('canvas');
+                    canvas.width = img.width;
+                    canvas.height = img.height;
+                    const ctx = canvas.getContext('2d');
+                    ctx?.drawImage(img, 0, 0);
+                    resolve({
+                        data: canvas.toDataURL('image/png'),
+                        w: img.width,
+                        h: img.height
+                    });
+                };
+                img.onerror = reject;
+                img.src = url;
+            });
+        };
+
         // --- BORDER & FRAME ---
+        // Clean, minimal border
         doc.setDrawColor(primaryColor[0], primaryColor[1], primaryColor[2]);
-        doc.setLineWidth(1);
-        doc.rect(10, 10, pageWidth - 20, pageHeight - 20); // Outer Border
+        doc.setLineWidth(0.5);
+        doc.rect(8, 8, pageWidth - 16, pageHeight - 16);
 
         // --- HEADER SECTION ---
-        // Company Name
-        doc.setFont("helvetica", "bold");
-        doc.setFontSize(26);
-        doc.setTextColor(primaryColor[0], primaryColor[1], primaryColor[2]);
-        doc.text("INFINITY", margin, 40);
+        let headerBottomY = 50;
 
-        doc.setFont("helvetica", "normal");
-        doc.setFontSize(26);
-        doc.text("INTERIORS", margin + 55, 40); // align next to Infinity
+        try {
+            const logoObj = await loadImage("/logo.png");
 
-        // Tagline
-        doc.setFontSize(10);
-        doc.setTextColor(accentColor[0], accentColor[1], accentColor[2]);
-        doc.text("EST. 2000 | LUXURY DESIGN", margin, 48);
+            // Fix Logo Size (Smaller as requested)
+            const targetWidth = 35; // Reduced from 45
+            const ratio = logoObj.h / logoObj.w;
+            const targetHeight = targetWidth * ratio;
 
-        // Header Right - Date
+            doc.addImage(logoObj.data, 'PNG', margin, 20, targetWidth, targetHeight);
+            headerBottomY = 20 + targetHeight + 5;
+
+        } catch (e) {
+            doc.setFont("helvetica", "bold");
+            doc.setFontSize(24);
+            doc.setTextColor(primaryColor[0], primaryColor[1], primaryColor[2]);
+            doc.text("INFINITY INTERIORS", margin, 35);
+        }
+
+        // Header Right - Date & Reference
         const now = new Date();
         const dateStr = now.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' });
 
+        doc.setFontSize(9);
+        doc.setFont("helvetica", "normal");
+        doc.setTextColor(120);
+        doc.text("ESTIMATE REFERENCE", pageWidth - margin, 28, { align: "right" });
+        doc.setFontSize(11);
+        doc.setTextColor(40);
+        doc.text(dateStr, pageWidth - margin, 34, { align: "right" });
+
+        doc.setDrawColor(230, 230, 230);
+        doc.line(margin, headerBottomY + 10, pageWidth - margin, headerBottomY + 10);
+
+        let yPos = headerBottomY + 15; // Start yPos after the header line with some padding
+
+        // --- BANNER IMAGE WITH QUOTE ---
+        try {
+            // Pick first selected room image or a default one
+            const bannerRoom = ESTIMATOR_ROOM_DATA.find(r => data.rooms?.includes(r.id)) || ESTIMATOR_ROOM_DATA[0];
+            const bannerImg = await loadImage(bannerRoom.image);
+
+            const bannerHeight = 40;
+            const bannerWidth = pageWidth - (margin * 2);
+
+            // Draw Image
+            doc.addImage(bannerImg.data, 'JPEG', margin, yPos, bannerWidth, bannerHeight);
+
+            // Draw White Box for Quote (Classy center label)
+            doc.setFillColor(255, 255, 255);
+            const boxW = 100;
+            const boxH = 15;
+            const boxX = (pageWidth - boxW) / 2;
+            const boxY = yPos + (bannerHeight - boxH) / 2;
+            doc.roundedRect(boxX, boxY, boxW, boxH, 1, 1, 'F');
+
+            // Quote Text
+            doc.setFont("helvetica", "italic");
+            doc.setFontSize(11);
+            doc.setTextColor(accentColor[0], accentColor[1], accentColor[2]);
+            doc.text('"Home is not a place... it\'s a feeling."', pageWidth / 2, boxY + 10, { align: "center" });
+
+            yPos += bannerHeight + 15; // Update yPos after banner
+
+        } catch (e) {
+            // Fallback if image fails, just text
+            doc.setFont("helvetica", "italic");
+            doc.setFontSize(12);
+            doc.setTextColor(accentColor[0], accentColor[1], accentColor[2]);
+            doc.text('"Home is not a place... it\'s a feeling."', pageWidth / 2, yPos + 10, { align: 'center' });
+            yPos += 20;
+        }
+
+        // --- SCOPE & DETAILS ---
+        const sectionTopY = yPos;
+
+        // Left: Details
         doc.setFontSize(10);
-        doc.setTextColor(100);
-        doc.text("Estimate Date:", pageWidth - margin, 38, { align: "right" });
-        doc.setFontSize(12);
-        doc.setTextColor(0);
-        doc.text(dateStr, pageWidth - margin, 44, { align: "right" });
-
-        // Orange Line Separator
-        doc.setDrawColor(accentColor[0], accentColor[1], accentColor[2]);
-        doc.setLineWidth(0.5);
-        doc.line(margin, 55, pageWidth - margin, 55);
-
-        let yPos = 70;
-
-        // --- CLIENT / PROPERTY DETAILS (Grid Layout) ---
-        doc.setFontSize(14);
         doc.setTextColor(primaryColor[0], primaryColor[1], primaryColor[2]);
-        doc.text("PROJECT DETAILS", margin, yPos);
-        yPos += 10;
+        doc.setFont("helvetica", "bold");
+        doc.text("PROJECT OVERVIEW", margin, sectionTopY);
 
-        const propertyData = [
-            ["Configuration", data.bhk],
-            ["Property Type", data.type || data.propertyType],
-            ["Location", data.city],
-            ["Total Area", `${data.size} Sq. Ft.`],
-            ["Selected Style", data.style || "-"],
-        ] as any;
+        let leftY = sectionTopY + 8;
+        const details = [
+            { l: "Client:", v: data.name || "Valued Customer" },
+            { l: "Phone:", v: data.phone || "-" },
+            { l: "Type:", v: `${data.type || data.propertyType} (${data.bhk})` },
+            { l: "Size:", v: `${data.size} Sq. Ft.` },
+            { l: "Location:", v: data.city },
+            { l: "Style:", v: data.style || "Standard" }
+        ];
 
-        autoTable(doc, {
-            startY: yPos,
-            head: [],
-            body: propertyData,
-            theme: 'plain',
-            styles: { fontSize: 10, cellPadding: 3, textColor: [50, 50, 50] },
-            columnStyles: {
-                0: { fontStyle: 'bold', cellWidth: 50, textColor: primaryColor }
-            },
+        doc.setFontSize(9);
+        details.forEach((item) => {
+            doc.setFont("helvetica", "bold");
+            doc.setTextColor(80);
+            doc.text(item.l, margin, leftY);
+            doc.setFont("helvetica", "normal");
+            doc.setTextColor(40);
+            doc.text(item.v, margin + 25, leftY);
+            leftY += 6;
         });
 
-        // @ts-ignore
-        yPos = doc.lastAutoTable.finalY + 15;
-
-        // --- ROOMS SELECTION ---
+        // Right: Scope
+        let rightY = sectionTopY;
         if (data.rooms && data.rooms.length > 0) {
-            doc.setFontSize(14);
-            doc.setTextColor(primaryColor[0], primaryColor[1], primaryColor[2]);
-            doc.text("SCOPE OF WORK", margin, yPos);
-            yPos += 8;
-
             doc.setFontSize(10);
-            doc.setTextColor(80);
-            const roomsText = `Includes design and execution for: ${data.rooms.join(", ")}.`;
-            const splitRef = doc.splitTextToSize(roomsText, pageWidth - (margin * 2));
-            doc.text(splitRef, margin, yPos);
-            yPos += (splitRef.length * 6) + 15;
+            doc.setTextColor(primaryColor[0], primaryColor[1], primaryColor[2]);
+            doc.setFont("helvetica", "bold");
+            doc.text("SCOPE OF WORK", pageWidth / 2, rightY);
+
+            rightY += 8;
+            doc.setFont("helvetica", "normal");
+            doc.setFontSize(9);
+            doc.setTextColor(60);
+
+            const roomsText = data.rooms.join(", ");
+            const colWidth = (pageWidth / 2) - margin;
+            const splitRef = doc.splitTextToSize(roomsText, colWidth);
+            doc.text(splitRef, pageWidth / 2, rightY);
+            rightY += (splitRef.length * 6);
         }
+
+        yPos = Math.max(leftY, rightY) + 15;
 
         // --- ESTIMATE TABLE ---
         doc.setFontSize(14);
+        doc.setFont("helvetica", "bold");
         doc.setTextColor(primaryColor[0], primaryColor[1], primaryColor[2]);
-        doc.text("PRELIMINARY ESTIMATE", margin, yPos);
-        yPos += 10;
+        doc.text("COST BREAKDOWN", margin, yPos);
+        yPos += 5;
 
         const breakdownData = [
-            ["Design Consultation & Management", "15%", formatForPDF(estimatedMin * 0.15)],
-            ["Materials, Finishes & Fit-outs", "55%", formatForPDF(estimatedMin * 0.55)],
-            ["Labor, Installation & Execution", "20%", formatForPDF(estimatedMin * 0.2)],
-            ["Appliances, Lighting & Decor", "10%", formatForPDF(estimatedMin * 0.1)],
-            [
-                { content: "TOTAL ESTIMATED BUDGET", colSpan: 2, styles: { fontStyle: 'bold', fillColor: [240, 240, 240], textColor: primaryColor } },
-                { content: `${formatForPDF(estimatedMin)} - ${formatForPDF(estimatedMax)}`, styles: { fontStyle: 'bold', fillColor: [240, 240, 240], textColor: accentColor } }
-            ] as any,
-        ];
+            ["Design & Management", "15%", formatForPDF(estimatedMin * 0.15)],
+            ["Materials & Fit-outs", "55%", formatForPDF(estimatedMin * 0.55)],
+            ["Labor & Execution", "20%", formatForPDF(estimatedMin * 0.2)],
+            ["Decor & Accessories", "10%", formatForPDF(estimatedMin * 0.1)],
+        ] as any; // Removed the total row and spacer row
 
         autoTable(doc, {
             startY: yPos,
-            head: [['Description', 'Split', 'Approximate Cost']],
+            head: [['Category', 'Allocation', 'Approximate Budget']],
             body: breakdownData,
             theme: 'grid',
             headStyles: {
-                fillColor: primaryColor,
+                fillColor: [61, 90, 69], // Dark Green
                 textColor: 255,
                 fontStyle: 'bold',
-                halign: 'left'
+                halign: 'left',
+                cellPadding: 4
             },
             styles: {
                 fontSize: 10,
-                cellPadding: 6,
-                lineColor: [230, 230, 230],
-                textColor: [40, 40, 40]
+                cellPadding: 5,
+                lineColor: [240, 240, 240],
+                textColor: [50, 50, 50],
+                font: "helvetica"
             },
             columnStyles: {
                 0: { cellWidth: 'auto' },
-                1: { cellWidth: 30, halign: 'center' },
+                1: { cellWidth: 30, halign: 'center', textColor: [100, 100, 100] },
                 2: { cellWidth: 50, halign: 'right', fontStyle: 'bold' }
             },
-            footStyles: { fillColor: [240, 240, 240] }
+            alternateRowStyles: {
+                fillColor: [252, 252, 252]
+            }
         });
 
         // @ts-ignore
-        yPos = doc.lastAutoTable.finalY + 30;
+        yPos = doc.lastAutoTable.finalY + 10;
+
+        // --- TOTAL (Separate Section for Alignment) ---
+        const totalBoxW = 90;
+        const totalBoxX = pageWidth - margin - totalBoxW;
+
+        doc.setFillColor(248, 250, 248);
+        doc.roundedRect(totalBoxX, yPos, totalBoxW, 25, 2, 2, 'F');
+
+        doc.setFontSize(10);
+        doc.setFont("helvetica", "bold");
+        doc.setTextColor(primaryColor[0], primaryColor[1], primaryColor[2]);
+        doc.text("ESTIMATED TOTAL", totalBoxX + (totalBoxW / 2), yPos + 8, { align: "center" });
+
+        doc.setFontSize(14);
+        doc.setTextColor(accentColor[0], accentColor[1], accentColor[2]);
+        const totalText = `${formatForPDF(estimatedMin)} - ${formatForPDF(estimatedMax)}`;
+        doc.text(totalText, totalBoxX + (totalBoxW / 2), yPos + 18, { align: "center" });
+
+        yPos += 35;
 
         // --- DISCLAIMER & FOOTER ---
-        doc.setFontSize(9);
-        doc.setTextColor(150);
-        const disclaimer = "Note: This is a preliminary estimate based on typical market rates and your selections. Final pricing may vary based on site conditions, specific material choices, and customization. This document is not a final quotation.";
-        const splitDisc = doc.splitTextToSize(disclaimer, pageWidth - (margin * 2));
-        doc.text(splitDisc, margin, yPos);
+        doc.setFillColor(245, 245, 245);
+        doc.roundedRect(margin, yPos, pageWidth - (margin * 2), 25, 2, 2, 'F');
+
+        doc.setFontSize(8);
+        doc.setTextColor(100);
+        doc.text("IMPORTANT NOTE:", margin + 5, yPos + 8);
+
+        const disclaimer = "This is a preliminary estimate for planning purposes only. Final pricing will vary based on exact measurements, site conditions, material selection, and customization. It does not constitute a formal quotation or binding contract.";
+        const splitDisc = doc.splitTextToSize(disclaimer, pageWidth - (margin * 2) - 10);
+
+        doc.setFont("helvetica", "normal");
+        doc.setTextColor(80);
+        doc.text(splitDisc, margin + 5, yPos + 14);
 
         // Footer Band
         doc.setFillColor(primaryColor[0], primaryColor[1], primaryColor[2]);
-        doc.rect(0, pageHeight - 15, pageWidth, 15, 'F');
+        doc.rect(0, pageHeight - 12, pageWidth, 12, 'F');
 
-        doc.setFontSize(9);
+        doc.setFontSize(8);
         doc.setTextColor(255);
-        doc.text("www.infinityinteriors.com  |  contact@infinityinteriors.com", pageWidth / 2, pageHeight - 9, { align: "center" });
+        doc.text("INFINITY INTERIORS  •  www.infinityinteriors.co", pageWidth / 2, pageHeight - 5, { align: "center" });
 
         // Save
         doc.save("Infinity_Interiors_Estimate.pdf");

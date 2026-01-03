@@ -11,8 +11,9 @@ export default function QuotationTemplate({ quotation }: QuotationTemplateProps)
             {/* 1. Modern Header */}
             <div className="p-12 pb-8 flex justify-between items-end border-b-4 border-[#1e293b]">
                 <div className="space-y-2">
-                    <h1 className="text-5xl font-serif font-black tracking-tight text-[#1e293b]">INFINITY</h1>
-                    <p className="text-xl tracking-[0.3em] uppercase text-slate-400 font-light">Interiors</p>
+                    <div className="space-y-2">
+                        <img src="/logo.png" alt="Infinity Interiors" className="h-16 w-auto object-contain" />
+                    </div>
                 </div>
                 <div className="text-right space-y-1">
                     <p className="text-sm font-bold text-slate-900">CONTACT</p>
