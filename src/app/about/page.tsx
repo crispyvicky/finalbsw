@@ -18,7 +18,7 @@ export default function About() {
                         INFINITY INTERIORS
                     </h1>
                     <p className="font-body-01 text-xl text-gray-200 tracking-wide font-light max-w-2xl mx-auto animate-fade-up" style={{ animationDelay: "0.2s" }}>
-                        Crafting legacies through timeless interior design.
+                        Crafting legacies through timeless interior design. The destination for the <strong>best interiors in Hyderabad</strong>.
                     </p>
                 </div>
             </div>
@@ -31,7 +31,7 @@ export default function About() {
                         <div className="relative z-10 overflow-hidden rounded-tr-[100px] shadow-2xl transition-transform duration-700 hover:scale-[1.02]">
                             <img
                                 src="https://images.unsplash.com/photo-1615529182904-14819c35db37?q=80&w=1920&auto=format&fit=crop"
-                                alt="High rise architecture"
+                                alt="High rise architecture - Best Interiors in Hyderabad"
                                 className="w-full h-[600px] object-cover"
                             />
                             <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-60"></div>
@@ -46,10 +46,10 @@ export default function About() {
                         </h2>
                         <div className="w-32 h-1 bg-primary-01 opacity-20"></div>
                         <p className="font-body-01 text-lg text-secondary-01 leading-relaxed">
-                            This philosophy drives everything we do at INFINITY  Interiors. Founded in 2000 in Hyderabad, our journey is not just about decorating rooms; it's about elevating lifestyles. We believe that every space should be a vantage point—a place where you feel at the peak of comfort, style, and inspiration.
+                            This philosophy drives everything we do at INFINITY Interiors, recognized as the <strong>best interiors in Hyderabad</strong>. Founded in 2000, our journey is not just about decorating rooms; it's about elevating lifestyles. We believe that every space should be a vantage point—a place where you feel at the peak of comfort, style, and inspiration.
                         </p>
                         <p className="font-body-01 text-lg text-secondary-01 leading-relaxed">
-                            INFINITY  stands for <strong>INFINITY INTERIORS</strong>. For nearly 30 years, our family of artisans has blended traditional Indian craftsmanship with modern design sensibilities.
+                            INFINITY stands for <strong>INFINITY INTERIORS</strong>. For nearly 30 years, our family of artisans has blended traditional Indian craftsmanship with modern design sensibilities to deliver luxury interior solutions.
                         </p>
                     </div>
                 </div>

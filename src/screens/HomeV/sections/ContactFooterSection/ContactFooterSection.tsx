@@ -17,6 +17,7 @@ const footerColumns = [
   {
     links: [
       { label: "ABOUT US", path: "/about" },
+      { label: "BLOG", path: "/blog" },
       { label: "CONTACT", path: "/contact" },
       { label: "CAREERS", path: "/contact" },
       { label: "MEDIA", path: "/lookbook" },

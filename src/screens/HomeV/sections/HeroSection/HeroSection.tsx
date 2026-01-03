@@ -11,6 +11,9 @@ export const HeroSection = (): JSX.Element => {
             <h1 className="font-heading-01 font-[number:var(--heading-01-font-weight)] text-primary-01 text-4xl md:text-5xl lg:text-[length:var(--heading-01-font-size)] tracking-[var(--heading-01-letter-spacing)] leading-[1.2] lg:leading-[var(--heading-01-line-height)] [font-style:var(--heading-01-font-style)]">
               ROOTED IN HERITAGE,<br className="hidden md:block" /> CRAFTED FOR MODERN LIVING.
             </h1>
+            <p className="font-body-01 text-lg text-secondary-01 max-w-xl">
+              Experience the <strong>best interiors in Hyderabad</strong>, where timeless tradition meets contemporary luxury.
+            </p>
 
             <Link href="/portfolio">
               <Button
