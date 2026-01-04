@@ -22,16 +22,6 @@ export async function POST(request: Request) {
 
         // Send WhatsApp notification for Contact Page submissions
         if (body.source === 'Contact Page') {
-            // 1. Send Admin Notification (WhatsApp)
-            sendWhatsAppNotification({
-                name: body.name,
-                phone: body.phone,
-                email: body.email,
-                source: body.source,
-                notes: body.notes,
-                budget: body.budget,
-            }).catch(err => console.error('WhatsApp notification failed:', err));
-
             // 2. Send Welcome Email to Lead (if email provided)
             if (body.email) {
                 sendWelcomeEmail(body.email, body.name)
