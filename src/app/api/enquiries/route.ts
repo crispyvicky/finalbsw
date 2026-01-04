@@ -24,8 +24,14 @@ export async function POST(request: Request) {
         if (body.source === 'Contact Page') {
             // 2. Send Welcome Email to Lead (if email provided)
             if (body.email) {
-                sendWelcomeEmail(body.email, body.name)
-                    .catch(err => console.error('Welcome email failed:', err));
+                // Must await email sending in Vercel/Serverless environment
+                // otherwise execution stops immediately after response is returned
+                try {
+                    await sendWelcomeEmail(body.email, body.name);
+                } catch (error) {
+                    console.error('Welcome email failed:', error);
+                    // Don't fail the request if email fails, just log it
+                }
             }
         }
 
