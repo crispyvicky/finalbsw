@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef } from 'react';
 import { useParams } from 'next/navigation';
-import { Download, Mail, MessageCircle, ArrowLeft, Loader2 } from 'lucide-react';
+import { Download, Mail, MessageCircle, ArrowLeft, Loader2, Trash2 } from 'lucide-react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import QuotationTemplate from '@/components/quotations/QuotationTemplate';
@@ -13,6 +13,7 @@ export default function PrintQuotationPage() {
     const [quotation, setQuotation] = useState<any>(null);
     const [loading, setLoading] = useState(true);
     const [downloading, setDownloading] = useState(false);
+    const [sendingEmail, setSendingEmail] = useState(false);
     const quotationRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
@@ -61,22 +62,94 @@ export default function PrintQuotationPage() {
     };
 
     const handleWhatsApp = () => {
-        const publicLink = `${window.location.origin}/quote/${id}`;
-        const text = `Hi ${quotation.clientName}, I have created a quotation for your project ${quotation.projectName}.\n\nYou can view and download the detailed proposal here:\n${publicLink}\n\nTotal Amount: ₹${quotation.finalAmount || quotation.totalAmount}\n\nRegards,\nInfinity Interiors`;
+        if (!quotation.clientPhone) {
+            alert('⚠️ No phone number found for this client.\n\nPlease add a phone number in the quotation details and try again.');
+            return;
+        }
 
-        const phone = quotation.clientPhone ? quotation.clientPhone.replace(/\D/g, '') : '';
-        const url = phone ? `https://wa.me/${phone}?text=${encodeURIComponent(text)}` : `https://wa.me/?text=${encodeURIComponent(text)}`;
+        const message = `✨ *INFINITY INTERIORS*
+_Where Dreams Meet Design_
 
-        window.open(url, '_blank');
+Hi *${quotation.clientName.toUpperCase()}*,
+
+Your quotation for *${quotation.projectName.toUpperCase()}* is ready for review.
+
+💰 *Total Amount:* ₹${(quotation.finalAmount || quotation.totalAmount).toLocaleString('en-IN')}
+
+👇 *Tap below to view full details:*
+${window.location.origin}/quote/${id}
+
+_Thank you for choosing us!_ 🏡`;
+
+        const phone = quotation.clientPhone.replace(/[^0-9]/g, '');
+        window.open(`https://wa.me/${phone}?text=${encodeURIComponent(message)}`, '_blank');
     };
 
-    const handleEmail = () => {
-        const publicLink = `${window.location.origin}/quote/${id}`;
-        const subject = `Quotation for ${quotation?.projectName} - Infinity Interiors`;
-        const body = `Hi ${quotation?.clientName},\n\nPlease review your quotation at the link below:\n\n${publicLink}\n\nTotal Amount: ₹${quotation?.totalAmount}\n\nRegards,\nInfinity Interiors`;
+    const handleEmail = async () => {
+        if (!quotation.clientEmail) {
+            alert('⚠️ No email address found for this client.\n\nPlease add an email address in the quotation details and try again.');
+            return;
+        }
 
-        const email = quotation.clientEmail || '';
-        window.open(`mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`);
+        setSendingEmail(true);
+        try {
+            const response = await fetch('/api/send-quotation-email', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    to: quotation.clientEmail,
+                    subject: `Quotation ${quotation.quoteNumber} - ${quotation.projectName}`,
+                    quotationData: {
+                        quoteNumber: quotation.quoteNumber,
+                        clientName: quotation.clientName,
+                        projectName: quotation.projectName,
+                        totalAmount: quotation.totalAmount,
+                        discount: quotation.discount || 0,
+                        gstRate: quotation.gstRate || 0,
+                        finalAmount: quotation.finalAmount,
+                        sections: quotation.sections,
+                        notes: quotation.notes,
+                        quotationLink: `${window.location.origin}/quote/${id}`
+                    }
+                })
+            });
+
+            if (response.ok) {
+                alert(`✅ Email sent successfully!\n\nQuotation has been sent to:\n${quotation.clientEmail}`);
+            } else {
+                const error = await response.json();
+                alert(`❌ Failed to send email\n\nError: ${error.details || 'Unknown error'}\n\nPlease check your email configuration.`);
+            }
+        } catch (error) {
+            console.error('Email error:', error);
+            alert('❌ Failed to send email\n\nPlease check your internet connection and try again.');
+        } finally {
+            setSendingEmail(false);
+        }
+    };
+
+    const handleDelete = async () => {
+        const confirmMessage = `⚠️ DELETE QUOTATION\n\nAre you sure you want to delete:\n\nQuotation: ${quotation.quoteNumber}\nClient: ${quotation.clientName}\nProject: ${quotation.projectName}\n\n⚠️ This action CANNOT be undone!`;
+
+        if (!confirm(confirmMessage)) {
+            return;
+        }
+
+        try {
+            const response = await fetch(`/api/quotations/${id}`, {
+                method: 'DELETE'
+            });
+
+            if (response.ok) {
+                alert('✅ Quotation deleted successfully');
+                router.push('/admin/quotations');
+            } else {
+                alert('❌ Failed to delete quotation\n\nPlease try again or contact support.');
+            }
+        } catch (error) {
+            console.error('Delete error:', error);
+            alert('❌ Failed to delete quotation\n\nPlease check your internet connection and try again.');
+        }
     };
 
     if (loading) return <div className="h-screen flex items-center justify-center"><Loader2 className="w-8 h-8 animate-spin text-slate-400" /></div>;
@@ -101,8 +174,20 @@ export default function PrintQuotationPage() {
                             <MessageCircle className="w-4 h-4" /> Share WhatsApp
                         </button>
                         <div className="w-px h-6 bg-slate-700 mx-1"></div>
-                        <button onClick={handleEmail} className="px-4 py-2 hover:bg-slate-700 text-white font-medium rounded-md flex items-center gap-2 transition-colors">
-                            <Mail className="w-4 h-4" /> Email
+                        <button
+                            onClick={handleEmail}
+                            disabled={sendingEmail}
+                            className="px-4 py-2 hover:bg-slate-700 text-white font-medium rounded-md flex items-center gap-2 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                        >
+                            {sendingEmail ? (
+                                <>
+                                    <Loader2 className="w-4 h-4 animate-spin" /> Sending...
+                                </>
+                            ) : (
+                                <>
+                                    <Mail className="w-4 h-4" /> Email
+                                </>
+                            )}
                         </button>
                     </div>
                     <button
@@ -119,6 +204,12 @@ export default function PrintQuotationPage() {
                                 <Download className="w-4 h-4" /> Download PDF
                             </>
                         )}
+                    </button>
+                    <button
+                        onClick={() => router.push(`/admin/payments?clientId=${quotation.clientId || ''}&amount=${quotation.finalAmount || quotation.totalAmount}&project=${encodeURIComponent(quotation.projectName)}`)}
+                        className="bg-emerald-500 hover:bg-emerald-600 text-white px-4 py-2 rounded-lg font-bold flex items-center gap-2 text-sm transition-colors"
+                    >
+                        Convert to Invoice
                     </button>
                 </div>
             </div>

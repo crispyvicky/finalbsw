@@ -1,46 +1,91 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { IndianRupee, Plus, Search, FileText, ArrowDownToLine, Receipt, ClockIcon, AlertCircleIcon, Loader2, X } from 'lucide-react';
+import { useRouter, useSearchParams } from 'next/navigation';
+import { IndianRupee, Plus, Search, Receipt, ClockIcon, AlertCircleIcon, Loader2, X } from 'lucide-react';
+
+interface Client {
+    _id: string;
+    name: string;
+    phone: string;
+    email?: string;
+}
 
 interface Invoice {
-    id: string;
+    _id: string;
     invoiceNumber: string;
     clientName: string;
     projectName: string;
-    amount: number;
+    totalAmount: number;
+    discount: number;
+    amountPaid: number;
+    balance: number;
     date: string;
     dueDate: string;
-    status: 'Paid' | 'Pending' | 'Overdue';
+    status: 'Paid' | 'Partially Paid' | 'Pending' | 'Overdue';
 }
 
 export default function PaymentsPage() {
+    const router = useRouter();
+    const searchParams = useSearchParams();
     const [invoices, setInvoices] = useState<Invoice[]>([]);
+    const [clients, setClients] = useState<Client[]>([]);
     const [loading, setLoading] = useState(true);
     const [searchTerm, setSearchTerm] = useState('');
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const [newInvoice, setNewInvoice] = useState<Partial<Invoice>>({
-        status: 'Pending',
-        date: new Date().toISOString().split('T')[0],
-        dueDate: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString().split('T')[0]
+    const [newInvoice, setNewInvoice] = useState({
+        clientId: '',
+        projectName: '',
+        totalAmount: 0,
+        discount: 0,
+        description: '',
+        dueDate: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString().split('T')[0]
     });
 
     useEffect(() => {
         fetchInvoices();
-    }, []);
+        fetchClients();
+
+        // Check for conversion params
+        const clientId = searchParams.get('clientId');
+        const amount = searchParams.get('amount');
+        const project = searchParams.get('project');
+
+        if (clientId && amount) {
+            setNewInvoice(prev => ({
+                ...prev,
+                clientId: clientId,
+                totalAmount: Number(amount),
+                projectName: project || '',
+                description: 'Converted from Quotation'
+            }));
+            setIsModalOpen(true);
+        }
+    }, [searchParams]);
 
     const fetchInvoices = async () => {
         try {
             const res = await fetch('/api/invoices');
             if (res.ok) {
                 const data = await res.json();
-                const mappedData = data.map((item: any) => ({ ...item, id: item._id }));
-                setInvoices(mappedData);
+                setInvoices(data);
             }
         } catch (error) {
             console.error('Failed to fetch invoices', error);
         } finally {
             setLoading(false);
+        }
+    };
+
+    const fetchClients = async () => {
+        try {
+            const res = await fetch('/api/clients');
+            if (res.ok) {
+                const data = await res.json();
+                setClients(data);
+            }
+        } catch (error) {
+            console.error('Failed to fetch clients', error);
         }
     };
 
@@ -52,33 +97,33 @@ export default function PaymentsPage() {
     const getStatusColor = (status: Invoice['status']) => {
         switch (status) {
             case 'Paid': return 'bg-emerald-100 text-emerald-700';
+            case 'Partially Paid': return 'bg-blue-100 text-blue-700';
             case 'Pending': return 'bg-amber-100 text-amber-700';
             case 'Overdue': return 'bg-red-100 text-red-700';
-            default: return 'bg-slate-100 text-slate-700';
         }
     };
 
     const handleCreateInvoice = async (e: React.FormEvent) => {
         e.preventDefault();
-        if (!newInvoice.clientName || !newInvoice.amount) return;
+        if (!newInvoice.clientId || !newInvoice.totalAmount) return;
 
         try {
             const res = await fetch('/api/invoices', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    ...newInvoice,
-                    invoiceNumber: `INV-${new Date().getFullYear()}-${Math.floor(Math.random() * 1000)}`
-                }),
+                body: JSON.stringify(newInvoice),
             });
 
             if (res.ok) {
                 await fetchInvoices();
                 setIsModalOpen(false);
                 setNewInvoice({
-                    status: 'Pending',
-                    date: new Date().toISOString().split('T')[0],
-                    dueDate: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString().split('T')[0]
+                    clientId: '',
+                    projectName: '',
+                    totalAmount: 0,
+                    discount: 0,
+                    description: '',
+                    dueDate: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString().split('T')[0]
                 });
             }
         } catch (error) {
@@ -87,9 +132,9 @@ export default function PaymentsPage() {
     };
 
     // Calculate stats
-    const totalCollected = invoices.filter(i => i.status === 'Paid').reduce((sum, i) => sum + i.amount, 0);
-    const pendingAmount = invoices.filter(i => i.status === 'Pending').reduce((sum, i) => sum + i.amount, 0);
-    const overdueAmount = invoices.filter(i => i.status === 'Overdue').reduce((sum, i) => sum + i.amount, 0);
+    const totalCollected = invoices.reduce((sum, i) => sum + i.amountPaid, 0);
+    const pendingAmount = invoices.reduce((sum, i) => sum + i.balance, 0);
+    const overdueAmount = invoices.filter(i => i.status === 'Overdue').reduce((sum, i) => sum + i.balance, 0);
 
     if (loading) {
         return <div className="flex h-96 items-center justify-center"><Loader2 className="w-8 h-8 animate-spin text-slate-400" /></div>;
@@ -164,13 +209,17 @@ export default function PaymentsPage() {
                             <th className="px-6 py-4 font-semibold text-sm text-slate-700">Invoice Details</th>
                             <th className="px-6 py-4 font-semibold text-sm text-slate-700">Client & Project</th>
                             <th className="px-6 py-4 font-semibold text-sm text-slate-700">Amount</th>
+                            <th className="px-6 py-4 font-semibold text-sm text-slate-700">Balance</th>
                             <th className="px-6 py-4 font-semibold text-sm text-slate-700">Status</th>
-                            <th className="px-6 py-4 font-semibold text-sm text-slate-700 text-right">Actions</th>
                         </tr>
                     </thead>
                     <tbody className="divide-y divide-slate-100">
                         {filteredInvoices.map((inv) => (
-                            <tr key={inv.id} className="hover:bg-slate-50 transition-colors">
+                            <tr
+                                key={inv._id}
+                                className="hover:bg-slate-50 transition-colors cursor-pointer"
+                                onClick={() => router.push(`/admin/payments/${inv._id}`)}
+                            >
                                 <td className="px-6 py-4">
                                     <div className="flex items-center gap-3">
                                         <div className="p-2 bg-slate-50 text-slate-500 rounded-lg border border-slate-200">
@@ -178,7 +227,7 @@ export default function PaymentsPage() {
                                         </div>
                                         <div>
                                             <p className="font-semibold text-slate-900">{inv.invoiceNumber}</p>
-                                            <p className="text-xs text-slate-500">Due: {inv.dueDate}</p>
+                                            <p className="text-xs text-slate-500">Due: {new Date(inv.dueDate).toLocaleDateString('en-IN')}</p>
                                         </div>
                                     </div>
                                 </td>
@@ -187,17 +236,21 @@ export default function PaymentsPage() {
                                     <p className="text-xs text-slate-500">{inv.projectName}</p>
                                 </td>
                                 <td className="px-6 py-4">
-                                    <p className="text-sm font-bold text-slate-900">₹ {(inv.amount / 100000).toFixed(2)}L</p>
+                                    <p className="text-sm font-bold text-slate-900">₹ {(inv.totalAmount / 100000).toFixed(2)}L</p>
+                                    {inv.discount > 0 && (
+                                        <p className="text-xs text-green-600">- ₹{(inv.discount / 100000).toFixed(2)}L discount</p>
+                                    )}
+                                </td>
+                                <td className="px-6 py-4">
+                                    <p className="text-sm font-bold text-red-600">₹ {(inv.balance / 100000).toFixed(2)}L</p>
+                                    {inv.amountPaid > 0 && (
+                                        <p className="text-xs text-blue-600">₹{(inv.amountPaid / 100000).toFixed(2)}L paid</p>
+                                    )}
                                 </td>
                                 <td className="px-6 py-4">
                                     <span className={`px-2.5 py-1 rounded-full text-xs font-medium ${getStatusColor(inv.status)}`}>
                                         {inv.status}
                                     </span>
-                                </td>
-                                <td className="px-6 py-4 text-right">
-                                    <button className="text-slate-400 hover:text-slate-600 p-2 hover:bg-slate-100 rounded-lg" title="Download">
-                                        <ArrowDownToLine className="w-4 h-4" />
-                                    </button>
                                 </td>
                             </tr>
                         ))}
@@ -213,7 +266,7 @@ export default function PaymentsPage() {
             {/* Create Invoice Modal */}
             {isModalOpen && (
                 <div className="fixed inset-0 z-[60] flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm">
-                    <div className="bg-white rounded-xl shadow-xl w-full max-w-lg overflow-hidden animate-in fade-in zoom-in-95 duration-200">
+                    <div className="bg-white rounded-xl shadow-xl w-full max-w-lg overflow-hidden">
                         <div className="flex justify-between items-center p-6 border-b border-slate-100">
                             <h2 className="text-xl font-bold text-slate-900">Create Invoice</h2>
                             <button onClick={() => setIsModalOpen(false)} className="text-slate-400 hover:text-slate-600">
@@ -221,41 +274,69 @@ export default function PaymentsPage() {
                             </button>
                         </div>
                         <form onSubmit={handleCreateInvoice} className="p-6 space-y-4">
-                            <div className="space-y-1">
-                                <label className="text-xs font-semibold text-slate-500 uppercase">Client Name *</label>
+                            <div>
+                                <label className="text-xs font-semibold text-slate-500 uppercase">Select Client *</label>
+                                <select
+                                    required
+                                    className="w-full p-2 border border-slate-200 rounded-lg mt-1"
+                                    value={newInvoice.clientId}
+                                    onChange={e => setNewInvoice({ ...newInvoice, clientId: e.target.value })}
+                                >
+                                    <option value="">Choose a client...</option>
+                                    {clients.map(client => (
+                                        <option key={client._id} value={client._id}>
+                                            {client.name} - {client.phone}
+                                        </option>
+                                    ))}
+                                </select>
+                            </div>
+                            <div>
+                                <label className="text-xs font-semibold text-slate-500 uppercase">Project Name *</label>
                                 <input
                                     required
                                     type="text"
-                                    className="w-full p-2 border border-slate-200 rounded-lg focus:ring-2 focus:ring-slate-900/10 focus:border-slate-400 outline-none transition-all"
-                                    value={newInvoice.clientName || ''}
-                                    onChange={e => setNewInvoice({ ...newInvoice, clientName: e.target.value })}
-                                />
-                            </div>
-                            <div className="space-y-1">
-                                <label className="text-xs font-semibold text-slate-500 uppercase">Project Name</label>
-                                <input
-                                    type="text"
-                                    className="w-full p-2 border border-slate-200 rounded-lg focus:ring-2 focus:ring-slate-900/10 focus:border-slate-400 outline-none transition-all"
-                                    value={newInvoice.projectName || ''}
+                                    className="w-full p-2 border border-slate-200 rounded-lg mt-1"
+                                    value={newInvoice.projectName}
                                     onChange={e => setNewInvoice({ ...newInvoice, projectName: e.target.value })}
+                                    placeholder="Kitchen Renovation, Full Home Interior, etc."
                                 />
                             </div>
-                            <div className="space-y-1">
-                                <label className="text-xs font-semibold text-slate-500 uppercase">Amount (₹) *</label>
+                            <div>
+                                <label className="text-xs font-semibold text-slate-500 uppercase">Total Amount (₹) *</label>
                                 <input
                                     required
                                     type="number"
-                                    className="w-full p-2 border border-slate-200 rounded-lg focus:ring-2 focus:ring-slate-900/10 focus:border-slate-400 outline-none transition-all"
-                                    value={newInvoice.amount || ''}
-                                    onChange={e => setNewInvoice({ ...newInvoice, amount: Number(e.target.value) })}
+                                    className="w-full p-2 border border-slate-200 rounded-lg mt-1"
+                                    value={newInvoice.totalAmount || ''}
+                                    onChange={e => setNewInvoice({ ...newInvoice, totalAmount: Number(e.target.value) })}
                                 />
                             </div>
-                            <div className="space-y-1">
-                                <label className="text-xs font-semibold text-slate-500 uppercase">Due Date</label>
+                            <div>
+                                <label className="text-xs font-semibold text-slate-500 uppercase">Discount (₹)</label>
                                 <input
+                                    type="number"
+                                    className="w-full p-2 border border-slate-200 rounded-lg mt-1"
+                                    value={newInvoice.discount || ''}
+                                    onChange={e => setNewInvoice({ ...newInvoice, discount: Number(e.target.value) })}
+                                />
+                            </div>
+                            <div>
+                                <label className="text-xs font-semibold text-slate-500 uppercase">Description / Notes</label>
+                                <textarea
+                                    className="w-full p-2 border border-slate-200 rounded-lg mt-1"
+                                    rows={3}
+                                    value={newInvoice.description}
+                                    onChange={e => setNewInvoice({ ...newInvoice, description: e.target.value })}
+                                    placeholder="Project details, scope of work, etc."
+                                />
+                            </div>
+                            <div>
+                                <label className="text-xs font-semibold text-slate-500 uppercase">Due Date *</label>
+                                <input
+                                    required
                                     type="date"
-                                    className="w-full p-2 border border-slate-200 rounded-lg focus:ring-2 focus:ring-slate-900/10 focus:border-slate-400 outline-none transition-all"
-                                    value={newInvoice.dueDate || ''}
+                                    className="w-full p-2 border border-slate-200 rounded-lg mt-1"
+                                    value={newInvoice.dueDate}
                                     onChange={e => setNewInvoice({ ...newInvoice, dueDate: e.target.value })}
                                 />
                             </div>
@@ -264,13 +345,13 @@ export default function PaymentsPage() {
                                 <button
                                     type="button"
                                     onClick={() => setIsModalOpen(false)}
-                                    className="flex-1 py-2.5 text-slate-600 font-medium hover:bg-slate-50 rounded-lg transition-colors border border-transparent hover:border-slate-200"
+                                    className="flex-1 py-2.5 text-slate-600 font-medium hover:bg-slate-50 rounded-lg border border-slate-200"
                                 >
                                     Cancel
                                 </button>
                                 <button
                                     type="submit"
-                                    className="flex-1 py-2.5 bg-slate-900 text-white font-medium rounded-lg hover:bg-slate-800 transition-colors shadow-lg shadow-slate-900/20"
+                                    className="flex-1 py-2.5 bg-slate-900 text-white font-medium rounded-lg hover:bg-slate-800 shadow-lg"
                                 >
                                     Create Invoice
                                 </button>

@@ -30,10 +30,10 @@ export default function AdminDashboardPage() {
     }
 
     const StatCards = [
-        { name: 'Total Revenue', value: `₹ ${(stats?.totalRevenue / 100000).toFixed(2)}L`, change: 'Lifetime', icon: Wallet, color: 'text-emerald-600', bg: 'bg-emerald-100' },
-        { name: 'Active Projects', value: stats?.activeProjects || 0, change: 'Ongoing', icon: FileText, color: 'text-blue-600', bg: 'bg-blue-100' },
-        { name: 'Total Enquiries', value: stats?.totalEnquiries || 0, change: 'All time', icon: Users, color: 'text-amber-600', bg: 'bg-amber-100' },
-        { name: 'Pending Revenue', value: `₹ ${(stats?.pendingRevenue / 100000).toFixed(2)}L`, change: 'Unpaid', icon: CheckCircle2, color: 'text-purple-600', bg: 'bg-purple-100' },
+        { name: 'Total Revenue', value: `₹ ${(stats?.totalRevenue / 100000).toFixed(2)}L`, change: 'Lifetime Collected', icon: Wallet, color: 'text-emerald-600', bg: 'bg-emerald-100' },
+        { name: 'Pending Revenue', value: `₹ ${(stats?.pendingRevenue / 100000).toFixed(2)}L`, change: 'Unpaid Invoices', icon: CheckCircle2, color: 'text-red-600', bg: 'bg-red-100' },
+        { name: 'Active Projects', value: stats?.activeProjects || 0, change: 'In Progress', icon: FileText, color: 'text-blue-600', bg: 'bg-blue-100' },
+        { name: 'Lead Conversion', value: `${stats?.conversionRate || 0}%`, change: `From ${stats?.totalEnquiries || 0} Leads`, icon: Users, color: 'text-amber-600', bg: 'bg-amber-100' },
     ];
 
     return (

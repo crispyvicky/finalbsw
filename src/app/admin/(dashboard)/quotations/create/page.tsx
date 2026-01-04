@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { Plus, Trash2, Save, ArrowLeft, Loader2, ImageIcon, X } from 'lucide-react';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { COMMON_ITEMS } from '@/lib/constants'; // Restored for backward compatibility
 import SearchableSelect from '@/components/ui/SearchableSelect';
@@ -16,6 +16,7 @@ interface QuotationItem {
     amount: number;
     image?: string;
     imageFile?: File | null; // For local preview before upload
+    isCustom?: boolean; // Toggle for manual entry
 }
 
 interface QuotationSection {
@@ -26,6 +27,8 @@ interface QuotationSection {
 
 export default function CreateQuotationPage() {
     const router = useRouter();
+    const searchParams = useSearchParams();
+    const clientId = searchParams.get('clientId');
     const [loading, setLoading] = useState(false);
 
     // Form State
@@ -33,6 +36,8 @@ export default function CreateQuotationPage() {
     const [clientPhone, setClientPhone] = useState('');
     const [clientEmail, setClientEmail] = useState('');
     const [projectName, setProjectName] = useState('');
+    const [linkedClientId, setLinkedClientId] = useState<string | null>(null);
+
     const [discount, setDiscount] = useState(0); // Percentage
     const [gst, setGst] = useState(0); // GST Percentage
     const [notes, setNotes] = useState('1. 50% Advance along with work order.\n2. 40% Material shifting.\n3. 10% after completion of work.\n4. GST extra as applicable.');
@@ -48,6 +53,10 @@ export default function CreateQuotationPage() {
     const [catalogItems, setCatalogItems] = useState<any[]>(COMMON_ITEMS);
 
     useEffect(() => {
+        if (clientId) {
+            fetchClientDetails(clientId);
+        }
+
         const fetchCatalog = async () => {
             try {
                 const res = await fetch('/api/catalog');
@@ -68,7 +77,24 @@ export default function CreateQuotationPage() {
             }
         };
         fetchCatalog();
-    }, []);
+    }, [clientId]);
+
+    const fetchClientDetails = async (id: string) => {
+        try {
+            const res = await fetch(`/api/clients/${id}`);
+            if (res.ok) {
+                const data = await res.json();
+                setClientName(data.name || '');
+                setClientPhone(data.phone || '');
+                setClientEmail(data.email || '');
+                if (data.projectId) setProjectName(data.projectId); // Assuming projectId stores the name/location loosely
+                if (data.address && !data.projectId) setProjectName(data.address); // Fallback to address
+                setLinkedClientId(data._id);
+            }
+        } catch (error) {
+            console.error('Failed to fetch client details', error);
+        }
+    };
 
     // Calculations
     // Note: Totals are derived from state during render or updated in handlers.
@@ -118,14 +144,32 @@ export default function CreateQuotationPage() {
         const lowerName = sectionName.toLowerCase();
 
         let validIds: string[] = [];
-        if (lowerName.includes('kitchen')) validIds = ['kitchen', 'all'];
-        else if (lowerName.includes('bed')) validIds = ['bedroom', 'all'];
-        else if (lowerName.includes('living') || lowerName.includes('hall')) validIds = ['living', 'all'];
-        else if (lowerName.includes('dining')) validIds = ['dining', 'all'];
-        else if (lowerName.includes('study')) validIds = ['study', 'all'];
-        else if (lowerName.includes('foyer')) validIds = ['foyer', 'all'];
-        else if (lowerName.includes('bath')) validIds = ['bathroom', 'all'];
-        else return catalogItems; // No specific category detected, return all
+        let primaryCategory = '';
+
+        if (lowerName.includes('kitchen')) {
+            validIds = ['kitchen', 'all'];
+            primaryCategory = 'kitchen';
+        } else if (lowerName.includes('bed')) {
+            validIds = ['bedroom', 'all'];
+            primaryCategory = 'bedroom';
+        } else if (lowerName.includes('living') || lowerName.includes('hall')) {
+            validIds = ['living', 'all'];
+            primaryCategory = 'living';
+        } else if (lowerName.includes('dining')) {
+            validIds = ['dining', 'all'];
+            primaryCategory = 'dining';
+        } else if (lowerName.includes('study')) {
+            validIds = ['study', 'all'];
+            primaryCategory = 'study';
+        } else if (lowerName.includes('foyer')) {
+            validIds = ['foyer', 'all'];
+            primaryCategory = 'foyer';
+        } else if (lowerName.includes('bath')) {
+            validIds = ['bathroom', 'all'];
+            primaryCategory = 'bathroom';
+        } else {
+            return catalogItems; // No specific category detected, return all
+        }
 
         const filtered = catalogItems.filter(item => {
             // New Catalog has 'category' string
@@ -139,9 +183,23 @@ export default function CreateQuotationPage() {
             return true;
         });
 
+        // Sort: Room-specific items first, then general items
+        const sorted = filtered.sort((a, b) => {
+            const aIsSpecific = (typeof a.category === 'string' && a.category.toLowerCase() === primaryCategory) ||
+                (Array.isArray(a.categories) && a.categories.includes(primaryCategory));
+            const bIsSpecific = (typeof b.category === 'string' && b.category.toLowerCase() === primaryCategory) ||
+                (Array.isArray(b.categories) && b.categories.includes(primaryCategory));
+
+            // Specific items come first
+            if (aIsSpecific && !bIsSpecific) return -1;
+            if (!aIsSpecific && bIsSpecific) return 1;
+
+            // Otherwise maintain original order
+            return 0;
+        });
+
         // Fallback: If filter is too strict (no items found for category), return ALL items
-        // This ensures the user always sees something.
-        return filtered.length > 0 ? filtered : catalogItems;
+        return sorted.length > 0 ? sorted : catalogItems;
     };
 
     const updateSectionName = (index: number, name: string) => {
@@ -238,6 +296,7 @@ export default function CreateQuotationPage() {
                 clientPhone,
                 clientEmail,
                 projectName,
+                clientId: linkedClientId, // Link to Client
                 sections: sections,
                 totalAmount: subTotal,
                 discount: discount,
@@ -369,22 +428,56 @@ export default function CreateQuotationPage() {
                             {/* Items */}
                             <div className="p-4 space-y-4">
                                 {section.items.map((item, iIndex) => (
-                                    <div key={iIndex} className="grid grid-cols-12 gap-4 items-start group relative hover:z-10 focus-within:z-10">
-                                        <div className="col-span-4 space-y-2">
-                                            <SearchableSelect
-                                                options={getFilteredItems(section.name)}
-                                                value={item.description}
-                                                onChange={(val) => updateItem(sIndex, iIndex, 'description', val)}
-                                                placeholder="Select Item..."
-                                            />
+                                    <div key={iIndex} className="grid grid-cols-12 gap-4 items-start group relative hover:z-10 focus-within:z-10 bg-white/50 hover:bg-white transition-colors rounded-lg p-2 border border-transparent hover:border-slate-100">
+                                        <div className="col-span-4 space-y-2 relative">
+                                            {/* Custom Item Toggle */}
+                                            <div className="flex items-center gap-2 mb-1">
+                                                <label className="flex items-center gap-1.5 text-[10px] font-bold uppercase text-slate-400 hover:text-blue-600 cursor-pointer select-none">
+                                                    <input
+                                                        type="checkbox"
+                                                        className="w-3 h-3 rounded border-slate-300 text-blue-600 focus:ring-blue-500"
+                                                        checked={item.isCustom || false}
+                                                        onChange={(e) => {
+                                                            // Clear description when toggling to avoid confusion, or keep it? Keeping it is friendlier.
+                                                            updateItem(sIndex, iIndex, 'isCustom', e.target.checked);
+                                                        }}
+                                                    />
+                                                    Custom Item
+                                                </label>
+                                            </div>
+
+                                            {item.isCustom ? (
+                                                <input
+                                                    type="text"
+                                                    className="w-full px-3 py-2 text-sm font-medium border border-slate-300 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-100 outline-none transition-all placeholder:font-normal"
+                                                    placeholder="Enter item description..."
+                                                    value={item.description}
+                                                    onChange={(e) => updateItem(sIndex, iIndex, 'description', e.target.value)}
+                                                    autoFocus
+                                                />
+                                            ) : (
+                                                <SearchableSelect
+                                                    options={getFilteredItems(section.name)}
+                                                    value={item.description}
+                                                    onChange={(val) => updateItem(sIndex, iIndex, 'description', val)}
+                                                    placeholder="Select Item from Catalog..."
+                                                />
+                                            )}
+
                                             {/* Image Upload Trigger */}
-                                            <div className="text-xs">
+                                            <div className="text-xs pt-1">
                                                 {item.image ? (
                                                     <div className="flex items-center gap-2 text-green-600">
-                                                        <ImageIcon className="w-3 h-3" /> Image Added
+                                                        <ImageIcon className="w-3 h-3" />
+                                                        <span className="truncate max-w-[100px]">Image Added</span>
                                                         <button
                                                             type="button"
-                                                            onClick={() => updateItem(sIndex, iIndex, 'image', '')}
+                                                            onClick={() => {
+                                                                const newSections = [...sections];
+                                                                newSections[sIndex].items[iIndex].image = undefined;
+                                                                newSections[sIndex].items[iIndex].imageFile = null;
+                                                                setSections(newSections);
+                                                            }}
                                                             className="text-red-500 hover:underline ml-2"
                                                         >Remove</button>
                                                     </div>
@@ -402,46 +495,56 @@ export default function CreateQuotationPage() {
                                                 )}
                                             </div>
                                         </div>
-                                        <div className="col-span-1">
+                                        <div className="col-span-1 pt-6 text-center">
                                             <input
                                                 type="number"
-                                                className="w-full p-2 text-center bg-slate-50 border border-transparent hover:border-slate-200 focus:bg-white focus:border-slate-300 rounded outline-none transition-all"
+                                                className="w-full p-2 text-center bg-slate-50 border border-slate-200 hover:border-slate-300 focus:bg-white focus:border-blue-400 rounded outline-none transition-all font-mono text-sm"
+                                                placeholder="H"
                                                 value={item.height || ''}
                                                 onChange={(e) => updateItem(sIndex, iIndex, 'height', parseFloat(e.target.value))}
                                             />
                                         </div>
-                                        <div className="col-span-1">
+                                        <div className="col-span-1 pt-6 text-center">
                                             <input
                                                 type="number"
-                                                className="w-full p-2 text-center bg-slate-50 border border-transparent hover:border-slate-200 focus:bg-white focus:border-slate-300 rounded outline-none transition-all"
+                                                className="w-full p-2 text-center bg-slate-50 border border-slate-200 hover:border-slate-300 focus:bg-white focus:border-blue-400 rounded outline-none transition-all font-mono text-sm"
+                                                placeholder="W"
                                                 value={item.width || ''}
                                                 onChange={(e) => updateItem(sIndex, iIndex, 'width', parseFloat(e.target.value))}
                                             />
                                         </div>
-                                        <div className="col-span-1 text-center font-mono text-slate-500 text-sm py-2 bg-slate-50 rounded">
+                                        <div className="col-span-1 pt-8 text-center font-mono text-slate-500 text-sm font-semibold">
                                             {item.sft}
                                         </div>
-                                        <div className="col-span-2">
-                                            <input
-                                                type="number"
-                                                className="w-full p-2 text-right bg-slate-50 border border-transparent hover:border-slate-200 focus:bg-white focus:border-slate-300 rounded outline-none transition-all font-mono"
-                                                value={item.unitPrice || ''}
-                                                onChange={(e) => updateItem(sIndex, iIndex, 'unitPrice', parseFloat(e.target.value))}
-                                            />
+                                        <div className="col-span-2 pt-6">
+                                            <div className="relative">
+                                                <span className="absolute left-2 top-2 text-slate-400 text-xs">₹</span>
+                                                <input
+                                                    type="number"
+                                                    className="w-full pl-6 p-2 text-right bg-slate-50 border border-slate-200 hover:border-slate-300 focus:bg-white focus:border-blue-400 rounded outline-none transition-all font-mono text-sm font-medium"
+                                                    value={item.unitPrice || ''}
+                                                    onChange={(e) => updateItem(sIndex, iIndex, 'unitPrice', parseFloat(e.target.value))}
+                                                />
+                                            </div>
                                         </div>
-                                        <div className="col-span-2 text-right font-mono font-bold text-slate-700 py-2">
+                                        <div className="col-span-2 pt-8 text-right font-mono font-bold text-slate-800 text-sm">
                                             ₹ {item.amount.toLocaleString()}
                                         </div>
-                                        <div className="col-span-1 text-center opacity-0 group-hover:opacity-100 transition-opacity pt-2">
-                                            <button type="button" onClick={() => removeItem(sIndex, iIndex)} className="text-slate-300 hover:text-red-500">
+                                        <div className="col-span-1 pt-8 text-center">
+                                            <button
+                                                type="button"
+                                                onClick={() => removeItem(sIndex, iIndex)}
+                                                className="text-slate-300 hover:text-red-500 transition-colors p-1"
+                                                title="Remove Item"
+                                            >
                                                 <Trash2 className="w-4 h-4" />
                                             </button>
                                         </div>
                                     </div>
                                 ))}
 
-                                <button type="button" onClick={() => addItem(sIndex)} className="flex items-center gap-1 text-xs font-bold text-blue-600 hover:text-blue-700 mt-2 px-2 py-1 rounded hover:bg-blue-50 transition-colors">
-                                    <Plus className="w-3 h-3" /> Add Item
+                                <button type="button" onClick={() => addItem(sIndex)} className="flex items-center gap-2 text-sm font-bold text-blue-600 hover:text-blue-700 mt-4 px-3 py-2 rounded-lg hover:bg-blue-50 transition-colors border border-dashed border-blue-200 hover:border-blue-300 w-full justify-center">
+                                    <Plus className="w-4 h-4" /> Add New Item
                                 </button>
                             </div>
                         </div>

@@ -41,3 +41,22 @@ export async function PUT(
         return NextResponse.json({ error: 'Failed to update quotation' }, { status: 500 });
     }
 }
+
+export async function DELETE(
+    request: Request,
+    { params }: { params: Promise<{ id: string }> }
+) {
+    try {
+        await dbConnect();
+        const { id } = await params;
+        const quotation = await Quotation.findByIdAndDelete(id);
+
+        if (!quotation) {
+            return NextResponse.json({ error: 'Quotation not found' }, { status: 404 });
+        }
+
+        return NextResponse.json({ success: true, message: 'Quotation deleted successfully' });
+    } catch (error) {
+        return NextResponse.json({ error: 'Failed to delete quotation' }, { status: 500 });
+    }
+}

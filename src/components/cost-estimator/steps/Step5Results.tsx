@@ -19,8 +19,8 @@ export default function Step5Results({ onBack, data }: Step5Props) {
     const containerRef = useRef<HTMLDivElement>(null);
     const [showForm, setShowForm] = useState(false);
     const [consultationForm, setConsultationForm] = useState({
-        name: '',
-        phone: '',
+        name: data.name || '',
+        phone: data.phone || '',
         email: ''
     });
     const [submitting, setSubmitting] = useState(false);
@@ -85,7 +85,7 @@ export default function Step5Results({ onBack, data }: Step5Props) {
                     name: consultationForm.name,
                     phone: consultationForm.phone,
                     email: consultationForm.email,
-                    source: 'Cost Estimator',
+                    source: 'Cost Estimator - Consultation Request',
                     status: 'New',
                     budget: `${formatCurrency(estimatedMin)} - ${formatCurrency(estimatedMax)}`,
                     estimateData: {

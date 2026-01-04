@@ -20,6 +20,7 @@ const QuotationSchema = new Schema({
             unitPrice: { type: Number, required: true },
             amount: { type: Number, required: true },
             image: { type: String }, // Optional image URL
+            isCustom: { type: Boolean, default: false }, // Manual entry flag
         }],
         subTotal: { type: Number }
     }],

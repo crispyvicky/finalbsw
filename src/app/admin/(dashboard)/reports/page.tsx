@@ -52,8 +52,9 @@ export default function ReportsPage() {
                 <div className="bg-white p-6 rounded-xl border border-slate-200 shadow-sm transition-all hover:shadow-md">
                     <div className="flex justify-between items-start">
                         <div>
-                            <p className="text-sm font-medium text-slate-500">Est. Profit (20%)</p>
+                            <p className="text-sm font-medium text-slate-500">Est. Profit (20%) *</p>
                             <h3 className="text-2xl font-bold text-slate-900 mt-2">₹ {(stats?.totalRevenue * 0.2 / 100000).toFixed(2)}L</h3>
+                            <p className="text-[10px] text-slate-400 mt-1">* Needs Expense Tracking</p>
                         </div>
                         <div className="p-2 bg-blue-50 text-blue-600 rounded-lg">
                             <TrendingUp className="w-5 h-5" />
@@ -91,11 +92,19 @@ export default function ReportsPage() {
                 <div className="lg:col-span-2 bg-white p-6 rounded-xl border border-slate-200 shadow-sm">
                     <h3 className="font-bold text-slate-900 mb-6">Revenue Trend</h3>
                     <div className="h-64 flex items-end justify-between gap-4 px-2">
-                        {[35, 45, 30, 60, 75, 50, 65, 80, 70, 85, 90, 95].map((h, i) => (
-                            <div key={i} className="w-full bg-slate-100 rounded-t-lg relative group">
-                                <div className="absolute bottom-0 w-full bg-slate-900 rounded-t-lg transition-all duration-500 hover:bg-amber-500" style={{ height: `${h}%` }}></div>
-                            </div>
-                        ))}
+                        {stats?.revenueTrend?.map((amount: number, i: number) => {
+                            const max = Math.max(...(stats?.revenueTrend || [1]));
+                            const height = max > 0 ? (amount / max) * 100 : 0;
+                            return (
+                                <div key={i} className="w-full bg-slate-100 rounded-t-lg relative group">
+                                    <div
+                                        className="absolute bottom-0 w-full bg-slate-900 rounded-t-lg transition-all duration-500 hover:bg-amber-500"
+                                        style={{ height: `${height}%` }}
+                                        title={`₹${amount.toLocaleString()}`}
+                                    ></div>
+                                </div>
+                            );
+                        })}
                     </div>
                     <div className="flex justify-between mt-4 text-xs text-slate-400 font-medium uppercase">
                         <span>Jan</span><span>Feb</span><span>Mar</span><span>Apr</span><span>May</span><span>Jun</span><span>Jul</span><span>Aug</span><span>Sep</span><span>Oct</span><span>Nov</span><span>Dec</span>
@@ -105,17 +114,21 @@ export default function ReportsPage() {
                 {/* Lead Stats */}
                 <div className="bg-white p-6 rounded-xl border border-slate-200 shadow-sm space-y-6">
                     <h3 className="font-bold text-slate-900">Lead Pipeline</h3>
-                    <div className="space-y-4">
-                        <div>
-                            <div className="flex justify-between text-sm mb-1">
-                                <span className="text-slate-500">Total Enquiries</span>
-                                <span className="font-bold text-slate-900">{stats?.totalEnquiries}</span>
+                    <div className="space-y-6">
+                        {stats?.pipeline && Object.entries(stats.pipeline).map(([status, count]: [string, any]) => (
+                            <div key={status}>
+                                <div className="flex justify-between text-sm mb-1">
+                                    <span className="text-slate-500">{status} Enquiries</span>
+                                    <span className="font-bold text-slate-900">{count}</span>
+                                </div>
+                                <div className="w-full bg-slate-100 h-2 rounded-full overflow-hidden">
+                                    <div
+                                        className={`h-full rounded-full ${status === 'Converted' ? 'bg-emerald-500' : status === 'Lost' ? 'bg-red-500' : 'bg-blue-500'}`}
+                                        style={{ width: `${stats.totalEnquiries > 0 ? (count / stats.totalEnquiries) * 100 : 0}%` }}
+                                    ></div>
+                                </div>
                             </div>
-                            <div className="w-full bg-slate-100 h-2 rounded-full overflow-hidden">
-                                <div className="bg-blue-500 h-full rounded-full" style={{ width: '100%' }}></div>
-                            </div>
-                        </div>
-                        {/* Other lead metrics would go here if we had more granular status data from API */}
+                        ))}
                     </div>
                 </div>
             </div>

@@ -1,10 +1,12 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 import { Enquiry, EnquiryStatus } from '@/types/admin';
-import { Plus, Search, Phone, MapPin, IndianRupee, MoreHorizontal, X, Loader2 } from 'lucide-react';
+import { Plus, Search, Phone, MapPin, IndianRupee, MoreHorizontal, X, Loader2, UserPlus } from 'lucide-react';
 
 export default function EnquiriesPage() {
+    const router = useRouter();
     const [enquiries, setEnquiries] = useState<Enquiry[]>([]);
     const [loading, setLoading] = useState(true);
     const [searchTerm, setSearchTerm] = useState('');
@@ -93,6 +95,41 @@ export default function EnquiriesPage() {
         }
     };
 
+    const handleConvertToClient = async (enquiry: Enquiry) => {
+        if (!confirm(`Are you sure you want to convert "${enquiry.name}" to a client?`)) return;
+
+        try {
+            // 1. Create Client
+            const clientRes = await fetch('/api/clients', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    name: enquiry.name,
+                    phone: enquiry.phone,
+                    email: enquiry.email,
+                    address: enquiry.location,
+                    budget: enquiry.budget,
+                    projectId: enquiry.source ? `Lead: ${enquiry.source}` : undefined
+                }),
+            });
+
+            if (clientRes.ok) {
+                const newClient = await clientRes.json();
+
+                // 2. Update Enquiry Status locally and in DB
+                await updateStatus(enquiry.id, 'Converted');
+
+                // 3. Redirect to new Client Page
+                router.push(`/admin/clients/${newClient._id || newClient.id}`);
+            } else {
+                alert('Failed to create client from enquiry. Please try again.');
+            }
+        } catch (error) {
+            console.error('Conversion error:', error);
+            alert('Error converting enquiry');
+        }
+    };
+
     if (loading) {
         return <div className="flex h-96 items-center justify-center"><Loader2 className="w-8 h-8 animate-spin text-slate-400" /></div>;
     }
@@ -176,7 +213,7 @@ export default function EnquiriesPage() {
                                 <td className="px-6 py-4 max-w-xs truncate text-sm text-slate-600">
                                     {enquiry.notes}
                                 </td>
-                                <td className="px-6 py-4 text-right">
+                                <td className="px-6 py-4 text-right flex justify-end items-center">
                                     <select
                                         value={enquiry.status}
                                         onChange={(e) => updateStatus(enquiry.id, e.target.value as EnquiryStatus)}
@@ -187,6 +224,13 @@ export default function EnquiriesPage() {
                                         <option value="Converted">Converted</option>
                                         <option value="Lost">Lost</option>
                                     </select>
+                                    <button
+                                        onClick={() => handleConvertToClient(enquiry)}
+                                        title="Convert to Client"
+                                        className="inline-flex ml-2 items-center justify-center w-6 h-6 rounded hover:bg-emerald-50 hover:text-emerald-600 text-slate-400 transition-colors"
+                                    >
+                                        <UserPlus className="w-4 h-4" />
+                                    </button>
                                 </td>
                             </tr>
                         ))}
@@ -248,106 +292,108 @@ export default function EnquiriesPage() {
                 )}
             </div>
 
-            {isModalOpen && (
-                <div className="fixed inset-0 z-[60] flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm">
-                    <div className="bg-white rounded-xl shadow-xl w-full max-w-lg overflow-hidden animate-in fade-in zoom-in-95 duration-200">
-                        <div className="flex justify-between items-center p-6 border-b border-slate-100">
-                            <h2 className="text-xl font-bold text-slate-900">Add New Enquiry</h2>
-                            <button onClick={() => setIsModalOpen(false)} className="text-slate-400 hover:text-slate-600">
-                                <X className="w-5 h-5" />
-                            </button>
+            {
+                isModalOpen && (
+                    <div className="fixed inset-0 z-[60] flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm">
+                        <div className="bg-white rounded-xl shadow-xl w-full max-w-lg overflow-hidden animate-in fade-in zoom-in-95 duration-200">
+                            <div className="flex justify-between items-center p-6 border-b border-slate-100">
+                                <h2 className="text-xl font-bold text-slate-900">Add New Enquiry</h2>
+                                <button onClick={() => setIsModalOpen(false)} className="text-slate-400 hover:text-slate-600">
+                                    <X className="w-5 h-5" />
+                                </button>
+                            </div>
+
+                            <form onSubmit={handleAddEnquiry} className="p-6 space-y-4">
+                                <div className="grid grid-cols-2 gap-4">
+                                    <div className="space-y-1">
+                                        <label className="text-xs font-semibold text-slate-500 uppercase">Client Name *</label>
+                                        <input
+                                            required
+                                            type="text"
+                                            className="w-full p-2 border border-slate-200 rounded-lg focus:ring-2 focus:ring-slate-900/10 focus:border-slate-400 outline-none transition-all"
+                                            value={newEnquiry.name || ''}
+                                            onChange={e => setNewEnquiry({ ...newEnquiry, name: e.target.value })}
+                                        />
+                                    </div>
+                                    <div className="space-y-1">
+                                        <label className="text-xs font-semibold text-slate-500 uppercase">Phone *</label>
+                                        <input
+                                            required
+                                            type="tel"
+                                            className="w-full p-2 border border-slate-200 rounded-lg focus:ring-2 focus:ring-slate-900/10 focus:border-slate-400 outline-none transition-all"
+                                            value={newEnquiry.phone || ''}
+                                            onChange={e => setNewEnquiry({ ...newEnquiry, phone: e.target.value })}
+                                        />
+                                    </div>
+                                </div>
+
+                                <div className="grid grid-cols-2 gap-4">
+                                    <div className="space-y-1">
+                                        <label className="text-xs font-semibold text-slate-500 uppercase">Budget Range</label>
+                                        <input
+                                            type="text"
+                                            className="w-full p-2 border border-slate-200 rounded-lg focus:ring-2 focus:ring-slate-900/10 focus:border-slate-400 outline-none transition-all"
+                                            placeholder="e.g. 15L - 20L"
+                                            value={newEnquiry.budget || ''}
+                                            onChange={e => setNewEnquiry({ ...newEnquiry, budget: e.target.value })}
+                                        />
+                                    </div>
+                                    <div className="space-y-1">
+                                        <label className="text-xs font-semibold text-slate-500 uppercase">Site Location</label>
+                                        <input
+                                            type="text"
+                                            className="w-full p-2 border border-slate-200 rounded-lg focus:ring-2 focus:ring-slate-900/10 focus:border-slate-400 outline-none transition-all"
+                                            placeholder="e.g. HSR Layout"
+                                            value={newEnquiry.location || ''}
+                                            onChange={e => setNewEnquiry({ ...newEnquiry, location: e.target.value })}
+                                        />
+                                    </div>
+                                </div>
+
+                                <div className="space-y-1">
+                                    <label className="text-xs font-semibold text-slate-500 uppercase">Status</label>
+                                    <select
+                                        className="w-full p-2 border border-slate-200 rounded-lg focus:ring-2 focus:ring-slate-900/10 focus:border-slate-400 outline-none transition-all bg-white"
+                                        value={newEnquiry.status || 'New'}
+                                        onChange={e => setNewEnquiry({ ...newEnquiry, status: e.target.value as EnquiryStatus })}
+                                    >
+                                        <option value="New">New</option>
+                                        <option value="Follow-up">Follow-up</option>
+                                        <option value="Converted">Converted</option>
+                                        <option value="Lost">Lost</option>
+                                    </select>
+                                </div>
+
+                                <div className="space-y-1">
+                                    <label className="text-xs font-semibold text-slate-500 uppercase">Notes</label>
+                                    <textarea
+                                        className="w-full p-2 border border-slate-200 rounded-lg focus:ring-2 focus:ring-slate-900/10 focus:border-slate-400 outline-none transition-all h-24 resize-none"
+                                        placeholder="Any specific requirements..."
+                                        value={newEnquiry.notes || ''}
+                                        onChange={e => setNewEnquiry({ ...newEnquiry, notes: e.target.value })}
+                                    />
+                                </div>
+
+                                <div className="pt-2 flex gap-3">
+                                    <button
+                                        type="button"
+                                        onClick={() => setIsModalOpen(false)}
+                                        className="flex-1 py-2.5 text-slate-600 font-medium hover:bg-slate-50 rounded-lg transition-colors border border-transparent hover:border-slate-200"
+                                    >
+                                        Cancel
+                                    </button>
+                                    <button
+                                        type="submit"
+                                        className="flex-1 py-2.5 bg-slate-900 text-white font-medium rounded-lg hover:bg-slate-800 transition-colors shadow-lg shadow-slate-900/20"
+                                    >
+                                        Save Enquiry
+                                    </button>
+                                </div>
+                            </form>
                         </div>
-
-                        <form onSubmit={handleAddEnquiry} className="p-6 space-y-4">
-                            <div className="grid grid-cols-2 gap-4">
-                                <div className="space-y-1">
-                                    <label className="text-xs font-semibold text-slate-500 uppercase">Client Name *</label>
-                                    <input
-                                        required
-                                        type="text"
-                                        className="w-full p-2 border border-slate-200 rounded-lg focus:ring-2 focus:ring-slate-900/10 focus:border-slate-400 outline-none transition-all"
-                                        value={newEnquiry.name || ''}
-                                        onChange={e => setNewEnquiry({ ...newEnquiry, name: e.target.value })}
-                                    />
-                                </div>
-                                <div className="space-y-1">
-                                    <label className="text-xs font-semibold text-slate-500 uppercase">Phone *</label>
-                                    <input
-                                        required
-                                        type="tel"
-                                        className="w-full p-2 border border-slate-200 rounded-lg focus:ring-2 focus:ring-slate-900/10 focus:border-slate-400 outline-none transition-all"
-                                        value={newEnquiry.phone || ''}
-                                        onChange={e => setNewEnquiry({ ...newEnquiry, phone: e.target.value })}
-                                    />
-                                </div>
-                            </div>
-
-                            <div className="grid grid-cols-2 gap-4">
-                                <div className="space-y-1">
-                                    <label className="text-xs font-semibold text-slate-500 uppercase">Budget Range</label>
-                                    <input
-                                        type="text"
-                                        className="w-full p-2 border border-slate-200 rounded-lg focus:ring-2 focus:ring-slate-900/10 focus:border-slate-400 outline-none transition-all"
-                                        placeholder="e.g. 15L - 20L"
-                                        value={newEnquiry.budget || ''}
-                                        onChange={e => setNewEnquiry({ ...newEnquiry, budget: e.target.value })}
-                                    />
-                                </div>
-                                <div className="space-y-1">
-                                    <label className="text-xs font-semibold text-slate-500 uppercase">Site Location</label>
-                                    <input
-                                        type="text"
-                                        className="w-full p-2 border border-slate-200 rounded-lg focus:ring-2 focus:ring-slate-900/10 focus:border-slate-400 outline-none transition-all"
-                                        placeholder="e.g. HSR Layout"
-                                        value={newEnquiry.location || ''}
-                                        onChange={e => setNewEnquiry({ ...newEnquiry, location: e.target.value })}
-                                    />
-                                </div>
-                            </div>
-
-                            <div className="space-y-1">
-                                <label className="text-xs font-semibold text-slate-500 uppercase">Status</label>
-                                <select
-                                    className="w-full p-2 border border-slate-200 rounded-lg focus:ring-2 focus:ring-slate-900/10 focus:border-slate-400 outline-none transition-all bg-white"
-                                    value={newEnquiry.status || 'New'}
-                                    onChange={e => setNewEnquiry({ ...newEnquiry, status: e.target.value as EnquiryStatus })}
-                                >
-                                    <option value="New">New</option>
-                                    <option value="Follow-up">Follow-up</option>
-                                    <option value="Converted">Converted</option>
-                                    <option value="Lost">Lost</option>
-                                </select>
-                            </div>
-
-                            <div className="space-y-1">
-                                <label className="text-xs font-semibold text-slate-500 uppercase">Notes</label>
-                                <textarea
-                                    className="w-full p-2 border border-slate-200 rounded-lg focus:ring-2 focus:ring-slate-900/10 focus:border-slate-400 outline-none transition-all h-24 resize-none"
-                                    placeholder="Any specific requirements..."
-                                    value={newEnquiry.notes || ''}
-                                    onChange={e => setNewEnquiry({ ...newEnquiry, notes: e.target.value })}
-                                />
-                            </div>
-
-                            <div className="pt-2 flex gap-3">
-                                <button
-                                    type="button"
-                                    onClick={() => setIsModalOpen(false)}
-                                    className="flex-1 py-2.5 text-slate-600 font-medium hover:bg-slate-50 rounded-lg transition-colors border border-transparent hover:border-slate-200"
-                                >
-                                    Cancel
-                                </button>
-                                <button
-                                    type="submit"
-                                    className="flex-1 py-2.5 bg-slate-900 text-white font-medium rounded-lg hover:bg-slate-800 transition-colors shadow-lg shadow-slate-900/20"
-                                >
-                                    Save Enquiry
-                                </button>
-                            </div>
-                        </form>
                     </div>
-                </div>
-            )}
-        </div>
+                )
+            }
+        </div >
     );
 }

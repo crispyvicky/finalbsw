@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { Client } from '@/types/admin';
 import { Plus, Search, Phone, MapPin, Mail, FolderOpen, MoreVertical, X, Loader2 } from 'lucide-react';
+import Link from 'next/link';
 
 export default function ClientsPage() {
     const [clients, setClients] = useState<Client[]>([]);
@@ -94,31 +95,32 @@ export default function ClientsPage() {
             {/* Grid View for Clients (Better than table for profiles) */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {filteredClients.map((client) => (
-                    <div key={client.id} className="bg-white rounded-xl border border-slate-200 shadow-sm hover:shadow-md transition-shadow p-6 space-y-4">
-                        <div className="flex justify-between items-start">
+                    <div key={client.id} className="bg-white rounded-xl border border-slate-200 shadow-sm hover:shadow-md transition-all group p-6 space-y-4 relative">
+                        <Link href={`/admin/clients/${client.id}`} className="absolute inset-0 z-0" aria-label={`View ${client.name}`} />
+                        <div className="flex justify-between items-start relative z-10">
                             <div className="flex items-center gap-3">
-                                <div className="w-12 h-12 rounded-full bg-slate-100 flex items-center justify-center text-slate-600 font-bold text-lg">
+                                <div className="w-12 h-12 rounded-full bg-slate-100 flex items-center justify-center text-slate-600 font-bold text-lg group-hover:bg-slate-200 transition-colors">
                                     {client.name.charAt(0)}
                                 </div>
                                 <div>
-                                    <h3 className="font-bold text-slate-900 line-clamp-1">{client.name}</h3>
+                                    <h3 className="font-bold text-slate-900 line-clamp-1 group-hover:text-blue-600 transition-colors">{client.name}</h3>
                                     <div className="flex items-center gap-1.5 text-xs text-slate-500">
                                         <MapPin className="w-3 h-3" />
                                         <span className="truncate max-w-[120px]">{client.address || 'No Address'}</span>
                                     </div>
                                 </div>
                             </div>
-                            <button className="text-slate-400 hover:text-slate-600">
+                            <button className="text-slate-400 hover:text-slate-600 p-1 hover:bg-slate-100 rounded-full transition-colors">
                                 <MoreVertical className="w-5 h-5" />
                             </button>
                         </div>
 
-                        <div className="grid grid-cols-2 gap-3 text-sm pt-2">
-                            <a href={`tel:${client.phone}`} className="flex items-center gap-2 text-slate-600 hover:text-amber-600 p-2 bg-slate-50 rounded-lg transition-colors">
+                        <div className="grid grid-cols-2 gap-3 text-sm pt-2 relative z-10">
+                            <a href={`tel:${client.phone}`} className="flex items-center gap-2 text-slate-600 hover:text-amber-600 p-2 bg-slate-50 rounded-lg transition-colors hover:bg-amber-50">
                                 <Phone className="w-4 h-4 text-slate-400" />
                                 {client.phone}
                             </a>
-                            <a href={`mailto:${client.email}`} className="flex items-center gap-2 text-slate-600 hover:text-amber-600 p-2 bg-slate-50 rounded-lg transition-colors">
+                            <a href={`mailto:${client.email}`} className="flex items-center gap-2 text-slate-600 hover:text-amber-600 p-2 bg-slate-50 rounded-lg transition-colors hover:bg-amber-50">
                                 <Mail className="w-4 h-4 text-slate-400" />
                                 <span className="truncate">{client.email || 'No Email'}</span>
                             </a>

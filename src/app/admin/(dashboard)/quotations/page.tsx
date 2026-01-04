@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { FileText, Plus, Search, Download, Eye, MoreHorizontal, Printer, X, Loader2, ArrowRight } from 'lucide-react';
+import { FileText, Plus, Search, Download, Eye, MoreHorizontal, Printer, X, Loader2, ArrowRight, Trash2 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 
@@ -39,6 +39,30 @@ export default function QuotationsPage() {
             console.error('Failed to fetch quotations', error);
         } finally {
             setLoading(false);
+        }
+    };
+
+    const handleDelete = async (quotation: Quotation) => {
+        const confirmMessage = `⚠️ DELETE QUOTATION\n\nAre you sure you want to delete:\n\nQuotation: ${quotation.quoteNumber}\nClient: ${quotation.clientName}\nProject: ${quotation.projectName}\n\n⚠️ This action CANNOT be undone!`;
+
+        if (!confirm(confirmMessage)) {
+            return;
+        }
+
+        try {
+            const response = await fetch(`/api/quotations/${quotation.id}`, {
+                method: 'DELETE'
+            });
+
+            if (response.ok) {
+                alert('✅ Quotation deleted successfully');
+                fetchQuotations(); // Refresh the list
+            } else {
+                alert('❌ Failed to delete quotation\n\nPlease try again.');
+            }
+        } catch (error) {
+            console.error('Delete error:', error);
+            alert('❌ Failed to delete quotation\n\nPlease check your connection and try again.');
         }
     };
 
@@ -157,6 +181,16 @@ export default function QuotationsPage() {
                                         >
                                             <ArrowRight className="w-4 h-4" />
                                         </Link>
+                                        <button
+                                            onClick={(e) => {
+                                                e.preventDefault();
+                                                handleDelete(quote);
+                                            }}
+                                            className="inline-flex items-center justify-center w-8 h-8 rounded-full hover:bg-red-50 hover:text-red-600 text-gray-400 transition-all"
+                                            title="Delete Quotation"
+                                        >
+                                            <Trash2 className="w-4 h-4" />
+                                        </button>
                                     </div>
                                 </td>
                             </tr>

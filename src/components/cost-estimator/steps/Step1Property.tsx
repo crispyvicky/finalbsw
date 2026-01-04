@@ -1,9 +1,9 @@
 "use client";
 
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import { cn } from "@/lib/utils";
-import { Building2, Home, MapPin, User, Phone } from "lucide-react";
+import { Building2, Home, MapPin, User, Phone, Loader2 } from "lucide-react";
 import { EstimatorState } from "../types";
 import { Button } from "@/components/ui/button";
 
@@ -25,10 +25,49 @@ const CITIES = ["Hyderabad", "Bangalore", "Mumbai", "Delhi", "Chennai", "Pune"];
 
 export default function Step1Property({ onNext, data, updateData }: Step1Props) {
     const containerRef = useRef<HTMLDivElement>(null);
+    const [isSubmitting, setIsSubmitting] = useState(false);
 
     useEffect(() => {
         // Animations removed for visibility
     }, []);
+
+    const handleContinue = async () => {
+        // Validate required fields
+        if (!data.name || !data.phone || !data.bhk) {
+            return;
+        }
+
+        setIsSubmitting(true);
+
+        try {
+            // Submit lead to database
+            await fetch('/api/enquiries', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    name: data.name,
+                    phone: data.phone,
+                    source: 'Cost Estimator - Step 1',
+                    status: 'New',
+                    location: data.city,
+                    notes: `Property: ${data.propertyType} - ${data.bhk}, Size: ${data.size} sq ft`,
+                    estimateData: {
+                        propertyType: data.propertyType,
+                        bhk: data.bhk,
+                        size: data.size,
+                        city: data.city,
+                        step: 1
+                    }
+                }),
+            });
+        } catch (error) {
+            console.error('Failed to save lead:', error);
+            // Continue anyway - don't block user progress
+        } finally {
+            setIsSubmitting(false);
+            onNext();
+        }
+    };
 
     return (
         <div ref={containerRef} className="space-y-10 max-w-4xl mx-auto">
@@ -40,7 +79,7 @@ export default function Step1Property({ onNext, data, updateData }: Step1Props) 
             {/* Lead Details */}
             <div className="step-item grid grid-cols-1 md:grid-cols-2 gap-8">
                 <div className="space-y-3">
-                    <label className="text-xs font-bold text-[#ce7e48] uppercase tracking-[0.2em] font-body-02 ml-1">Your Name</label>
+                    <label className="text-xs font-bold text-[#ce7e48] uppercase tracking-[0.2em] font-body-02 ml-1">Your Name <span className="text-red-500">*</span></label>
                     <div className="relative group">
                         <User className="absolute left-0 top-1/2 -translate-y-1/2 text-[#3d5a45]/40 w-5 h-5" />
                         <input
@@ -48,13 +87,14 @@ export default function Step1Property({ onNext, data, updateData }: Step1Props) 
                             placeholder="John Doe"
                             value={data.name || ''}
                             onChange={(e) => updateData({ name: e.target.value })}
+                            required
                             className="w-full bg-transparent border-b border-[#E0E0E0] py-3 pl-8 pr-4 text-[#3d5a45] font-heading-05 text-xl focus:outline-none focus:border-[#ce7e48] transition-all placeholder:text-[#3d5a45]/20 rounded-none"
                         />
                     </div>
                 </div>
 
                 <div className="space-y-3">
-                    <label className="text-xs font-bold text-[#ce7e48] uppercase tracking-[0.2em] font-body-02 ml-1">Phone Number</label>
+                    <label className="text-xs font-bold text-[#ce7e48] uppercase tracking-[0.2em] font-body-02 ml-1">Phone Number <span className="text-red-500">*</span></label>
                     <div className="relative group">
                         <Phone className="absolute left-0 top-1/2 -translate-y-1/2 text-[#3d5a45]/40 w-5 h-5" />
                         <input
@@ -62,6 +102,7 @@ export default function Step1Property({ onNext, data, updateData }: Step1Props) 
                             placeholder="98765 43210"
                             value={data.phone || ''}
                             onChange={(e) => updateData({ phone: e.target.value })}
+                            required
                             className="w-full bg-transparent border-b border-[#E0E0E0] py-3 pl-8 pr-4 text-[#3d5a45] font-heading-05 text-xl focus:outline-none focus:border-[#ce7e48] transition-all placeholder:text-[#3d5a45]/20 rounded-none"
                         />
                     </div>
@@ -166,11 +207,18 @@ export default function Step1Property({ onNext, data, updateData }: Step1Props) 
 
             <div className="step-item pt-10 flex justify-end border-t border-[#F5F5F0] mt-10">
                 <Button
-                    onClick={onNext}
-                    disabled={!data.bhk}
-                    className="rounded-none px-12 py-7 bg-[#3d5a45] hover:bg-[#2F4F2F] text-white text-sm tracking-[0.2em] uppercase font-medium transition-all shadow-lg hover:shadow-xl"
+                    onClick={handleContinue}
+                    disabled={!data.name || !data.phone || !data.bhk || isSubmitting}
+                    className="rounded-none px-12 py-7 bg-[#3d5a45] hover:bg-[#2F4F2F] text-white text-sm tracking-[0.2em] uppercase font-medium transition-all shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                    CONTINUE
+                    {isSubmitting ? (
+                        <>
+                            <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                            SAVING...
+                        </>
+                    ) : (
+                        'CONTINUE'
+                    )}
                 </Button>
             </div>
         </div>

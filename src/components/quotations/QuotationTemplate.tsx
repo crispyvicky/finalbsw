@@ -27,11 +27,11 @@ export default function QuotationTemplate({ quotation }: QuotationTemplateProps)
                 <div className="space-y-4">
                     <div className="space-y-1">
                         <p className="text-xs font-bold text-slate-400 uppercase tracking-wider">Prepared For</p>
-                        <h2 className="text-2xl font-serif font-bold text-slate-800">{quotation.clientName}</h2>
+                        <h2 className="text-2xl font-serif font-bold text-slate-800 uppercase">{quotation.clientName}</h2>
                     </div>
                     <div className="space-y-1">
                         <p className="text-xs font-bold text-slate-400 uppercase tracking-wider">Project</p>
-                        <p className="text-base text-slate-700 font-medium">{quotation.projectName}</p>
+                        <p className="text-base text-slate-700 font-medium uppercase">{quotation.projectName}</p>
                     </div>
                 </div>
                 <div className="text-right space-y-4">

@@ -25,11 +25,11 @@ const menuItems = [
     { icon: Contact, label: 'Enquiries & Leads', href: '/admin/enquiries' },
     { icon: Users, label: 'Clients', href: '/admin/clients' },
     { icon: Briefcase, label: 'Projects', href: '/admin/projects' },
-    { icon: FileImage, label: 'Designs & Files', href: '/admin/designs' },
+    // { icon: FileImage, label: 'Designs & Files', href: '/admin/designs' },
     { icon: FileText, label: 'Quotations', href: '/admin/quotations' },
-    { icon: Book, label: 'Master Catalog', href: '/admin/catalog' },
+    // { icon: Book, label: 'Master Catalog', href: '/admin/catalog' },
     { icon: CreditCard, label: 'Payments', href: '/admin/payments' },
-    { icon: CheckSquare, label: 'Tasks', href: '/admin/tasks' },
+    // { icon: CheckSquare, label: 'Tasks', href: '/admin/tasks' },
     { icon: BarChart3, label: 'Reports', href: '/admin/reports' },
     { icon: Settings, label: 'Settings', href: '/admin/settings' },
 ];
@@ -44,7 +44,7 @@ export function AdminSidebar() {
     };
 
     return (
-        <aside className="fixed left-0 top-0 h-screen w-64 bg-[#1a1a1a] text-white flex flex-col z-50 transition-all duration-300 shadow-2xl border-r border-white/5">
+        <aside className="h-screen w-64 bg-[#1a1a1a] text-white flex flex-col transition-all duration-300 shadow-2xl border-r border-white/5 lg:fixed lg:left-0 lg:top-0 lg:z-50">
             {/* Header */}
             <div className="p-8 pb-6 border-b border-white/5">
                 <div className="mb-1">
