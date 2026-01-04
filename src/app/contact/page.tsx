@@ -63,12 +63,12 @@ export default function Contact() {
                 <div className="absolute bottom-0 left-0 w-full p-8 md:p-20 z-10">
                     <h2 className="font-heading-02 text-3xl md:text-5xl mb-4 md:mb-6 leading-tight">INFINITY Interiors</h2>
                     <address className="not-italic text-gray-300 text-base md:text-lg space-y-1 md:space-y-2 leading-relaxed opacity-90">
-                        <p>Plot No. 123, Road No. 45</p>
-                        <p>Yellamabanda, Hyderabad</p>
+                        <p>Plot No. 13, Road No. 4</p>
+                        <p>Ravi Narayana Reddy Nagar, Hyderabad</p>
                         <p>Telangana, India 500033</p>
                         <br />
-                        <p className="text-white font-medium text-lg">+91 98765 43210</p>
-                        <p>hello@infinityinteriors.co</p>
+                        <p className="text-white font-medium text-lg">+91 9885851127</p>
+                        <p>info@infinityinteriors.co</p>
                     </address>
                 </div>
             </div>
