@@ -119,14 +119,14 @@ Use your existing GoDaddy email with SMTP.
    Thank you for your business!
 
    Best regards,
-   BRAVOO Interiors
+   Infinity Interiors
    www.infinityinteriors.co
    Email: info@infinityinteriors.co
            `.trim();
 
            // Send email
            await transporter.sendMail({
-               from: '"BRAVOO Interiors" <info@infinityinteriors.co>',
+               from: '"Infinity Interiors" <info@infinityinteriors.co>',
                to: to,
                subject: subject,
                text: emailBody,

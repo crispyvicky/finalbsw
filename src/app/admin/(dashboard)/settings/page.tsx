@@ -34,7 +34,7 @@ export default function SettingsPage() {
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div className="space-y-1">
                             <label className="text-sm font-medium text-slate-700">Company Name</label>
-                            <input type="text" defaultValue="Bravoo Interiors" className="w-full p-2.5 border border-slate-200 rounded-lg focus:ring-2 focus:ring-slate-900/10 focus:outline-none" />
+                            <input type="text" defaultValue="Infinity Interiors" className="w-full p-2.5 border border-slate-200 rounded-lg focus:ring-2 focus:ring-slate-900/10 focus:outline-none" />
                         </div>
                         <div className="space-y-1">
                             <label className="text-sm font-medium text-slate-700">Phone</label>

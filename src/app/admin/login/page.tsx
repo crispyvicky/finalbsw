@@ -73,7 +73,7 @@ export default function AdminLoginPage() {
                 </form>
 
                 <div className="text-center text-xs text-slate-500 pt-2">
-                    &copy; {new Date().getFullYear()} Bravoo Interiors
+                    &copy; {new Date().getFullYear()} Infinity Interiors
                 </div>
             </div>
         </div>

@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import dbConnect from '@/lib/db';
 import Enquiry from '@/models/Enquiry';
 import { sendWhatsAppNotification } from '@/lib/whatsapp';
+import { sendWelcomeEmail } from '@/lib/email';
 
 export async function GET() {
     try {
@@ -21,6 +22,7 @@ export async function POST(request: Request) {
 
         // Send WhatsApp notification for Contact Page submissions
         if (body.source === 'Contact Page') {
+            // 1. Send Admin Notification (WhatsApp)
             sendWhatsAppNotification({
                 name: body.name,
                 phone: body.phone,
@@ -29,6 +31,12 @@ export async function POST(request: Request) {
                 notes: body.notes,
                 budget: body.budget,
             }).catch(err => console.error('WhatsApp notification failed:', err));
+
+            // 2. Send Welcome Email to Lead (if email provided)
+            if (body.email) {
+                sendWelcomeEmail(body.email, body.name)
+                    .catch(err => console.error('Welcome email failed:', err));
+            }
         }
 
         return NextResponse.json(enquiry, { status: 201 });

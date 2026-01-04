@@ -4,7 +4,7 @@ import EstimatorContainer from "@/components/cost-estimator/EstimatorContainer";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-    title: "Interior Cost Estimator | Bravoo Interiors",
+    title: "Interior Cost Estimator | Infinity Interiors",
     description: "Calculate the estimated cost for your premium home interiors with our AI-powered cost estimator tool.",
 };
 
