@@ -74,7 +74,8 @@ async function sendViaTwilio(to: string, message: string): Promise<boolean> {
     const fromNumber = process.env.TWILIO_WHATSAPP_NUMBER; // Format: whatsapp:+14155238886
 
     if (!accountSid || !authToken || !fromNumber) {
-        console.error('Twilio credentials not configured');
+        // Soft fail if no credentials are present (user might only want Emails)
+        console.warn('WhatsApp Notification Skipped: Twilio credentials not configured in environment variables.');
         return false;
     }
 
