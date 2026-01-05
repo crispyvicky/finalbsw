@@ -53,6 +53,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
             changeFrequency: 'yearly',
             priority: 0.5,
         },
+        {
+            url: `${baseUrl}/cost-estimator`,
+            lastModified: new Date(),
+            changeFrequency: 'weekly',
+            priority: 0.9,
+        },
         ...blogPosts.map((post) => ({
             url: `${baseUrl}/blog/${post.slug}`,
             lastModified: new Date(post.date), // Using post date as last modified

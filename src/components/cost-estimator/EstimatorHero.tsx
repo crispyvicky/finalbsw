@@ -32,14 +32,14 @@ export default function EstimatorHero() {
                     <div className="hero-content flex-1 text-center lg:text-left space-y-8">
                         <div className="space-y-4">
                             <span className="inline-block px-3 py-1 bg-[#3d5a45]/10 text-[#3d5a45] text-xs font-bold tracking-[0.2em] uppercase mb-4">
-                                Cost Estimator
+                                Online Cost Calculator
                             </span>
                             <h1 className="font-heading-01 text-5xl md:text-6xl lg:text-7xl text-[#1a1a1a] leading-[1.1]">
-                                Design Your <br />
-                                <span className="text-[#3d5a45] italic font-heading-03 font-normal">Dream Space</span>
+                                Interior Design <br />
+                                <span className="text-[#3d5a45] italic font-heading-03 font-normal">Cost Estimator</span>
                             </h1>
                             <p className="font-body-02 text-lg text-gray-600 max-w-xl mx-auto lg:mx-0 font-light leading-relaxed">
-                                Get a preliminary cost estimate for your interior design project in less than 2 minutes. Accurate, transparent, and tailored to your needs.
+                                Plan your dream home budget with our advanced tool. Get instant pricing for <strong>luxury interiors in Hyderabad</strong>, customized for 1BHK, 2BHK, 3BHK, and Villas. Accurate, transparent, and free.
                             </p>
                         </div>
 
