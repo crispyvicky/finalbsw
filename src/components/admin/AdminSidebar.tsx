@@ -51,7 +51,7 @@ export function AdminSidebar() {
                     <span className="text-[10px] uppercase tracking-[0.2em] text-[#D4AF37]/80">Admin Panel</span>
                 </div>
                 <h1 className="text-2xl font-heading-02 font-bold tracking-tight text-white">
-                    BRAVOO
+                    INFINITY
                 </h1>
                 <p className="text-xs text-white/40 font-light mt-1 tracking-wide">Interior Management System</p>
             </div>
