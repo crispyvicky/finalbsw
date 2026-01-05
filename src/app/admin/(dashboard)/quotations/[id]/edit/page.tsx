@@ -254,7 +254,13 @@ export default function EditQuotationPage() {
         // CORRECTION: Always recalculate amount based on current sft and unitPrice
         const sft = item.sft || 0;
         const rate = item.unitPrice || 0;
-        item.amount = parseFloat((sft * rate).toFixed(2));
+
+        // If sft is 0 (h or w is 0), use unitPrice directly as amount for service items (like cleaning)
+        if (sft === 0 && (item.height === 0 || !item.height) && (item.width === 0 || !item.width)) {
+            item.amount = rate;
+        } else {
+            item.amount = parseFloat((sft * rate).toFixed(2));
+        }
 
         newSections[sectionIndex].subTotal = newSections[sectionIndex].items.reduce((sum, t) => sum + t.amount, 0);
         setSections(newSections);
