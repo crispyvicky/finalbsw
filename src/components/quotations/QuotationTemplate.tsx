@@ -9,7 +9,7 @@ export default function QuotationTemplate({ quotation }: QuotationTemplateProps)
         <div className="max-w-[210mm] mx-auto bg-white shadow-2xl min-h-screen print:shadow-none print:w-full print:max-w-none flex flex-col font-sans text-slate-800">
 
             {/* 1. Modern Header */}
-            <div className="p-12 pb-8 flex justify-between items-end border-b-4 border-[#1e293b]">
+            <div className="p-4 md:p-12 pb-4 md:pb-8 flex justify-between items-end border-b-4 border-[#1e293b] print:p-12">
                 <div className="space-y-2">
                     <div className="space-y-2">
                         <img src="/logo.png" alt="Infinity Interiors" className="h-16 w-auto object-contain" />
@@ -23,7 +23,7 @@ export default function QuotationTemplate({ quotation }: QuotationTemplateProps)
             </div>
 
             {/* 2. Client & Quote Info */}
-            <div className="p-12 py-8 grid grid-cols-2 gap-12">
+            <div className="p-4 md:p-12 py-6 md:py-8 grid grid-cols-2 gap-4 md:gap-12 print:p-12">
                 <div className="space-y-4">
                     <div className="space-y-1">
                         <p className="text-xs font-bold text-slate-400 uppercase tracking-wider">Prepared For</p>
@@ -47,14 +47,14 @@ export default function QuotationTemplate({ quotation }: QuotationTemplateProps)
             </div>
 
             {/* 3. Premium Table */}
-            <div className="px-12 flex-grow">
+            <div className="px-4 md:px-12 flex-grow print:px-12">
                 <table className="w-full text-sm">
                     <thead>
                         <tr className="border-b-2 border-slate-900">
-                            <th className="text-left py-4 font-bold text-slate-900 uppercase tracking-wider w-[45%]">Item Description</th>
-                            <th className="text-center py-4 font-bold text-slate-500 uppercase tracking-wider text-xs">Dim (Ft)</th>
-                            <th className="text-center py-4 font-bold text-slate-500 uppercase tracking-wider text-xs">Area (Sft)</th>
-                            <th className="text-right py-4 font-bold text-slate-500 uppercase tracking-wider text-xs">Rate</th>
+                            <th className="text-left py-4 font-bold text-slate-900 uppercase tracking-wider w-[40%] md:w-[45%]">Item Description</th>
+                            <th className="text-center py-4 font-bold text-slate-500 uppercase tracking-wider text-[10px] md:text-xs whitespace-nowrap">Dim (Ft)</th>
+                            <th className="text-center py-4 font-bold text-slate-500 uppercase tracking-wider text-[10px] md:text-xs whitespace-nowrap">Area (Sft)</th>
+                            <th className="text-right py-4 font-bold text-slate-500 uppercase tracking-wider text-[10px] md:text-xs whitespace-nowrap">Rate</th>
                             <th className="text-right py-4 font-bold text-slate-900 uppercase tracking-wider">Amount</th>
                         </tr>
                     </thead>
@@ -85,16 +85,16 @@ export default function QuotationTemplate({ quotation }: QuotationTemplateProps)
                                                 </div>
                                             </div>
                                         </td>
-                                        <td className="py-4 text-center align-top text-slate-500 font-mono text-xs">
+                                        <td className="py-4 text-center align-top text-slate-500 font-mono text-[10px] md:text-xs whitespace-nowrap">
                                             {item.height > 0 && item.width > 0 ? `${item.height} x ${item.width}` : '-'}
                                         </td>
-                                        <td className="py-4 text-center align-top text-slate-500 font-mono text-xs">
+                                        <td className="py-4 text-center align-top text-slate-500 font-mono text-[10px] md:text-xs whitespace-nowrap">
                                             {item.sft > 0 ? item.sft : '-'}
                                         </td>
-                                        <td className="py-4 text-right align-top text-slate-600 font-mono text-xs">
+                                        <td className="py-4 text-right align-top text-slate-600 font-mono text-[10px] md:text-xs whitespace-nowrap">
                                             {item.unitPrice > 0 ? `₹${item.unitPrice}` : '-'}
                                         </td>
-                                        <td className="py-4 text-right align-top font-bold text-slate-800 font-mono">
+                                        <td className="py-4 text-right align-top font-bold text-slate-800 font-mono whitespace-nowrap">
                                             ₹ {item.amount.toLocaleString()}
                                         </td>
                                     </tr>
@@ -111,8 +111,8 @@ export default function QuotationTemplate({ quotation }: QuotationTemplateProps)
             </div>
 
             {/* 4. Total & Notes Footer */}
-            <div className="p-12 mt-auto">
-                <div className="flex flex-col md:flex-row gap-12 items-start border-t-2 border-slate-900 pt-8 break-inside-avoid">
+            <div className="p-4 md:p-12 mt-auto print:p-12">
+                <div className="flex flex-col md:flex-row gap-6 md:gap-12 items-start border-t-2 border-slate-900 pt-8 break-inside-avoid">
                     {/* Terms */}
                     <div className="flex-1 space-y-4">
                         <h4 className="font-serif font-bold text-slate-900">Terms & Conditions</h4>

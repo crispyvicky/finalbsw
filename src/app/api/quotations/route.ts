@@ -13,7 +13,8 @@ export async function GET(request: Request) {
 
         return NextResponse.json(quotations);
     } catch (error) {
-        return NextResponse.json({ error: 'Failed to fetch quotations' }, { status: 500 });
+        console.error('Error fetching quotations:', error);
+        return NextResponse.json({ error: 'Failed to fetch quotations', details: (error as Error).message }, { status: 500 });
     }
 }
 

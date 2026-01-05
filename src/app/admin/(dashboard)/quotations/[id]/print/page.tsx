@@ -159,33 +159,34 @@ _Thank you for choosing us!_ 🏡`;
         <div className="bg-slate-100 min-h-screen text-slate-800 font-sans print:bg-white print:text-black">
             {/* Toolbar - Hidden in Print */}
             <div className="print:hidden bg-slate-900 text-white p-4 flex justify-between items-center sticky top-0 z-50 shadow-md">
-                <div className="flex items-center gap-4">
-                    <Link href="/admin/quotations" className="hover:bg-slate-800 p-2 rounded-full transition-colors">
+                <div className="flex items-center gap-2 md:gap-4 overflow-hidden">
+                    <Link href="/admin/quotations" className="hover:bg-slate-800 p-2 rounded-full transition-colors shrink-0">
                         <ArrowLeft className="w-5 h-5" />
                     </Link>
-                    <div>
-                        <h1 className="font-bold text-lg">{quotation.projectName}</h1>
-                        <p className="text-xs text-slate-400">{quotation.quotationNo || quotation.quoteNumber}</p>
+                    <div className="truncate">
+                        <h1 className="font-bold text-sm md:text-lg truncate">{quotation.projectName}</h1>
+                        <p className="text-[10px] md:text-xs text-slate-400">{quotation.quotationNo || quotation.quoteNumber}</p>
                     </div>
                 </div>
-                <div className="flex items-center gap-3">
-                    <div className="flex items-center bg-slate-800 rounded-lg p-1">
-                        <button onClick={handleWhatsApp} className="px-4 py-2 bg-[#25D366] hover:bg-[#128C7E] text-white font-bold rounded-md flex items-center gap-2 transition-colors">
-                            <MessageCircle className="w-4 h-4" /> Share WhatsApp
+                <div className="flex items-center gap-2 md:gap-3">
+                    <div className="flex items-center bg-slate-800 rounded-lg p-1 shrink-0">
+                        <button onClick={handleWhatsApp} className="px-2 md:px-4 py-2 bg-[#25D366] hover:bg-[#128C7E] text-white font-bold rounded-md flex items-center gap-2 transition-colors">
+                            <MessageCircle className="w-4 h-4" />
+                            <span className="hidden sm:inline">Share WhatsApp</span>
+                            <span className="sm:hidden">WA</span>
                         </button>
                         <div className="w-px h-6 bg-slate-700 mx-1"></div>
                         <button
                             onClick={handleEmail}
                             disabled={sendingEmail}
-                            className="px-4 py-2 hover:bg-slate-700 text-white font-medium rounded-md flex items-center gap-2 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                            className="px-2 md:px-4 py-2 hover:bg-slate-700 text-white font-medium rounded-md flex items-center gap-2 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                         >
                             {sendingEmail ? (
-                                <>
-                                    <Loader2 className="w-4 h-4 animate-spin" /> Sending...
-                                </>
+                                <Loader2 className="w-4 h-4 animate-spin" />
                             ) : (
                                 <>
-                                    <Mail className="w-4 h-4" /> Email
+                                    <Mail className="w-4 h-4" />
+                                    <span className="hidden sm:inline">Email</span>
                                 </>
                             )}
                         </button>
@@ -193,21 +194,21 @@ _Thank you for choosing us!_ 🏡`;
                     <button
                         onClick={handleDownloadPDF}
                         disabled={downloading}
-                        className="bg-white text-slate-900 hover:bg-slate-100 px-4 py-2 rounded-lg font-bold flex items-center gap-2 text-sm transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                        className="bg-white text-slate-900 hover:bg-slate-100 px-3 md:px-4 py-2 rounded-lg font-bold flex items-center gap-2 text-xs md:text-sm transition-colors disabled:opacity-50 disabled:cursor-not-allowed shrink-0"
                     >
                         {downloading ? (
-                            <>
-                                <Loader2 className="w-4 h-4 animate-spin" /> Downloading...
-                            </>
+                            <Loader2 className="w-4 h-4 animate-spin" />
                         ) : (
                             <>
-                                <Download className="w-4 h-4" /> Download PDF
+                                <Download className="w-4 h-4" />
+                                <span className="hidden sm:inline">Download PDF</span>
+                                <span className="sm:hidden">PDF</span>
                             </>
                         )}
                     </button>
                     <button
                         onClick={() => router.push(`/admin/payments?clientId=${quotation.clientId || ''}&amount=${quotation.finalAmount || quotation.totalAmount}&project=${encodeURIComponent(quotation.projectName)}`)}
-                        className="bg-emerald-500 hover:bg-emerald-600 text-white px-4 py-2 rounded-lg font-bold flex items-center gap-2 text-sm transition-colors"
+                        className="hidden lg:flex bg-emerald-500 hover:bg-emerald-600 text-white px-4 py-2 rounded-lg font-bold items-center gap-2 text-sm transition-colors shrink-0"
                     >
                         Convert to Invoice
                     </button>

@@ -18,7 +18,8 @@ export async function GET(
 
         return NextResponse.json(quotation);
     } catch (error) {
-        return NextResponse.json({ error: 'Failed to fetch quotation' }, { status: 500 });
+        console.error('Error fetching quotation:', error);
+        return NextResponse.json({ error: 'Failed to fetch quotation', details: (error as Error).message }, { status: 500 });
     }
 }
 
