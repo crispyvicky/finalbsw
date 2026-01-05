@@ -57,42 +57,69 @@ export default function SearchableSelect({ value, onChange, options, placeholder
                         anchor="bottom start"
                         className="w-[var(--input-width)] rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black/5 focus:outline-none sm:text-sm z-[9999] max-h-60 overflow-auto empty:invisible"
                     >
-                        {safeOptions.length === 0 && query !== '' ? (
-                            <div className="relative cursor-default select-none px-4 py-2 text-slate-700">
-                                Nothing found.
-                            </div>
-                        ) : (
-                            safeOptions.map((item, idx) => (
-                                <ComboboxOption
-                                    key={idx}
-                                    className={({ focus }) =>
-                                        `relative cursor-default select-none py-2 pl-10 pr-4 ${focus ? 'bg-slate-100 text-slate-900' : 'text-slate-900'
-                                        }`
-                                    }
-                                    value={item.label}
-                                >
-                                    {({ selected, focus }) => (
-                                        <>
+                        {safeOptions.length === 0 && query !== '' && (
+                            <ComboboxOption
+                                value={query}
+                                className={({ focus }) =>
+                                    `relative cursor-default select-none py-2 pl-10 pr-4 ${focus ? 'bg-blue-50 text-blue-700' : 'text-blue-600'
+                                    }`
+                                }
+                            >
+                                <span className="block truncate text-sm">
+                                    + Create "<span className="font-bold">{query}</span>"
+                                </span>
+                            </ComboboxOption>
+                        )}
+
+                        {safeOptions.map((item, idx) => (
+                            <ComboboxOption
+                                key={idx}
+                                className={({ focus }) =>
+                                    `relative cursor-default select-none py-2 pl-10 pr-4 ${focus ? 'bg-slate-100 text-slate-900' : 'text-slate-900'
+                                    }`
+                                }
+                                value={item.label}
+                            >
+                                {({ selected, focus }) => (
+                                    <>
+                                        <span
+                                            className={`block truncate ${selected ? 'font-medium' : 'font-normal'
+                                                }`}
+                                        >
+                                            {item.label}
+                                        </span>
+                                        {selected ? (
                                             <span
-                                                className={`block truncate ${selected ? 'font-medium' : 'font-normal'
+                                                className={`absolute inset-y-0 left-0 flex items-center pl-3 ${focus ? 'text-slate-600' : 'text-slate-600'
                                                     }`}
                                             >
-                                                {item.label}
+                                                <Check className="h-5 w-5" aria-hidden="true" />
                                             </span>
-                                            {selected ? (
-                                                <span
-                                                    className={`absolute inset-y-0 left-0 flex items-center pl-3 ${focus ? 'text-slate-600' : 'text-slate-600'
-                                                        }`}
-                                                >
-                                                    <Check className="h-5 w-5" aria-hidden="true" />
-                                                </span>
-                                            ) : null}
-                                        </>
-                                    )}
-                                </ComboboxOption>
-                            ))
+                                        ) : null}
+                                    </>
+                                )}
+                            </ComboboxOption>
+                        ))}
+
+                        {safeOptions.length === 0 && query === '' && (
+                            <div className="relative cursor-default select-none px-4 py-2 text-slate-500 text-sm italic">
+                                No options available.
+                            </div>
                         )}
-                        {/* Custom value option if needed? The user logic previously used filtered.length logic to show "Create". Removed for now to simplify, as "Nothing found" is clearer unless creation is explicit. */}
+
+                        {query !== '' && !options.some(opt => opt.label.toLowerCase() === query.toLowerCase()) && safeOptions.length > 0 && (
+                            <ComboboxOption
+                                value={query}
+                                className={({ focus }) =>
+                                    `relative cursor-default select-none py-2 pl-10 pr-4 border-t border-slate-50 ${focus ? 'bg-blue-50 text-blue-700' : 'text-blue-600'
+                                    }`
+                                }
+                            >
+                                <span className="block truncate text-sm">
+                                    + Create custom: "<span className="font-bold">{query}</span>"
+                                </span>
+                            </ComboboxOption>
+                        )}
                     </ComboboxOptions>
                 </Transition>
             </Combobox>
