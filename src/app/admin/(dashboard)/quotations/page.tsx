@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { FileText, Plus, Search, Download, Eye, MoreHorizontal, Printer, X, Loader2, ArrowRight, Trash2 } from 'lucide-react';
+import { FileText, Plus, Search, Download, Eye, MoreHorizontal, Printer, X, Loader2, ArrowRight, Trash2, Copy } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 
@@ -180,6 +180,13 @@ export default function QuotationsPage() {
                                             title="View & Download"
                                         >
                                             <ArrowRight className="w-4 h-4" />
+                                        </Link>
+                                        <Link
+                                            href={`/admin/quotations/create?cloneId=${quote.id}`}
+                                            className="inline-flex items-center justify-center w-8 h-8 rounded-full hover:bg-emerald-50 hover:text-emerald-600 text-gray-400 transition-all"
+                                            title="Duplicate Quotation"
+                                        >
+                                            <Copy className="w-4 h-4" />
                                         </Link>
                                         <button
                                             onClick={(e) => {

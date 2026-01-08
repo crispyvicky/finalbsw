@@ -26,7 +26,7 @@ const QuotationSchema = new Schema({
     }],
 
     totalAmount: { type: Number, required: true }, // Subtotal before discount
-    discount: { type: Number, default: 0 }, // Percentage
+    discount: { type: Number, default: 0 }, // Fixed Amount (₹)
     gstRate: { type: Number, default: 0 }, // GST Percentage
     finalAmount: { type: Number, required: true }, // Total after discount & tax
 

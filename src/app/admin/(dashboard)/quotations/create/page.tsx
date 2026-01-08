@@ -53,8 +53,12 @@ export default function CreateQuotationPage() {
     const [catalogItems, setCatalogItems] = useState<any[]>(COMMON_ITEMS);
 
     useEffect(() => {
+        const cloneId = searchParams.get('cloneId');
+
         if (clientId) {
             fetchClientDetails(clientId);
+        } else if (cloneId) {
+            fetchClonedQuotation(cloneId);
         }
 
         const fetchCatalog = async () => {
@@ -77,7 +81,48 @@ export default function CreateQuotationPage() {
             }
         };
         fetchCatalog();
-    }, [clientId]);
+    }, [clientId, searchParams]); // Added searchParams dependency
+
+    const fetchClonedQuotation = async (id: string) => {
+        try {
+            setLoading(true);
+            const res = await fetch(`/api/quotations/${id}`);
+            if (res.ok) {
+                const data = await res.json();
+                setClientName(data.clientName);
+                setClientPhone(data.clientPhone || '');
+                setClientEmail(data.clientEmail || '');
+                setProjectName(data.projectName);
+                setDiscount(data.discount || 0);
+                setGst(data.gstRate || 0);
+                setGst(data.gstRate || 0);
+
+                // Add reference to notes
+                const sourceNote = `\n\n[Cloned from Quote #${data.quoteNumber}]`;
+                setNotes((data.notes || '') + sourceNote);
+
+                setLinkedClientId(data.clientId || null);
+
+                // Reset custom flags if necessary, or keep them. 
+                // Important: Remove _id from items if they have it to ensure new items are created?
+                // Mongoose subdocs usually have _ids. It might be safer to strip them.
+                const cleanSections = data.sections.map((sec: any) => ({
+                    ...sec,
+                    _id: undefined, // Strip ID
+                    items: sec.items.map((item: any) => ({
+                        ...item,
+                        _id: undefined // Strip ID
+                    }))
+                }));
+                setSections(cleanSections);
+            }
+        } catch (error) {
+            console.error('Failed to clone quotation', error);
+            alert('Failed to load quotation for cloning');
+        } finally {
+            setLoading(false);
+        }
+    };
 
     const fetchClientDetails = async (id: string) => {
         try {
@@ -107,7 +152,7 @@ export default function CreateQuotationPage() {
         const sub = getSubTotal();
         if (type === 'sub') return sub;
 
-        const discAmount = (sub * discount) / 100;
+        const discAmount = discount; // Fixed Amount
         const afterDiscount = sub - discAmount;
 
         const taxAmount = (afterDiscount * gst) / 100;
@@ -275,7 +320,7 @@ export default function CreateQuotationPage() {
         // Always recalculate amount if relevant fields exist, to catch side-effects like unitPrice update
         const sft = item.sft || 0;
         const rate = item.unitPrice || 0;
-        
+
         // If sft is 0 (h or w is 0), use unitPrice directly as amount for service items (like cleaning)
         if (sft === 0 && (item.height === 0 || !item.height) && (item.width === 0 || !item.width)) {
             item.amount = rate;
@@ -339,13 +384,15 @@ export default function CreateQuotationPage() {
                     <Link href="/admin/quotations" className="text-sm text-slate-500 hover:text-slate-800 flex items-center gap-1 mb-2">
                         <ArrowLeft className="w-4 h-4" /> Back to List
                     </Link>
-                    <h1 className="text-3xl font-bold text-slate-900">New Quotation</h1>
+                    <h1 className="text-3xl font-bold text-slate-900">
+                        New Quotation {searchParams.get('cloneId') && <span className="text-emerald-600 text-2xl font-normal">(Clone)</span>}
+                    </h1>
                     <p className="text-slate-500">Create a refined estimate with discount options.</p>
                 </div>
                 <div className="text-right">
                     <p className="text-sm text-slate-500 uppercase font-semibold">Total Amount</p>
                     <p className="text-4xl font-bold text-slate-900">₹ {getRefinedTotal('total').toLocaleString()}</p>
-                    {discount > 0 && <p className="text-sm text-emerald-600 font-medium">Includes {discount}% Discount</p>}
+                    {discount > 0 && <p className="text-sm text-emerald-600 font-medium">Includes ₹ {discount.toLocaleString()} Discount</p>}
                 </div>
             </div>
 
@@ -591,14 +638,13 @@ export default function CreateQuotationPage() {
                                 <span className="font-mono font-semibold">₹ {getSubTotal().toLocaleString()}</span>
                             </div>
                             <div className="flex justify-between items-center">
-                                <label className="text-sm font-bold text-amber-400">Discount (%)</label>
+                                <label className="text-sm font-bold text-amber-400">Discount (₹)</label>
                                 <input
                                     type="number"
                                     min="0"
-                                    max="100"
                                     value={discount}
                                     onChange={(e) => setDiscount(parseFloat(e.target.value) || 0)}
-                                    className="w-20 p-1 text-center text-slate-900 font-bold rounded bg-white outline-none focus:ring-2 focus:ring-amber-400"
+                                    className="w-24 p-1 text-center text-slate-900 font-bold rounded bg-white outline-none focus:ring-2 focus:ring-amber-400"
                                 />
                             </div>
                             <div className="flex justify-between items-center">

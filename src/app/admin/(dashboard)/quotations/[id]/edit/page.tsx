@@ -106,7 +106,7 @@ export default function EditQuotationPage() {
         const sub = getSubTotal();
         if (type === 'sub') return sub;
 
-        const discAmount = (sub * discount) / 100;
+        const discAmount = discount; // Fixed Amount
         const afterDiscount = sub - discAmount;
 
         const taxAmount = (afterDiscount * gst) / 100;
@@ -323,7 +323,7 @@ export default function EditQuotationPage() {
                 <div className="text-right">
                     <p className="text-sm text-slate-500 uppercase font-semibold">Total Amount</p>
                     <p className="text-4xl font-bold text-slate-900">₹ {getRefinedTotal('total').toLocaleString()}</p>
-                    {discount > 0 && <p className="text-sm text-emerald-600 font-medium">Includes {discount}% Discount</p>}
+                    {discount > 0 && <p className="text-sm text-emerald-600 font-medium">Includes ₹ {discount.toLocaleString()} Discount</p>}
                 </div>
             </div>
 
@@ -569,14 +569,13 @@ export default function EditQuotationPage() {
                                 <span className="font-mono font-semibold">₹ {getSubTotal().toLocaleString()}</span>
                             </div>
                             <div className="flex justify-between items-center">
-                                <label className="text-sm font-bold text-amber-400">Discount (%)</label>
+                                <label className="text-sm font-bold text-amber-400">Discount (₹)</label>
                                 <input
                                     type="number"
                                     min="0"
-                                    max="100"
                                     value={discount}
                                     onChange={(e) => setDiscount(parseFloat(e.target.value) || 0)}
-                                    className="w-20 p-1 text-center text-slate-900 font-bold rounded bg-white outline-none focus:ring-2 focus:ring-amber-400"
+                                    className="w-24 p-1 text-center text-slate-900 font-bold rounded bg-white outline-none focus:ring-2 focus:ring-amber-400"
                                 />
                             </div>
                             <div className="flex justify-between items-center">

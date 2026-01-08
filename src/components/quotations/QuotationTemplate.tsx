@@ -12,7 +12,7 @@ export default function QuotationTemplate({ quotation }: QuotationTemplateProps)
             <div className="p-4 md:p-12 pb-4 md:pb-8 flex justify-between items-end border-b-4 border-[#1e293b] print:p-12">
                 <div className="space-y-2">
                     <div className="space-y-2">
-                        <img src="/logo.png" alt="Infinity Interiors" className="h-16 w-auto object-contain" />
+                        <img src="/logo.png" alt="Infinity Interiors" className="h-32 w-auto object-contain" />
                     </div>
                 </div>
                 <div className="text-right space-y-1">
@@ -139,14 +139,14 @@ export default function QuotationTemplate({ quotation }: QuotationTemplateProps)
                         </div>
                         {quotation.discount > 0 && (
                             <div className="flex justify-between text-sm text-emerald-600 font-medium">
-                                <span>Discount ({quotation.discount}%)</span>
-                                <span className="font-mono">- ₹ {((quotation.totalAmount * quotation.discount) / 100).toLocaleString()}</span>
+                                <span>Discount</span>
+                                <span className="font-mono">- ₹ {(quotation.discount || 0).toLocaleString()}</span>
                             </div>
                         )}
                         {quotation.gstRate > 0 && (
                             <div className="flex justify-between text-sm text-slate-500">
                                 <span>GST ({quotation.gstRate}%)</span>
-                                <span className="font-mono">+ ₹ {(((quotation.finalAmount || quotation.totalAmount) - (quotation.totalAmount - (quotation.totalAmount * (quotation.discount || 0) / 100)))).toLocaleString()}</span>
+                                <span className="font-mono">+ ₹ {(((quotation.finalAmount || quotation.totalAmount) - (quotation.totalAmount - (quotation.discount || 0)))).toLocaleString()}</span>
                             </div>
                         )}
                         <div className="flex justify-between items-center pt-4 border-t border-slate-200">
