@@ -338,6 +338,19 @@ export default function CreateQuotationPage() {
         e.preventDefault();
         setLoading(true);
 
+        // Validation: Ensure all items have a description
+        for (let sIndex = 0; sIndex < sections.length; sIndex++) {
+            const section = sections[sIndex];
+            for (let iIndex = 0; iIndex < section.items.length; iIndex++) {
+                const item = section.items[iIndex];
+                if (!item.description || item.description.trim() === '') {
+                    alert(`Description is missing for Item ${iIndex + 1} in Section "${section.name || `Section ${sIndex + 1}`}".`);
+                    setLoading(false);
+                    return; // Stop submission
+                }
+            }
+        }
+
         try {
             const subTotal = getSubTotal();
             const finalAmount = getRefinedTotal('total');
@@ -366,7 +379,8 @@ export default function CreateQuotationPage() {
             if (res.ok) {
                 router.push('/admin/quotations');
             } else {
-                alert('Failed to save quotation');
+                const errorData = await res.json();
+                alert(`Failed to save quotation: ${errorData.error || 'Unknown error'}`);
             }
         } catch (error) {
             console.error(error);
