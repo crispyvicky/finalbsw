@@ -312,9 +312,14 @@ export default function CreateQuotationPage() {
 
         (item as any)[field] = value;
 
-        // Auto-Calculate SFT
+        // Auto-Calculate SFT only if both H and W are present and non-zero
         if (field === 'height' || field === 'width') {
-            item.sft = parseFloat(((item.height || 0) * (item.width || 0)).toFixed(2));
+            const h = field === 'height' ? value : (item.height || 0);
+            const w = field === 'width' ? value : (item.width || 0);
+
+            if (h > 0 && w > 0) {
+                item.sft = parseFloat((h * w).toFixed(2));
+            }
         }
 
         // Always recalculate amount if relevant fields exist, to catch side-effects like unitPrice update
@@ -565,7 +570,7 @@ export default function CreateQuotationPage() {
                                         <div className="col-span-1 pt-6 text-center">
                                             <input
                                                 type="number"
-                                                className="w-full p-2 text-center bg-slate-50 border border-slate-200 hover:border-slate-300 focus:bg-white focus:border-blue-400 rounded outline-none transition-all font-mono text-sm"
+                                                className="w-full p-2 text-center bg-slate-50 border border-slate-200 hover:border-slate-300 focus:bg-white focus:border-blue-400 rounded outline-none transition-all font-mono text-sm [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                                 placeholder="H"
                                                 value={item.height || ''}
                                                 onChange={(e) => updateItem(sIndex, iIndex, 'height', parseFloat(e.target.value))}
@@ -574,14 +579,20 @@ export default function CreateQuotationPage() {
                                         <div className="col-span-1 pt-6 text-center">
                                             <input
                                                 type="number"
-                                                className="w-full p-2 text-center bg-slate-50 border border-slate-200 hover:border-slate-300 focus:bg-white focus:border-blue-400 rounded outline-none transition-all font-mono text-sm"
+                                                className="w-full p-2 text-center bg-slate-50 border border-slate-200 hover:border-slate-300 focus:bg-white focus:border-blue-400 rounded outline-none transition-all font-mono text-sm [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                                 placeholder="W"
                                                 value={item.width || ''}
                                                 onChange={(e) => updateItem(sIndex, iIndex, 'width', parseFloat(e.target.value))}
                                             />
                                         </div>
-                                        <div className="col-span-1 pt-8 text-center font-mono text-slate-500 text-sm font-semibold">
-                                            {item.sft}
+                                        <div className="col-span-1 pt-6 text-center">
+                                            <input
+                                                type="number"
+                                                className="w-full p-2 text-center bg-slate-50 border border-slate-200 hover:border-slate-300 focus:bg-white focus:border-blue-400 rounded outline-none transition-all font-mono text-sm [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                                                placeholder="SFT"
+                                                value={item.sft || ''}
+                                                onChange={(e) => updateItem(sIndex, iIndex, 'sft', parseFloat(e.target.value))}
+                                            />
                                         </div>
                                         <div className="col-span-2 pt-6">
                                             <div className="relative">
@@ -688,7 +699,11 @@ export default function CreateQuotationPage() {
 
                 {/* Footer Actions */}
                 <div className="flex justify-end pt-4 gap-4">
-                    <button type="button" onClick={() => router.back()} className="px-6 py-3 text-slate-600 font-bold hover:bg-slate-100 rounded-lg transition-colors">
+                    <button type="button" onClick={() => {
+                        if (confirm('Are you sure you want to cancel? All unsaved changes will be lost.')) {
+                            router.back();
+                        }
+                    }} className="px-6 py-3 text-slate-600 font-bold hover:bg-slate-100 rounded-lg transition-colors">
                         Cancel
                     </button>
                     <button
