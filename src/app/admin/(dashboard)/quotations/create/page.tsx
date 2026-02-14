@@ -574,6 +574,7 @@ export default function CreateQuotationPage() {
                                                 placeholder="H"
                                                 value={item.height || ''}
                                                 onChange={(e) => updateItem(sIndex, iIndex, 'height', parseFloat(e.target.value))}
+                                                onWheel={(e) => (e.target as HTMLInputElement).blur()}
                                             />
                                         </div>
                                         <div className="col-span-1 pt-6 text-center">
@@ -583,6 +584,7 @@ export default function CreateQuotationPage() {
                                                 placeholder="W"
                                                 value={item.width || ''}
                                                 onChange={(e) => updateItem(sIndex, iIndex, 'width', parseFloat(e.target.value))}
+                                                onWheel={(e) => (e.target as HTMLInputElement).blur()}
                                             />
                                         </div>
                                         <div className="col-span-1 pt-6 text-center">
@@ -592,6 +594,7 @@ export default function CreateQuotationPage() {
                                                 placeholder="SFT"
                                                 value={item.sft || ''}
                                                 onChange={(e) => updateItem(sIndex, iIndex, 'sft', parseFloat(e.target.value))}
+                                                onWheel={(e) => (e.target as HTMLInputElement).blur()}
                                             />
                                         </div>
                                         <div className="col-span-2 pt-6">
@@ -599,9 +602,10 @@ export default function CreateQuotationPage() {
                                                 <span className="absolute left-2 top-2 text-slate-400 text-xs">₹</span>
                                                 <input
                                                     type="number"
-                                                    className="w-full pl-6 p-2 text-right bg-slate-50 border border-slate-200 hover:border-slate-300 focus:bg-white focus:border-blue-400 rounded outline-none transition-all font-mono text-sm font-medium"
+                                                    className="w-full pl-6 p-2 text-right bg-slate-50 border border-slate-200 hover:border-slate-300 focus:bg-white focus:border-blue-400 rounded outline-none transition-all font-mono text-sm font-medium [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                                     value={item.unitPrice || ''}
                                                     onChange={(e) => updateItem(sIndex, iIndex, 'unitPrice', parseFloat(e.target.value))}
+                                                    onWheel={(e) => (e.target as HTMLInputElement).blur()}
                                                 />
                                             </div>
                                         </div>
@@ -669,7 +673,8 @@ export default function CreateQuotationPage() {
                                     min="0"
                                     value={discount}
                                     onChange={(e) => setDiscount(parseFloat(e.target.value) || 0)}
-                                    className="w-24 p-1 text-center text-slate-900 font-bold rounded bg-white outline-none focus:ring-2 focus:ring-amber-400"
+                                    className="w-24 p-1 text-center text-slate-900 font-bold rounded bg-white outline-none focus:ring-2 focus:ring-amber-400 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                                    onWheel={(e) => (e.target as HTMLInputElement).blur()}
                                 />
                             </div>
                             <div className="flex justify-between items-center">
@@ -680,7 +685,8 @@ export default function CreateQuotationPage() {
                                     max="100"
                                     value={gst}
                                     onChange={(e) => setGst(parseFloat(e.target.value) || 0)}
-                                    className="w-20 p-1 text-center text-slate-900 font-bold rounded bg-white outline-none focus:ring-2 focus:ring-blue-400"
+                                    className="w-20 p-1 text-center text-slate-900 font-bold rounded bg-white outline-none focus:ring-2 focus:ring-blue-400 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                                    onWheel={(e) => (e.target as HTMLInputElement).blur()}
                                 />
                             </div>
                             {gst > 0 && (
