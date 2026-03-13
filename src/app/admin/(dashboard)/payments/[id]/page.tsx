@@ -124,7 +124,16 @@ ${window.location.origin}/invoice/${params.id}
 
 _Thank you for your business!_ 🏡`;
 
-        const phone = invoice.clientPhone.replace(/[^0-9]/g, '');
+        let phone = invoice.clientPhone.replace(/[^0-9]/g, '');
+
+        // Remove ALL leading zeros as per WhatsApp's international format requirements
+        phone = phone.replace(/^0+/, '');
+
+        // Handle Indian numbers: If 10 digits remain (no country code), add 91
+        if (phone.length === 10 && !phone.startsWith('91')) {
+            phone = '91' + phone;
+        }
+
         window.open(`https://wa.me/${phone}?text=${encodeURIComponent(message)}`, '_blank');
     };
 

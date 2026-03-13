@@ -81,7 +81,19 @@ ${window.location.origin}/quote/${id}
 
 _Thank you for choosing us!_ 🏡`;
 
-        const phone = quotation.clientPhone.replace(/[^0-9]/g, '');
+        let phone = quotation.clientPhone.replace(/[^0-9]/g, '');
+
+        // Remove ALL leading zeros as per WhatsApp's international format requirements
+        phone = phone.replace(/^0+/, '');
+
+        // Handle Indian numbers: If 10 digits remain, add 91 prefix
+        if (phone.length === 10 && !phone.startsWith('91')) {
+            phone = '91' + phone;
+        }
+
+        // If the number already seems to have a country code (e.g. 91...) 
+        // but started with 00 (like 0091...), the regex above handled it.
+
         window.open(`https://wa.me/${phone}?text=${encodeURIComponent(message)}`, '_blank');
     };
 

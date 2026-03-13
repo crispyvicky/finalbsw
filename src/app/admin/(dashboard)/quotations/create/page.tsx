@@ -51,6 +51,29 @@ export default function CreateQuotationPage() {
 
     // Catalog State - Initialize with Common Items immediately
     const [catalogItems, setCatalogItems] = useState<any[]>(COMMON_ITEMS);
+    const [isDirty, setIsDirty] = useState(false); // Track unsaved changes
+
+    // Unsaved Changes Warning (Browser Level)
+    useEffect(() => {
+        const handleBeforeUnload = (e: BeforeUnloadEvent) => {
+            if (isDirty) {
+                e.preventDefault();
+                e.returnValue = ''; // Required for Chrome
+                return '';
+            }
+        };
+
+        window.addEventListener('beforeunload', handleBeforeUnload);
+        return () => window.removeEventListener('beforeunload', handleBeforeUnload);
+    }, [isDirty]);
+
+    // Mark as dirty when any main state changes
+    useEffect(() => {
+        // Simple heuristic: if any field has content or sections changed
+        if (clientName || clientPhone || clientEmail || projectName || sections.length > 1 || sections[0].items[0].description) {
+            setIsDirty(true);
+        }
+    }, [clientName, clientPhone, clientEmail, projectName, sections, discount, gst, notes]);
 
     useEffect(() => {
         const cloneId = searchParams.get('cloneId');
@@ -382,6 +405,7 @@ export default function CreateQuotationPage() {
             });
 
             if (res.ok) {
+                setIsDirty(false); // Clear dirty flag before redirecting
                 router.push('/admin/quotations');
             } else {
                 const errorData = await res.json();
