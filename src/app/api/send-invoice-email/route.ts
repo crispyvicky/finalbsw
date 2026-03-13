@@ -8,12 +8,15 @@ export async function POST(request: Request) {
         // Create transporter with GoDaddy SMTP settings
         const transporter = nodemailer.createTransport({
             host: process.env.EMAIL_HOST || 'smtpout.secureserver.net',
-            port: Number(process.env.EMAIL_PORT) || 465,
-            secure: true,
+            port: Number(process.env.EMAIL_PORT) || 587,
+            secure: process.env.EMAIL_PORT === '465',
             auth: {
                 user: process.env.EMAIL_USER || 'info@infinityinteriors.co',
                 pass: process.env.EMAIL_PASS,
             },
+            tls: {
+                rejectUnauthorized: false
+            }
         });
 
         // Premium HTML Email Template

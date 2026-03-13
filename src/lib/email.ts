@@ -1,14 +1,17 @@
 import nodemailer from 'nodemailer';
 
-// Shared Transporter Configuration (GoDaddy SMTP)
+// Create transporter with GoDaddy SMTP settings
 export const transporter = nodemailer.createTransport({
     host: process.env.EMAIL_HOST || 'smtpout.secureserver.net',
-    port: Number(process.env.EMAIL_PORT) || 465,
-    secure: true,
+    port: Number(process.env.EMAIL_PORT) || 587,
+    secure: process.env.EMAIL_PORT === '465',
     auth: {
         user: process.env.EMAIL_USER || 'info@infinityinteriors.co',
         pass: process.env.EMAIL_PASS,
     },
+    tls: {
+        rejectUnauthorized: false // Often required for GoDaddy SMTP
+    }
 });
 
 export const sendEmail = async (to: string, subject: string, html: string, attachments?: any[]) => {
