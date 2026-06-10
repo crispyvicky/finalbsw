@@ -6,11 +6,12 @@ interface QuotationTemplateProps {
 
 export default function QuotationTemplate({ quotation }: QuotationTemplateProps) {
     return (
-        <div className="max-w-[210mm] mx-auto bg-white shadow-2xl min-h-screen print:shadow-none print:w-full print:max-w-none flex flex-col font-sans text-slate-800">
-
+        <div className="max-w-[210mm] mx-auto bg-white shadow-[0_0_50px_-12px_rgba(15,37,87,0.2)] min-h-[297mm] print:shadow-none print:w-full print:max-w-none flex flex-col font-sans text-slate-800 border-[12px] border-[#f8f9fa] outline outline-[1px] outline-[#0F2557]/10 relative">
+            {/* Premium Inner Border Frame */}
+            <div className="absolute inset-0 pointer-events-none border border-[#0F2557]/5 m-1 print:m-0 print:border-none z-50"></div>
             {/* 1. Modern Luxury Header */}
-            <div className="p-4 md:p-12 pb-4 md:pb-8 flex justify-between items-end border-b-2 border-slate-200 print:p-12 print:pb-8 bg-[#0F2557] text-white">
-                <div className="space-y-4">
+            <div className="relative p-4 md:p-12 pb-4 md:pb-8 flex justify-between items-end border-b-[4px] border-[#A0A0A0] print:p-12 print:pb-8 bg-[#0F2557] text-white">
+                <div className="space-y-4 relative z-10">
                     <div className="bg-white p-2 rounded inline-block">
                         <img src="/logo.png" alt="BSW Interiors" className="h-20 w-auto object-contain" />
                     </div>
