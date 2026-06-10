@@ -188,16 +188,16 @@ export const ContactFooterSection = (): JSX.Element => {
                 Headquarters
               </span>
               <address className="font-sans text-white/70 font-light text-lg not-italic leading-relaxed">
-                Jubilee Hills,<br />
-                Hyderabad, Telangana<br />
-                India 500033
+                Mahankali Nagar, Kukatpally<br />
+                Hyderabad - 500072<br />
+                Telangana, India
               </address>
               <div className="mt-4 flex flex-col gap-2">
-                <a href="mailto:hello@bswinteriors.com" className="font-sans text-white hover:text-[#A0A0A0] transition-colors font-light text-lg">
-                  hello@bswinteriors.com
+                <a href="mailto:bswinteriors11@gmail.com" className="font-sans text-white hover:text-[#A0A0A0] transition-colors font-light text-lg">
+                  bswinteriors11@gmail.com
                 </a>
-                <a href="tel:+914012345678" className="font-sans text-white hover:text-[#A0A0A0] transition-colors font-light text-lg">
-                  +91 40 1234 5678
+                <a href="tel:+918106990471" className="font-sans text-white hover:text-[#A0A0A0] transition-colors font-light text-lg">
+                  +91 81069 90471
                 </a>
               </div>
             </div>

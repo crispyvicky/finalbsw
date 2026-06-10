@@ -62,12 +62,16 @@ export default function Contact() {
 
                 <div className="absolute bottom-0 left-0 w-full p-8 md:p-20 z-10">
                     <h2 className="font-heading-02 text-3xl md:text-5xl mb-4 md:mb-6 leading-tight">BSW Interiors</h2>
-                    <address className="not-italic text-gray-300 text-base md:text-lg space-y-1 md:space-y-2 leading-relaxed opacity-90">
-                        <p>Plot No. 13, Road No. 4</p>
-                        <p>Ravi Narayana Reddy Nagar, Hyderabad</p>
-                        <p>Telangana, India 500033</p>
+                    <address className="not-italic text-gray-300 text-base md:text-lg space-y-2 md:space-y-3 leading-relaxed opacity-90">
+                        <div>
+                            <p className="font-bold text-white tracking-widest text-sm uppercase">B. Pavan</p>
+                            <p className="text-xs uppercase tracking-widest text-[#A0A0A0]">Founder & Marketing Manager</p>
+                        </div>
+                        <p className="pt-2">Mahankali Nagar, Kukatpally</p>
+                        <p>Hyderabad - 500072</p>
                         <br />
-                        <p>info@bswinteriors.com</p>
+                        <p>Phone: +91 81069 90471</p>
+                        <p>Email: bswinteriors11@gmail.com</p>
                     </address>
                 </div>
             </div>

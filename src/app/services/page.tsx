@@ -21,11 +21,11 @@ interface ServiceDetail {
 const services: ServiceDetail[] = [
     {
         id: "01",
-        title: "Residential Interiors",
-        description: "Your home is your sanctuary. We create warm, personalized living spaces that reflect your unique lifestyle and heritage with an uncompromising standard of luxury.",
+        title: "Complete Interior Works",
+        description: "End-to-End Turnkey Solutions. We manage your entire project from the first sketch to the final styling, ensuring every detail exceeds your expectations.",
         image: "/bedroom.png",
         details: {
-            materials: ["Italian Marble", "Teak Wood", "Brass Accents", "Natural Stone"],
+            materials: ["Italian Marble", "Premium Veneers", "Brass Accents", "Natural Stone"],
             styles: ["Modern Minimalist", "Contemporary Luxury", "Traditional Fusion", "Indo-Western"],
             process: "We start with a deep-dive lifestyle analysis to understand your daily routines. Design concepts are then crafted to balance aesthetics with extreme functionality.",
             idealFor: "Villas, Luxury Apartments, Penthouses"
@@ -33,26 +33,74 @@ const services: ServiceDetail[] = [
     },
     {
         id: "02",
-        title: "Commercial & Office",
-        description: "Designing productive and inspiring environments that elevate your brand identity, impress clients, and foster an atmosphere of corporate excellence.",
+        title: "Custom Carpentry",
+        description: "Bespoke Doors, Windows, Wardrobes, and Modular Furniture manufactured to absolute perfection, ensuring every piece fits your space and specific needs exactly.",
         image: "/office.png",
         details: {
-            materials: ["Acoustic Panels", "Glass Partitions", "Ergonomic Furniture", "Sustainable Wood"],
-            styles: ["Industrial Chic", "Corporate Modern", "Biophilic Design", "Open Plan"],
-            process: "Our focus is on workflow optimization and brand storytelling. We design spaces that boost employee morale and impress clients from the moment they walk in.",
-            idealFor: "Corporate HQs, Startups, Executive Suites"
+            materials: ["Solid Teak Wood", "Premium HDHMR", "Lacquered Glass", "High-Gloss Laminates"],
+            styles: ["Seamless Built-ins", "Walk-in Closets", "Minimalist Profiles", "Classic Carvings"],
+            process: "Each piece is hand-sketched and prototyped. We work with master craftsmen to ensure joinery, finish, and comfort are world-class.",
+            idealFor: "Statement Wardrobes, Custom Doors, Signature Seating"
         }
     },
     {
         id: "03",
-        title: "Bespoke Joinery",
-        description: "Custom-designed furniture and millwork manufactured to absolute perfection, ensuring every piece fits your space and specific needs exactly.",
+        title: "Kitchen Interiors & Woodwork",
+        description: "Ergonomic and beautifully crafted kitchen spaces. From modular cabinetry to premium stone countertops, we design kitchens that are the heart of the home.",
         image: "/kitchen.png",
         details: {
-            materials: ["Solid Walnut", "Premium Leather", "Velvet Upholstery", "Gunmetal Finish"],
-            styles: ["Art Deco", "Mid-Century Modern", "Avant-Garde", "Classic Revivals"],
-            process: "Each piece is hand-sketched and prototyped. We work with master craftsmen to ensure joinery, finish, and comfort are world-class.",
-            idealFor: "Statement Pieces, Custom Wardrobes, Signature Seating"
+            materials: ["Quartz Countertops", "Acrylic Finishes", "Hettich/Blum Hardware", "Solid Wood"],
+            styles: ["Island Kitchens", "Modern Handle-less", "Transitional", "Industrial Chic"],
+            process: "We focus on the 'Golden Triangle' for maximum efficiency, paired with smart storage solutions and exquisite exterior finishes.",
+            idealFor: "Gourmet Kitchens, Open-Plan Living, Luxury Homes"
+        }
+    },
+    {
+        id: "04",
+        title: "False Ceiling",
+        description: "PVC, POP, and Gypsum ceiling solutions that define your space and house your intelligent lighting systems seamlessly.",
+        image: "/bedroom.png",
+        details: {
+            materials: ["Gypsum Board", "POP", "PVC Panels", "Wooden Rafters"],
+            styles: ["Cove Lighting", "Tray Ceilings", "Grid Patterns", "Minimalist Flat"],
+            process: "We design lighting plans integrated into the ceiling structure to create ambiance, highlight architectural features, and provide task lighting.",
+            idealFor: "Living Rooms, Master Suites, Corporate Offices"
+        }
+    },
+    {
+        id: "05",
+        title: "Electrical, AC, Painting & Plumbing",
+        description: "Comprehensive core services. We ensure the hidden veins of your home—wiring, piping, and climate control—are perfectly executed alongside flawless wall finishes.",
+        image: "/office.png",
+        details: {
+            materials: ["Polycab Wiring", "Daikin/OGeneral ACs", "Asian Paints Royale", "CPVC Pipes"],
+            styles: ["Concealed Wiring", "Centralized AC", "Textured Walls", "Smart Home Ready"],
+            process: "Executed by certified professionals with rigorous quality checks before any wall is sealed or painted.",
+            idealFor: "New Constructions, Major Renovations, Turnkey Projects"
+        }
+    },
+    {
+        id: "06",
+        title: "After-Construction Finishing",
+        description: "The final touches that transform a construction site into a home. Deep cleaning, snagging, and perfect finishing.",
+        image: "/hero.png",
+        details: {
+            materials: ["Premium Sealants", "Marble Polishing", "Wood Polish", "Glass Cleaners"],
+            styles: ["Immaculate Detailing", "Zero-Defect Delivery", "Mirror-Finish Polishing", "Deep Cleaning"],
+            process: "Our dedicated snagging team inspects every inch of the project to ensure nothing is overlooked before handover.",
+            idealFor: "Post-Renovation, Ready-to-Move Properties"
+        }
+    },
+    {
+        id: "07",
+        title: "Ready-To-Move Interior Solutions",
+        description: "Fast-tracked, fully furnished solutions designed for clients who want immediate move-in readiness without compromising on quality.",
+        image: "/kitchen.png",
+        details: {
+            materials: ["Pre-fabricated Modules", "Curated Furniture", "Soft Furnishings", "Ready Lighting"],
+            styles: ["Contemporary Quick-Move", "Furnished Corporate", "Turnkey Rental", "Model Home"],
+            process: "We utilize our extensive supply chain to quickly source, deliver, and install a complete home setup in record time.",
+            idealFor: "Rental Investments, NRI Clients, Quick Relocations"
         }
     }
 ];

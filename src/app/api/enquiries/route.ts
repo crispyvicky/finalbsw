@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server';
 import dbConnect from '@/lib/db';
 import Enquiry from '@/models/Enquiry';
 import { sendWhatsAppNotification } from '@/lib/whatsapp';
-import { sendWelcomeEmail } from '@/lib/email';
+import { sendWelcomeEmail, sendAdminNotificationEmail } from '@/lib/email';
 
 export async function GET() {
     try {
@@ -20,17 +20,21 @@ export async function POST(request: Request) {
         const body = await request.json();
         const enquiry = await Enquiry.create(body);
 
+        // 1. Send Admin Notification Email (to bswinteriors11@gmail.com)
+        try {
+            await sendAdminNotificationEmail(body);
+        } catch (error) {
+            console.error('Admin email failed:', error);
+        }
+
         // Send WhatsApp notification for Contact Page submissions
         if (body.source === 'Contact Page') {
             // 2. Send Welcome Email to Lead (if email provided)
             if (body.email) {
-                // Must await email sending in Vercel/Serverless environment
-                // otherwise execution stops immediately after response is returned
                 try {
                     await sendWelcomeEmail(body.email, body.name);
                 } catch (error) {
                     console.error('Welcome email failed:', error);
-                    // Don't fail the request if email fails, just log it
                 }
             }
         }
