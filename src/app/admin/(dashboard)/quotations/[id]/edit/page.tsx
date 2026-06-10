@@ -346,7 +346,7 @@ export default function EditQuotationPage() {
                         <input
                             type="tel"
                             className="w-full text-lg font-semibold border-b border-slate-200 focus:border-slate-900 outline-none py-2 transition-colors placeholder:font-normal"
-                            placeholder="e.g. 9885851127"
+                            placeholder="e.g. 9999999999"
                             value={clientPhone}
                             onChange={(e) => setClientPhone(e.target.value)}
                         />
@@ -569,13 +569,13 @@ export default function EditQuotationPage() {
                                 <span className="font-mono font-semibold">₹ {getSubTotal().toLocaleString()}</span>
                             </div>
                             <div className="flex justify-between items-center">
-                                <label className="text-sm font-bold text-amber-400">Discount (₹)</label>
+                                <label className="text-sm font-bold text-blue-400">Discount (₹)</label>
                                 <input
                                     type="number"
                                     min="0"
                                     value={discount}
                                     onChange={(e) => setDiscount(parseFloat(e.target.value) || 0)}
-                                    className="w-24 p-1 text-center text-slate-900 font-bold rounded bg-white outline-none focus:ring-2 focus:ring-amber-400"
+                                    className="w-24 p-1 text-center text-slate-900 font-bold rounded bg-white outline-none focus:ring-2 focus:ring-blue-400"
                                 />
                             </div>
                             <div className="flex justify-between items-center">

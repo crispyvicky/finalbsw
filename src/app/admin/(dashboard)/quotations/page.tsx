@@ -75,7 +75,7 @@ export default function QuotationsPage() {
         switch (status) {
             case 'Approved': return 'bg-[#D4AF37]/10 text-[#D4AF37] border-[#D4AF37]/20';
             case 'Sent': return 'bg-blue-50 text-blue-700 border-blue-100';
-            case 'Revised': return 'bg-amber-50 text-amber-700 border-amber-100';
+            case 'Revised': return 'bg-blue-50 text-blue-700 border-blue-100';
             default: return 'bg-gray-100 text-gray-600 border-gray-200';
         }
     };

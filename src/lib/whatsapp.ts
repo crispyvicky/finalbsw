@@ -15,7 +15,7 @@ export async function sendWhatsAppNotification(data: {
     budget?: string;
 }): Promise<boolean> {
     try {
-        const recipientNumber = process.env.WHATSAPP_NOTIFICATION_NUMBER || '919885851127';
+        const recipientNumber = process.env.WHATSAPP_NOTIFICATION_NUMBER || '';
 
         // Format the message
         const message = formatLeadMessage(data);

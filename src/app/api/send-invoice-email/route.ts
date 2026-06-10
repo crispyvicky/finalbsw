@@ -11,7 +11,7 @@ export async function POST(request: Request) {
             port: Number(process.env.EMAIL_PORT) || 587,
             secure: process.env.EMAIL_PORT === '465',
             auth: {
-                user: process.env.EMAIL_USER || 'info@infinityinteriors.co',
+                user: process.env.EMAIL_USER || 'info@bswinteriors.com',
                 pass: process.env.EMAIL_PASS,
             },
             tls: {
@@ -36,9 +36,9 @@ export async function POST(request: Request) {
                     
                     <!-- Header with Gradient -->
                     <tr>
-                        <td style="background: linear-gradient(135deg, #3d5a45 0%, #2a3f31 100%); padding: 40px 30px; text-align: center;">
-                            <img src="https://infinityinteriors.co/logo.png" alt="Infinity Interiors" style="height: 60px; margin-bottom: 15px;" />
-                            <h1 style="color: #ffffff; margin: 0; font-size: 28px; font-weight: 600; letter-spacing: 1px;">INFINITY INTERIORS</h1>
+                        <td style="background: linear-gradient(135deg, #0F2557 0%, #2a3f31 100%); padding: 40px 30px; text-align: center;">
+                            <img src="https://bswinteriors.com/logo.png" alt="BSW Interiors" style="height: 60px; margin-bottom: 15px;" />
+                            <h1 style="color: #ffffff; margin: 0; font-size: 28px; font-weight: 600; letter-spacing: 1px;">BSW INTERIORS</h1>
                             <p style="color: #d4af37; margin: 8px 0 0 0; font-size: 14px; font-style: italic; letter-spacing: 0.5px;">Where Dreams Meet Design</p>
                         </td>
                     </tr>
@@ -49,7 +49,7 @@ export async function POST(request: Request) {
                             <table width="100%" cellpadding="0" cellspacing="0">
                                 <tr>
                                     <td>
-                                        <h2 style="color: #3d5a45; margin: 0 0 5px 0; font-size: 16px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px;">Invoice</h2>
+                                        <h2 style="color: #0F2557; margin: 0 0 5px 0; font-size: 16px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px;">Invoice</h2>
                                         <p style="color: #666; margin: 0; font-size: 24px; font-weight: 700;">${invoiceData.invoiceNumber}</p>
                                     </td>
                                     <td align="right">
@@ -64,8 +64,8 @@ export async function POST(request: Request) {
                     <!-- Client Info -->
                     <tr>
                         <td style="padding: 0 40px 30px 40px;">
-                            <div style="background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%); padding: 20px; border-radius: 12px; border-left: 4px solid #ce7e48;">
-                                <p style="color: #3d5a45; margin: 0 0 8px 0; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">Bill To</p>
+                            <div style="background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%); padding: 20px; border-radius: 12px; border-left: 4px solid #A0A0A0;">
+                                <p style="color: #0F2557; margin: 0 0 8px 0; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">Bill To</p>
                                 <p style="color: #2d3748; margin: 0; font-size: 18px; font-weight: 600;">${invoiceData.clientName}</p>
                                 ${invoiceData.clientPhone ? `<p style="color: #666; margin: 5px 0 0 0; font-size: 14px;">📞 ${invoiceData.clientPhone}</p>` : ''}
                                 ${invoiceData.clientEmail ? `<p style="color: #666; margin: 5px 0 0 0; font-size: 14px;">📧 ${invoiceData.clientEmail}</p>` : ''}
@@ -76,7 +76,7 @@ export async function POST(request: Request) {
                     <!-- Project Details -->
                     <tr>
                         <td style="padding: 0 40px 30px 40px;">
-                            <h3 style="color: #3d5a45; margin: 0 0 15px 0; font-size: 16px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">Project Details</h3>
+                            <h3 style="color: #0F2557; margin: 0 0 15px 0; font-size: 16px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">Project Details</h3>
                             <p style="color: #2d3748; margin: 0; font-size: 18px; font-weight: 600;">${invoiceData.projectName}</p>
                             ${invoiceData.description ? `<p style="color: #666; margin: 10px 0 0 0; font-size: 14px; line-height: 1.6;">${invoiceData.description}</p>` : ''}
                         </td>
@@ -128,7 +128,7 @@ export async function POST(request: Request) {
                     <!-- Payment History -->
                     <tr>
                         <td style="padding: 0 40px 30px 40px;">
-                            <h3 style="color: #3d5a45; margin: 0 0 15px 0; font-size: 16px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">Payment History</h3>
+                            <h3 style="color: #0F2557; margin: 0 0 15px 0; font-size: 16px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">Payment History</h3>
                             <table width="100%" cellpadding="0" cellspacing="0" style="background: #f8f9fa; border-radius: 8px; overflow: hidden;">
                                 ${invoiceData.payments.map((p: any, idx: number) => `
                                 <tr style="border-bottom: 1px solid #e2e8f0;">
@@ -150,17 +150,17 @@ export async function POST(request: Request) {
                     <!-- Footer Message -->
                     <tr>
                         <td style="padding: 30px 40px; background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%); border-top: 1px solid #e2e8f0;">
-                            <p style="color: #2d3748; margin: 0 0 10px 0; font-size: 15px; line-height: 1.6;">Thank you for choosing <strong>Infinity Interiors</strong> for your interior design needs!</p>
+                            <p style="color: #2d3748; margin: 0 0 10px 0; font-size: 15px; line-height: 1.6;">Thank you for choosing <strong>BSW Interiors</strong> for your interior design needs!</p>
                             <p style="color: #666; margin: 0; font-size: 13px; line-height: 1.6;">For any queries, please feel free to contact us. We're here to bring your vision to life.</p>
                         </td>
                     </tr>
 
                     <!-- Footer -->
                     <tr>
-                        <td style="background: linear-gradient(135deg, #3d5a45 0%, #2a3f31 100%); padding: 30px 40px; text-align: center;">
-                            <p style="color: #d4af37; margin: 0 0 15px 0; font-size: 13px; font-weight: 600; letter-spacing: 1px;">INFINITY INTERIORS</p>
-                            <p style="color: #ffffff; margin: 0 0 5px 0; font-size: 13px;">📧 info@infinityinteriors.co</p>
-                            <p style="color: #ffffff; margin: 0 0 15px 0; font-size: 13px;">🌐 www.infinityinteriors.co</p>
+                        <td style="background: linear-gradient(135deg, #0F2557 0%, #2a3f31 100%); padding: 30px 40px; text-align: center;">
+                            <p style="color: #d4af37; margin: 0 0 15px 0; font-size: 13px; font-weight: 600; letter-spacing: 1px;">BSW INTERIORS</p>
+                            <p style="color: #ffffff; margin: 0 0 5px 0; font-size: 13px;">📧 info@bswinteriors.com</p>
+                            <p style="color: #ffffff; margin: 0 0 15px 0; font-size: 13px;">🌐 www.bswinteriors.com</p>
                             <p style="color: #a0aec0; margin: 0; font-size: 11px; font-style: italic;">"Crafting Spaces, Creating Memories"</p>
                         </td>
                     </tr>
@@ -175,7 +175,7 @@ export async function POST(request: Request) {
 
         // Send email with HTML
         const info = await transporter.sendMail({
-            from: '"Infinity Interiors" <info@infinityinteriors.co>',
+            from: '"BSW Interiors" <info@bswinteriors.com>',
             to: to,
             subject: subject,
             html: htmlBody,

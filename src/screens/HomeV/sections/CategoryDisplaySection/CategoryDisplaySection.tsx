@@ -1,142 +1,97 @@
 "use client";
 
-import { useState } from "react";
 import Link from "next/link";
 import { Button } from "../../../../components/ui/button";
+import { ArrowRight } from "lucide-react";
 
 const categories = [
   {
-    name: "Residential",
-    count: "Interiors",
-    image: "https://images.unsplash.com/photo-1616486338812-3dadae4b4f9d?q=100&w=2000",
-    sideImageLeft: "https://images.unsplash.com/photo-1493663284031-b7e3aefcae8e?q=100&w=2000",
-    sideImageRight: "https://images.unsplash.com/photo-1598928506311-c55ded91a20c?q=100&w=2000"
+    name: "Luxury",
+    count: "Residences",
+    image: "/bedroom.png",
+    description: "Personalized sanctuaries tailored to your lifestyle."
   },
   {
-    name: "Commercial",
+    name: "Corporate",
     count: "Spaces",
-    image: "https://images.unsplash.com/photo-1497366216548-37526070297c?q=100&w=2000",
-    sideImageLeft: "https://images.unsplash.com/photo-1497366754035-f200968a6e72?q=100&w=2000",
-    sideImageRight: "https://images.unsplash.com/photo-1556761175-5973dc0f32e7?q=100&w=2000"
-  },
-  {
-    name: "Renovation",
-    count: "& Restoration",
-    image: "https://images.unsplash.com/photo-1503387762-592deb58ef4e?q=100&w=2000",
-    sideImageLeft: "https://images.unsplash.com/photo-1588854337221-4cf9fa96059c?q=100&w=2000",
-    sideImageRight: "https://images.unsplash.com/photo-1513694203232-719a280e022f?q=100&w=2000"
+    image: "/office.png",
+    description: "Environments that foster productivity and brand identity."
   },
   {
     name: "Bespoke",
-    count: "Furniture",
-    image: "https://images.unsplash.com/photo-1538688525198-9b88f6f53126?q=100&w=2000",
-    sideImageLeft: "https://images.unsplash.com/photo-1556228453-efd6c1ff04f6?q=100&w=2000",
-    sideImageRight: "https://images.unsplash.com/photo-1493663284031-b7e3aefcae8e?q=100&w=2000"
+    count: "Joinery",
+    image: "/kitchen.png",
+    description: "Custom millwork crafted with uncompromising precision."
   },
   {
-    name: "Turnkey",
-    count: "Execution",
-    image: "https://images.unsplash.com/photo-1581094794329-c8112a89af12?q=100&w=2000",
-    sideImageLeft: "https://images.unsplash.com/photo-1493663284031-b7e3aefcae8e?q=100&w=2000",
-    sideImageRight: "https://images.unsplash.com/photo-1503174971373-b1f69850bded?q=100&w=2000"
-  },
+    name: "Architectural",
+    count: "Planning",
+    image: "/hero.png",
+    description: "Holistic design from conception to structural elegance."
+  }
 ];
 
 export const CategoryDisplaySection = (): JSX.Element => {
-  const [activeIndex, setActiveIndex] = useState(1);
-
   return (
-    <section className="relative w-full bg-secondary-05 py-16 md:py-[100px] px-4 overflow-hidden">
-      <div className="flex flex-col items-center gap-12 md:gap-[83px] max-w-[1400px] mx-auto w-full relative">
-
-        {/* Section Title */}
-        <div className="font-label-medium font-[number:var(--label-medium-font-weight)] 
-          text-primary-01 text-sm md:text-[length:var(--label-medium-font-size)]
-          text-center tracking-[var(--label-medium-letter-spacing)]
-          leading-[var(--label-medium-line-height)] 
-          [font-style:var(--label-medium-font-style)]">
-          OUR EXPERTISE
-        </div>
-
-        {/* Dynamic Image Container */}
-        <div className="relative flex justify-center w-full min-h-[500px]">
-
-          {/* Side Image Left (Arched) */}
-          <div className="hidden lg:block absolute left-0 top-1/2 -translate-y-1/2 w-[280px] h-[400px] rounded-tr-[140px] rounded-tl-[10px] rounded-bl-[10px] rounded-br-[10px] overflow-hidden transition-all duration-500 ease-in-out">
-            <img
-              src={categories[activeIndex].sideImageLeft}
-              alt="Left Detail"
-              className="w-full h-full object-cover opacity-90 hover:scale-110 transition-transform duration-700"
-            />
+    <section className="relative w-full bg-white py-24 md:py-32 px-4 md:px-8">
+      <div className="container mx-auto max-w-[1400px]">
+        
+        {/* Header */}
+        <div className="flex flex-col md:flex-row justify-between items-end mb-16 md:mb-24 gap-8">
+          <div className="max-w-2xl">
+            <span className="font-mono text-sm tracking-[0.3em] text-[#A0A0A0] uppercase block mb-6 font-bold">
+              Our Expertise
+            </span>
+            <h2 className="font-serif text-4xl md:text-5xl lg:text-7xl text-[#0F2557] leading-[1.1]">
+              Defining the Art of <span className="italic text-[#A0A0A0]">Spatial Design</span>
+            </h2>
           </div>
-
-          {/* Side Image Right (Arched) */}
-          <div className="hidden lg:block absolute right-0 top-1/2 -translate-y-1/2 w-[280px] h-[400px] rounded-tl-[140px] rounded-tr-[10px] rounded-br-[10px] rounded-bl-[10px] overflow-hidden transition-all duration-500 ease-in-out">
-            <img
-              src={categories[activeIndex].sideImageRight}
-              alt="Right Detail"
-              className="w-full h-full object-cover opacity-90 hover:scale-110 transition-transform duration-700"
-            />
-          </div>
-
-          {/* Center List */}
-          <div className="flex flex-col justify-center items-center gap-6 md:gap-8 z-10 w-full md:w-auto">
-            {categories.map((category, index) => (
-              <div
-                key={index}
-                className="group cursor-pointer flex flex-col items-center transition-all duration-500"
-                onMouseEnter={() => setActiveIndex(index)}
-                onClick={() => setActiveIndex(index)}
-              >
-                <div className="flex items-center justify-center gap-2 md:gap-4">
-                  <h3
-                    className={`font-heading-04 transition-all duration-500 ease-out
-                        ${index === activeIndex
-                        ? "text-4xl md:text-5xl lg:text-7xl text-primary-01 scale-110 font-medium"
-                        : "text-2xl md:text-4xl text-secondary-02/40 scale-100 font-light hover:text-secondary-02/70"}`}
-                  >
-                    {category.name}
-                  </h3>
-
-                  <span
-                    className={`font-label-medium text-sm md:text-base tracking-widest uppercase transition-all duration-500 whitespace-nowrap
-                        ${index === activeIndex ? "text-primary-01 opacity-100 translate-x-2" : "text-secondary-02/40 opacity-50"}`}
-                  >
-                    {category.count}
-                  </span>
-                </div>
-              </div>
-            ))}
-          </div>
-
-        </div>
-
-        {/* CTA Button */}
-        {/* CTA Button Area */}
-        <div className="w-full relative flex items-center justify-center mt-12 mb-8">
-          <Link href="/portfolio" className="relative z-20">
-            <Button
-              variant="link"
-              className="h-auto p-0 font-button-01 font-[number:var(--button-01-font-weight)]
-                text-primary-01 text-[length:var(--button-01-font-size)]
-                tracking-[var(--button-01-letter-spacing)]
-                leading-[var(--button-01-line-height)]
-                underline [font-style:var(--button-01-font-style)]"
-            >
-              SEE MORE
+          
+          <Link href="/services" className="hidden md:block">
+            <Button variant="outline" className="border-[#0F2557] text-[#0F2557] rounded-none px-8 py-6 uppercase tracking-widest text-xs hover:bg-[#0F2557] hover:text-white transition-all">
+              View All Services
             </Button>
           </Link>
+        </div>
 
-          {/* Decorative Image */}
-          <div className="absolute h-auto pointer-events-none z-0 transition-all duration-500
-            top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 
-            w-[220px] md:w-[350px] opacity-15">
-            <img
-              src="/seemore.png"
-              alt=""
-              className="w-full h-full object-contain"
-            />
-          </div>
+        {/* Staggered Grid Layout */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-16">
+          {categories.map((category, index) => (
+            <div 
+              key={index} 
+              className={`group relative overflow-hidden bg-[#f8f9fa] ${index % 2 !== 0 ? 'md:mt-24' : ''}`}
+            >
+              {/* Image Container with precise aspect ratio */}
+              <div className="relative w-full aspect-[4/5] overflow-hidden">
+                <div 
+                  className="absolute inset-0 bg-cover bg-center transition-transform duration-1000 ease-out group-hover:scale-110"
+                  style={{ backgroundImage: `url(${category.image})` }}
+                />
+                {/* Gradient Overlay */}
+                <div className="absolute inset-0 bg-gradient-to-t from-[#0F2557]/80 via-transparent to-transparent opacity-60 group-hover:opacity-80 transition-opacity duration-500" />
+              </div>
+
+              {/* Content Overlay */}
+              <div className="absolute inset-x-0 bottom-0 p-8 md:p-12 text-white">
+                <h3 className="font-serif text-3xl md:text-4xl mb-2">{category.name} <span className="italic text-[#A0A0A0]">{category.count}</span></h3>
+                
+                <div className="h-0 overflow-hidden group-hover:h-[4rem] transition-all duration-500 ease-out">
+                  <p className="font-sans text-white/80 mt-4 font-light leading-relaxed">
+                    {category.description}
+                  </p>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* Mobile CTA */}
+        <div className="mt-16 flex justify-center md:hidden">
+          <Link href="/services" className="w-full">
+            <Button variant="outline" className="w-full border-[#0F2557] text-[#0F2557] rounded-none py-6 uppercase tracking-widest text-xs">
+              View All Services
+            </Button>
+          </Link>
         </div>
 
       </div>

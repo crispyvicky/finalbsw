@@ -7,7 +7,7 @@ Add these to your `.env.local` file:
 ```
 EMAIL_HOST=smtpout.secureserver.net
 EMAIL_PORT=465
-EMAIL_USER=info@infinityinteriors.co
+EMAIL_USER=info@bswinteriors.com
 EMAIL_PASS=your_email_password_here
 ```
 
@@ -15,7 +15,7 @@ EMAIL_PASS=your_email_password_here
 
 1. Log in to your GoDaddy account
 2. Go to **Email & Office** → **Email Accounts**
-3. Find `info@infinityinteriors.co`
+3. Find `info@bswinteriors.com`
 4. Click **Manage** or **Settings**
 5. Look for **Password** or **Reset Password**
 6. Copy the password and add it to `.env.local`
@@ -60,4 +60,4 @@ And update the code to use `secure: false` for port 587.
 
 ---
 
-**Once configured, emails will be sent automatically from `info@infinityinteriors.co` when you click the Email button!**
+**Once configured, emails will be sent automatically from `info@bswinteriors.com` when you click the Email button!**

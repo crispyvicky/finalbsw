@@ -78,45 +78,42 @@ export const NewArrivalsSection = (): JSX.Element => {
   };
 
   return (
-    <section className="w-full py-12 md:py-24 px-4 md:px-8 lg:px-[100px] overflow-hidden">
-      <div className="container mx-auto flex flex-col lg:flex-row gap-8 md:gap-12 lg:gap-16">
+    <section className="w-full py-24 md:py-32 px-4 md:px-8 bg-white overflow-hidden border-t border-[#0F2557]/10">
+      <div className="container mx-auto flex flex-col lg:flex-row gap-12 md:gap-24">
         {/* Text Column */}
-        <div className="flex flex-col gap-6 md:gap-8 lg:w-[350px] flex-shrink-0">
-          <div className="flex flex-col gap-2">
-            <span className="font-label-medium text-xs tracking-[0.2em] text-secondary-02 uppercase">
+        <div className="flex flex-col gap-6 md:gap-8 lg:w-[400px] flex-shrink-0">
+          <div className="flex flex-col gap-4">
+            <span className="font-mono text-sm tracking-[0.3em] text-[#A0A0A0] uppercase font-bold">
               Recent Works
             </span>
-            <h2 className="font-heading-03 text-3xl md:text-4xl text-primary-01 italic">
-              Signature Projects
+            <h2 className="font-serif text-4xl md:text-5xl text-[#0F2557] leading-[1.1]">
+              Signature <br className="hidden lg:block"/>
+              <span className="italic text-[#A0A0A0]">Projects</span>
             </h2>
           </div>
 
-          <p className="font-body-02 text-secondary-01 text-sm leading-relaxed max-w-[300px]">
-            A glimpse into our journey of transforming empty shells into vibrant, living stories across Hyderabad.
+          <p className="font-sans text-[#0F2557]/70 text-lg leading-relaxed font-light">
+            A glimpse into our journey of transforming empty shells into vibrant, living stories across the world.
           </p>
 
           <Link href="/portfolio">
             <Button
               variant="link"
-              className="h-auto p-0 font-button-01 text-primary-01 text-sm tracking-widest underline justify-start hover:text-primary-01/80"
+              className="h-auto p-0 font-mono text-[#0F2557] text-xs tracking-[0.2em] uppercase underline-offset-8 hover:text-[#A0A0A0] font-bold"
             >
-              VIEW PORTFOLIO
+              VIEW FULL PORTFOLIO
             </Button>
           </Link>
 
-          <div className="flex items-center gap-4 mt-auto pt-8">
+          <div className="flex items-center gap-4 mt-8 lg:mt-auto pt-8 border-t border-[#0F2557]/10 w-fit">
             <Button
               variant="outline"
               size="icon"
               onClick={() => {
                 stopAutoScroll();
                 prevSlide();
-                // Restart auto-scroll after interactions is tricky without debounce, 
-                // but leaving it stopped on interaction or relying on mouseEnter/Leave to pause is better.
-                // For now, let's keep it simple: click stops it? Or simply pauses? 
-                // Let's rely on hover to pause, and clicks just nudge.
               }}
-              className="h-12 w-12 rounded-full border-primary-01/10 hover:bg-primary-01 hover:text-white transition-colors"
+              className="h-12 w-12 rounded-none border-[#0F2557]/20 hover:bg-[#0F2557] hover:text-white transition-colors"
               aria-label="Previous project"
             >
               <ChevronLeftIcon className="h-5 w-5" />
@@ -125,10 +122,9 @@ export const NewArrivalsSection = (): JSX.Element => {
               variant="outline"
               size="icon"
               onClick={() => {
-                // stopAutoScroll(); // Optional: pause on interaction
                 nextSlide();
               }}
-              className="h-12 w-12 rounded-full border-primary-01/10 hover:bg-primary-01 hover:text-white transition-colors"
+              className="h-12 w-12 rounded-none border-[#0F2557]/20 hover:bg-[#0F2557] hover:text-white transition-colors"
               aria-label="Next project"
             >
               <ChevronRightIcon className="h-5 w-5" />
@@ -151,19 +147,23 @@ export const NewArrivalsSection = (): JSX.Element => {
               {allProjects.map((project, index) => (
                 <Link key={`${project.id}-idx-${index}`} href={`/projects/${project.slug}`} passHref className="block flex-shrink-0">
                   <div className="w-[280px] md:w-[300px] group cursor-pointer">
-                    <div className="aspect-[3/4] w-full overflow-hidden bg-secondary-03/10 mb-4 relative">
-                      <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10" />
+                    <div className="aspect-[4/5] w-full overflow-hidden bg-slate-50 relative">
+                      <div className="absolute inset-0 bg-gradient-to-t from-[#0F2557]/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-10 flex items-end p-6">
+                        <span className="text-white font-mono text-xs tracking-widest uppercase opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100 translate-y-4 group-hover:translate-y-0">
+                          Explore Project
+                        </span>
+                      </div>
                       <img
-                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000 ease-out"
                         alt={project.title}
                         src={project.heroImage}
                       />
                     </div>
-                    <div className="flex flex-col gap-1">
-                      <h3 className="font-heading-07 text-lg text-primary-01 group-hover:underline decoration-1 underline-offset-4">
+                    <div className="flex flex-col gap-2 mt-4">
+                      <h3 className="font-serif text-xl text-[#0F2557] group-hover:text-[#A0A0A0] transition-colors duration-300">
                         {project.title}
                       </h3>
-                      <span className="text-secondary-02 text-xs tracking-wider uppercase">
+                      <span className="text-[#A0A0A0] font-mono text-xs tracking-[0.2em] uppercase font-bold">
                         {project.category}
                       </span>
                     </div>

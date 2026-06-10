@@ -38,7 +38,7 @@ export default function ProjectsPage() {
     const getStageColor = (stage: ProjectStage) => {
         switch (stage) {
             case 'Design': return 'bg-purple-100 text-purple-700';
-            case 'Approval': return 'bg-amber-100 text-amber-700';
+            case 'Approval': return 'bg-blue-100 text-blue-700';
             case 'Execution': return 'bg-blue-100 text-blue-700';
             case 'Handover': return 'bg-emerald-100 text-emerald-700';
             default: return 'bg-slate-100 text-slate-700';

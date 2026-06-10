@@ -35,7 +35,7 @@ const interiorTypes: { type: InteriorType; priceRange: string; desc: string; col
         type: "Luxurious",
         priceRange: "₹2500+ / sq ft",
         desc: "Top-tier luxury with imported materials and bespoke craftsmanship.",
-        color: "bg-amber-50 border-amber-200 text-amber-900",
+        color: "bg-blue-50 border-blue-200 text-blue-900",
     },
 ];
 

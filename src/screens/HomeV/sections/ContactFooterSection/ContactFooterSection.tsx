@@ -1,46 +1,31 @@
-'use client';
+"use client";
 
 import React, { useState } from "react";
 import Link from "next/link";
 import { Button } from "../../../../components/ui/button";
 import { Checkbox } from "../../../../components/ui/checkbox";
 import { Input } from "../../../../components/ui/input";
-import { Separator } from "../../../../components/ui/separator";
-import { Loader2, CheckCircle } from "lucide-react";
+import { Loader2, CheckCircle, ArrowRight } from "lucide-react";
 
 const footerColumns = [
   {
+    title: "Explore",
     links: [
-      { label: "PORTFOLIO", path: "/portfolio" },
-      { label: "SERVICES", path: "/services" },
-      { label: "PROCESS", path: "/process" },
-      { label: "LOOKBOOK", path: "/lookbook" },
+      { label: "Portfolio", path: "/portfolio" },
+      { label: "Services", path: "/services" },
+      { label: "Process", path: "/process" },
+      { label: "About Us", path: "/about" },
     ],
   },
   {
+    title: "Connect",
     links: [
-      { label: "ABOUT US", path: "/about" },
-      { label: "BLOG", path: "/blog" },
-      { label: "CONTACT", path: "/contact" },
-      { label: "CAREERS", path: "/contact" },
-      { label: "MEDIA", path: "/lookbook" },
+      { label: "Contact", path: "/contact" },
+      { label: "Instagram", path: "https://www.instagram.com/bswinteriors_18/" },
+      { label: "Facebook", path: "#" },
+      { label: "Pinterest", path: "#" },
     ],
   },
-  {
-    links: [
-      { label: "RESIDENTIAL", path: "/services" },
-      { label: "COMMERCIAL", path: "/services" },
-      { label: "HOSPITALITY", path: "/services" },
-      { label: "BESPOKE", path: "/services" },
-    ],
-  },
-];
-
-const socialLinks = [
-  { name: "INSTAGRAM" },
-  { label: "FACEBOOK" },
-  { name: "PINTEREST" },
-  { name: "TWITTER" },
 ];
 
 export const ContactFooterSection = (): JSX.Element => {
@@ -81,178 +66,167 @@ export const ContactFooterSection = (): JSX.Element => {
         setConsent(false);
         setTimeout(() => setSuccess(false), 5000);
       } else {
-        setError('Failed to subscribe. Please try again.');
+        setError('Failed to subscribe.');
       }
     } catch (err) {
-      setError('An error occurred. Please try again.');
+      setError('An error occurred.');
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <footer className="w-full bg-primary-01 relative z-50 py-12 md:py-16 lg:py-20 px-4 md:px-8 lg:px-[170px]">
-      <div className="flex flex-col gap-8 md:gap-[79px]">
-        <div className="flex flex-col items-center gap-8 md:gap-[79px] relative group">
-          {/* Hover Pop-up Image */}
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[200px] md:w-[400px] transition-all duration-500 ease-out opacity-100 scale-100 group-hover:opacity-100 group-hover:scale-100 pointer-events-none z-0">
-            <img
-              src="/q.png"
-              alt=""
-              className="w-full h-full object-contain opacity-20"
-            />
-          </div>
+    <footer className="w-full bg-[#0F2557] relative z-50 text-white overflow-hidden">
+      
+      {/* Massive Typography Banner */}
+      <div className="w-full pt-24 pb-12 overflow-hidden border-b border-white/10">
+        <h2 className="font-serif text-[12vw] leading-none text-white/5 whitespace-nowrap select-none font-bold tracking-tighter -ml-4">
+          BSW INTERIORS.
+        </h2>
+      </div>
 
-          <h2 className="relative z-10 w-full max-w-[809px] font-heading-03 font-[number:var(--heading-03-font-weight)] [font-style:var(--heading-03-font-style)] text-primary-03 text-3xl md:text-4xl lg:text-5xl text-center tracking-[var(--heading-03-letter-spacing)] leading-tight mb-4">
-            TRANSFORMING HOUSES INTO HOMES WITH SOUL.
-          </h2>
+      <div className="container mx-auto max-w-[1400px] px-4 md:px-8 py-16 md:py-24">
+        
+        <div className="flex flex-col lg:flex-row justify-between gap-16 lg:gap-24">
+          
+          {/* Left Column: CTA & Newsletter */}
+          <div className="w-full lg:w-1/2 flex flex-col gap-12">
+            <div>
+              <span className="font-mono text-sm tracking-[0.3em] text-[#A0A0A0] uppercase font-bold block mb-6">
+                Start Your Journey
+              </span>
+              <h3 className="font-serif text-4xl md:text-5xl lg:text-6xl text-white mb-8 leading-[1.1]">
+                Crafting Timeless <span className="italic text-[#A0A0A0]">Luxury.</span>
+              </h3>
+              <Link href="/contact" className="inline-block">
+                <Button className="bg-transparent border border-white hover:bg-white hover:text-[#0F2557] rounded-none px-8 py-6 text-xs tracking-widest uppercase font-bold transition-all duration-300 flex items-center gap-3 group">
+                  Discuss a Project
+                  <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+                </Button>
+              </Link>
+            </div>
 
-          <div className="relative z-10 flex flex-col items-center gap-4">
-            <Link href="/contact">
-              <Button
-                variant="outline"
-                className="w-full md:w-[301px] h-[50px] md:h-[69px] bg-transparent border-[#fcfbfa] hover:bg-transparent"
-              >
-                <span className="font-button-02 font-[number:var(--button-02-font-weight)] text-primary-03 text-sm md:text-[length:var(--button-02-font-size)] tracking-[var(--button-02-letter-spacing)] leading-[var(--button-02-line-height)] [font-style:var(--button-02-font-style)]">
-                  START YOUR JOURNEY
-                </span>
-              </Button>
-            </Link>
-            <p className="text-secondary-03 text-xs tracking-widest opacity-80">
-              WE SPEAK ENGLISH, TELUGU & HINDI
-            </p>
-          </div>
-        </div>
+            <div className="max-w-md mt-8">
+              <span className="font-mono text-xs tracking-[0.3em] text-[#A0A0A0] uppercase font-bold block mb-6">
+                Design Insights
+              </span>
+              <p className="font-sans text-white/70 mb-6 font-light">
+                Subscribe to our newsletter to receive the latest updates, architectural trends, and exclusive lookbooks.
+              </p>
 
-        <Separator className="bg-secondary-03 h-px opacity-20" />
+              {success && (
+                <div className="p-3 mb-4 bg-green-500/10 border border-green-500/30 text-green-300 text-sm font-mono tracking-wider uppercase">
+                  Successfully subscribed.
+                </div>
+              )}
+              {error && (
+                <div className="p-3 mb-4 bg-red-500/10 border border-red-500/30 text-red-300 text-sm font-mono tracking-wider uppercase">
+                  {error}
+                </div>
+              )}
 
-        <div className="flex flex-col md:flex-row gap-8 md:gap-[104px]">
-          <div className="flex-1 flex flex-col gap-6 md:gap-8">
-            <h3 className="font-label-big font-[number:var(--label-big-font-weight)] text-secondary-03 text-sm md:text-[length:var(--label-big-font-size)] tracking-[var(--label-big-letter-spacing)] leading-[var(--label-big-line-height)] [font-style:var(--label-big-font-style)]">
-              SUBSCRIBE TO RECEIVE DESIGN INSIGHTS
-            </h3>
-
-            {success && (
-              <div className="p-3 bg-green-500/20 border border-green-500/50 rounded flex items-center gap-2">
-                <CheckCircle className="w-4 h-4 text-green-300" />
-                <p className="text-green-100 text-sm">Successfully subscribed!</p>
-              </div>
-            )}
-
-            {error && (
-              <div className="p-3 bg-red-500/20 border border-red-500/50 rounded">
-                <p className="text-red-100 text-sm">{error}</p>
-              </div>
-            )}
-
-            <form onSubmit={handleNewsletterSubmit} className="space-y-4">
-              <div className="relative bg-white/5 h-[50px] md:h-[68px]">
-                <Input
-                  type="email"
-                  placeholder="Enter your email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  className="h-full bg-transparent border-0 text-secondary-03 font-body-02 font-[number:var(--body-02-font-weight)] text-sm md:text-[length:var(--body-02-font-size)] tracking-[var(--body-02-letter-spacing)] leading-[var(--body-02-line-height)] [font-style:var(--body-02-font-style)] placeholder:text-secondary-03/50 px-4 md:px-6"
-                  required
-                />
-              </div>
-
-              <div className="flex gap-2 md:gap-4 items-start">
-                <Checkbox
-                  checked={consent}
-                  onCheckedChange={(checked) => setConsent(checked as boolean)}
-                  className="w-4 h-4 rounded border-[#f8f5f3] mt-1"
-                />
-                <p className="flex-1 font-caption font-[number:var(--caption-font-weight)] text-secondary-03 text-xs md:text-[length:var(--caption-font-size)] tracking-[var(--caption-letter-spacing)] leading-[var(--caption-line-height)] [font-style:var(--caption-font-style)]">
-                  I've read the Privacy Policy and I consent to INFINITY  Interiors sending me marketing communications
-                </p>
-              </div>
-
-              <Button
-                type="submit"
-                disabled={loading}
-                className="w-full bg-secondary-03 text-primary-01 hover:bg-white transition-colors h-12 font-medium disabled:opacity-50"
-              >
-                {loading ? (
-                  <>
-                    <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                    SUBSCRIBING...
-                  </>
-                ) : (
-                  'SUBSCRIBE'
-                )}
-              </Button>
-            </form>
-          </div>
-
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-[60px]">
-            {footerColumns.map((column, columnIndex) => (
-              <nav key={columnIndex} className="flex flex-col gap-3 md:gap-[19px]">
-                {column.links.map((link, linkIndex) => (
-                  <Link
-                    key={linkIndex}
-                    href={link.path}
-                    className="font-label-medium font-[number:var(--label-medium-font-weight)] text-secondary-03 text-xs md:text-[length:var(--label-medium-font-size)] tracking-[var(--label-medium-letter-spacing)] leading-[var(--label-medium-line-height)] [font-style:var(--label-medium-font-style)] hover:text-white transition-colors"
+              <form onSubmit={handleNewsletterSubmit} className="space-y-4">
+                <div className="flex">
+                  <Input
+                    type="email"
+                    placeholder="Email Address"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    className="h-14 bg-white/5 border-white/20 text-white rounded-none focus-visible:ring-0 focus-visible:border-white font-sans placeholder:text-white/30"
+                    required
+                  />
+                  <Button
+                    type="submit"
+                    disabled={loading}
+                    className="h-14 bg-white text-[#0F2557] hover:bg-[#A0A0A0] rounded-none px-6 transition-colors"
                   >
-                    {link.label}
-                  </Link>
-                ))}
-              </nav>
-            ))}
+                    {loading ? <Loader2 className="w-5 h-5 animate-spin" /> : <ArrowRight className="w-5 h-5" />}
+                  </Button>
+                </div>
+                <div className="flex gap-3 items-start mt-4">
+                  <Checkbox
+                    checked={consent}
+                    onCheckedChange={(checked) => setConsent(checked as boolean)}
+                    className="w-4 h-4 rounded-sm border-white/30 data-[state=checked]:bg-white data-[state=checked]:text-[#0F2557]"
+                  />
+                  <p className="text-white/50 text-xs font-light leading-relaxed">
+                    I agree to the Privacy Policy and consent to receiving marketing communications from BSW Interiors.
+                  </p>
+                </div>
+              </form>
+            </div>
           </div>
-        </div>
 
-        <Separator className="bg-secondary-03 h-px opacity-20" />
+          {/* Right Column: Links & Address */}
+          <div className="w-full lg:w-1/2 flex flex-col sm:flex-row justify-between gap-12 lg:pl-16">
+            
+            {/* Links */}
+            <div className="flex gap-16 md:gap-24">
+              {footerColumns.map((col, idx) => (
+                <div key={idx} className="flex flex-col gap-6">
+                  <span className="font-mono text-xs tracking-[0.3em] text-[#A0A0A0] uppercase font-bold">
+                    {col.title}
+                  </span>
+                  <nav className="flex flex-col gap-4">
+                    {col.links.map((link, lIdx) => (
+                      <Link 
+                        key={lIdx} 
+                        href={link.path}
+                        className="font-sans text-white/70 hover:text-white hover:translate-x-1 transition-all duration-300 text-lg font-light"
+                      >
+                        {link.label}
+                      </Link>
+                    ))}
+                  </nav>
+                </div>
+              ))}
+            </div>
 
-        <div className="flex flex-col md:flex-row items-center justify-between gap-4">
-          <div className="flex items-center gap-2 md:gap-3">
-            <span className="font-caption font-[number:var(--caption-font-weight)] text-secondary-03 text-xs md:text-[length:var(--caption-font-size)] tracking-[var(--caption-letter-spacing)] leading-[var(--caption-line-height)] [font-style:var(--caption-font-style)]">
-              Hyderabad, India
-            </span>
+            {/* Address Info */}
+            <div className="flex flex-col gap-6">
+              <span className="font-mono text-xs tracking-[0.3em] text-[#A0A0A0] uppercase font-bold">
+                Headquarters
+              </span>
+              <address className="font-sans text-white/70 font-light text-lg not-italic leading-relaxed">
+                Jubilee Hills,<br />
+                Hyderabad, Telangana<br />
+                India 500033
+              </address>
+              <div className="mt-4 flex flex-col gap-2">
+                <a href="mailto:hello@bswinteriors.com" className="font-sans text-white hover:text-[#A0A0A0] transition-colors font-light text-lg">
+                  hello@bswinteriors.com
+                </a>
+                <a href="tel:+914012345678" className="font-sans text-white hover:text-[#A0A0A0] transition-colors font-light text-lg">
+                  +91 40 1234 5678
+                </a>
+              </div>
+            </div>
+
           </div>
 
-          <div className="flex flex-col md:flex-row items-center gap-3 md:gap-6">
-            <span className="font-caption font-[number:var(--caption-font-weight)] text-secondary-03 text-xs md:text-[length:var(--caption-font-size)] tracking-[var(--caption-letter-spacing)] leading-[var(--caption-line-height)] [font-style:var(--caption-font-style)]">
-              Connect with us
-            </span>
-          </div>
         </div>
       </div>
 
-      <Separator className="bg-secondary-03 h-px mt-8 opacity-20" />
+      {/* Bottom Bar */}
+      <div className="border-t border-white/10">
+        <div className="container mx-auto max-w-[1400px] px-4 md:px-8 py-6 flex flex-col md:flex-row justify-between items-center gap-4">
+          <p className="font-mono text-[10px] tracking-widest text-[#A0A0A0] uppercase">
+            © {new Date().getFullYear()} BSW INTERIORS. ALL RIGHTS RESERVED.
+          </p>
+          
+          <div className="flex gap-8">
+            <Link href="/privacy" className="font-mono text-[10px] tracking-widest text-[#A0A0A0] hover:text-white uppercase transition-colors">
+              Privacy Policy
+            </Link>
+            <Link href="/terms" className="font-mono text-[10px] tracking-widest text-[#A0A0A0] hover:text-white uppercase transition-colors">
+              Terms of Use
+            </Link>
+          </div>
 
-      <div className="relative">
-        <div className="grid grid-cols-2 md:grid-cols-4 h-auto md:h-[58px]">
-          {socialLinks.map((social, index) => (
-            <React.Fragment key={index}>
-              <a
-                href="https://www.instagram.com/infinityinteriors_18/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center justify-center font-label-small font-[number:var(--label-small-font-weight)] text-secondary-03 text-xs md:text-[length:var(--label-small-font-size)] tracking-[var(--label-small-letter-spacing)] leading-[var(--label-small-line-height)] [font-style:var(--label-small-font-style)] hover:text-white transition-colors border-l border-secondary-03/20 first:border-l-0 py-3 md:py-0"
-              >
-                {social.name}
-              </a>
-            </React.Fragment>
-          ))}
+          <a href="https://bravoo.in" target="_blank" rel="noopener noreferrer" className="font-mono text-[10px] tracking-widest text-[#A0A0A0] hover:text-white uppercase transition-colors">
+            Crafted by Bravoo
+          </a>
         </div>
-        <Separator className="bg-secondary-03 h-px mt-0 opacity-20" />
-      </div>
-
-      <Separator className="bg-secondary-03 h-px opacity-20" />
-
-      <div className="flex flex-col md:flex-row items-center justify-between gap-2 mt-8">
-        <p className="font-label-small font-[number:var(--label-small-font-weight)] text-secondary-02 text-xs md:text-[length:var(--label-small-font-size)] tracking-[var(--label-small-letter-spacing)] leading-[var(--label-small-line-height)] [font-style:var(--label-small-font-style)] text-center md:text-left">
-          © 2000 INFINITY INTERIORS. ALL RIGHTS RESERVED.
-        </p>
-
-        <a href="https://bravoo.in" target="_blank" rel="noopener noreferrer" className="font-label-small text-secondary-02 text-xs tracking-widest hover:text-white transition-colors">
-          Developed by <span className="font-bold underline decoration-1 underline-offset-4">Bravoo.in</span>
-        </a>
-
-        <Link href="/privacy" className="font-label-small font-[number:var(--label-small-font-weight)] text-secondary-02 text-xs md:text-[length:var(--label-small-font-size)] text-center md:text-right tracking-[var(--label-small-letter-spacing)] leading-[var(--label-small-line-height)] [font-style:var(--label-small-font-style)] hover:text-white">
-          PRIVACY POLICY | TERMS OF USE
-        </Link>
       </div>
     </footer>
   );

@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
-    title: 'Interior Design Blog | Best Interiors in Hyderabad | Infinity Interiors',
+    title: 'Interior Design Blog | Best Interiors in Hyderabad | BSW Interiors',
     description: 'Read the latest trends, tips, and insights from Hyderabad\'s best interior designers. Luxury living, cost estimations, and transformation stories.',
 };
 
@@ -22,7 +22,7 @@ export default function BlogListingPage() {
                         Our Design Journal
                     </h1>
                     <p className="font-body-01 text-lg text-secondary-01 max-w-2xl mx-auto">
-                        Expert advice, trend forecasts, and behind-the-scenes stories from the team at Infinity Interiors.
+                        Expert advice, trend forecasts, and behind-the-scenes stories from the team at BSW Interiors.
                     </p>
                 </div>
 

@@ -109,7 +109,7 @@ export default function InvoiceDetailPage() {
             return;
         }
 
-        const message = `✨ *INFINITY INTERIORS*
+        const message = `✨ *BSW INTERIORS*
 _Excellence in Design_
 
 Hi *${invoice.clientName.toUpperCase()}*,
@@ -223,7 +223,7 @@ _Thank you for your business!_ 🏡`;
                         <button onClick={handleWhatsApp} className="p-2 bg-[#25D366] hover:bg-[#128C7E] text-white rounded-md transition-colors" title="Share on WhatsApp">
                             <MessageCircle className="w-5 h-5" />
                         </button>
-                        <button onClick={handleEmail} disabled={sendingEmail} className="p-2 hover:bg-slate-700 text-white rounded-md transition-colors disabled:opacity-50" title="Send Email">
+                        <button onClick={handleEmail} disabled={sendingEmail} className="hidden p-2 hover:bg-slate-700 text-white rounded-md transition-colors disabled:opacity-50" title="Send Email">
                             {sendingEmail ? <Loader2 className="w-5 h-5 animate-spin" /> : <Mail className="w-5 h-5" />}
                         </button>
                         <button onClick={generatePDF} disabled={downloading} className="bg-white text-slate-900 hover:bg-slate-100 px-4 py-2 rounded-lg font-bold flex items-center gap-2 text-sm transition-colors disabled:opacity-50">

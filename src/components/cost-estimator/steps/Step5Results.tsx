@@ -126,8 +126,8 @@ export default function Step5Results({ onBack, data }: Step5Props) {
         const margin = 20;
 
         // Brand Colors
-        const primaryColor: [number, number, number] = [61, 90, 69]; // #3d5a45 Green
-        const accentColor: [number, number, number] = [206, 126, 72]; // #ce7e48 Orange
+        const primaryColor: [number, number, number] = [61, 90, 69]; // #0F2557 Green
+        const accentColor: [number, number, number] = [206, 126, 72]; // #A0A0A0 Orange
 
         // Safe Currency Formatter
         const formatForPDF = (amount: number) => {
@@ -185,7 +185,7 @@ export default function Step5Results({ onBack, data }: Step5Props) {
             doc.setFont("helvetica", "bold");
             doc.setFontSize(24);
             doc.setTextColor(primaryColor[0], primaryColor[1], primaryColor[2]);
-            doc.text("INFINITY INTERIORS", margin, 35);
+            doc.text("BSW INTERIORS", margin, 35);
         }
 
         // Header Right - Date & Reference
@@ -380,10 +380,10 @@ export default function Step5Results({ onBack, data }: Step5Props) {
 
         doc.setFontSize(8);
         doc.setTextColor(255);
-        doc.text("INFINITY INTERIORS  •  www.infinityinteriors.co", pageWidth / 2, pageHeight - 5, { align: "center" });
+        doc.text("BSW INTERIORS  •  www.bswinteriors.com", pageWidth / 2, pageHeight - 5, { align: "center" });
 
         // Save
-        doc.save("Infinity_Interiors_Estimate.pdf");
+        doc.save("BSW_Interiors_Estimate.pdf");
     };
 
     useEffect(() => {
@@ -411,17 +411,17 @@ export default function Step5Results({ onBack, data }: Step5Props) {
     return (
         <div ref={containerRef} className="space-y-12">
             <div className="text-center space-y-4">
-                <h2 className="font-heading-03 text-3xl md:text-5xl font-bold text-[#3d5a45] italic">Your Dream Space Estimate</h2>
-                <p className="font-body-02 text-[#3d5a45]/60 font-light">Based on your selections for a {data.bhk} in {data.city}</p>
+                <h2 className="font-heading-03 text-3xl md:text-5xl font-bold text-[#0F2557] italic">Your Dream Space Estimate</h2>
+                <p className="font-body-02 text-[#0F2557]/60 font-light">Based on your selections for a {data.bhk} in {data.city}</p>
             </div>
 
             {/* Main Price Card */}
-            <div className="result-card relative bg-[#3d5a45] text-white rounded-none p-10 md:p-16 text-center overflow-hidden shadow-2xl">
-                <div className="absolute top-0 right-0 w-32 h-32 bg-[#ce7e48]/10 rounded-full blur-3xl" />
-                <div className="absolute bottom-0 left-0 w-32 h-32 bg-[#ce7e48]/10 rounded-full blur-3xl" />
+            <div className="result-card relative bg-[#0F2557] text-white rounded-none p-10 md:p-16 text-center overflow-hidden shadow-2xl">
+                <div className="absolute top-0 right-0 w-32 h-32 bg-[#A0A0A0]/10 rounded-full blur-3xl" />
+                <div className="absolute bottom-0 left-0 w-32 h-32 bg-[#A0A0A0]/10 rounded-full blur-3xl" />
 
                 <div className="relative z-10 space-y-4">
-                    <span className="text-[#ce7e48] font-bold tracking-[0.2em] text-xs uppercase font-body-02 bg-white/5 py-1 px-3 rounded-none">Estimated Investment</span>
+                    <span className="text-[#A0A0A0] font-bold tracking-[0.2em] text-xs uppercase font-body-02 bg-white/5 py-1 px-3 rounded-none">Estimated Investment</span>
                     <div className="font-heading-02 text-5xl md:text-7xl text-white py-4 leading-none">
                         {formatCurrency(estimatedMin)}
                     </div>
@@ -434,20 +434,20 @@ export default function Step5Results({ onBack, data }: Step5Props) {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                 {/* Breakdown */}
                 <div className="space-y-4">
-                    <h3 className="text-[#3d5a45] font-heading-05 font-medium text-xl flex items-center gap-2">
-                        <span className="w-1 h-6 bg-[#ce7e48]" />
+                    <h3 className="text-[#0F2557] font-heading-05 font-medium text-xl flex items-center gap-2">
+                        <span className="w-1 h-6 bg-[#A0A0A0]" />
                         Cost Breakdown
                     </h3>
-                    <div className="bg-[#fdfbf7] p-6 space-y-4 border border-[#ce7e48]/20 shadow-sm">
+                    <div className="bg-[#fdfbf7] p-6 space-y-4 border border-[#A0A0A0]/20 shadow-sm">
                         {[
                             { label: "Design & Management", value: estimatedMin * 0.15 },
                             { label: "Materials & Finishes", value: estimatedMin * 0.55 },
                             { label: "Labor & Execution", value: estimatedMin * 0.2 },
                             { label: "Appliances & Accessories", value: estimatedMin * 0.1 },
                         ].map((item, idx) => (
-                            <div key={idx} className="breakdown-item flex justify-between items-center text-[#3d5a45]/80 border-b border-[#ce7e48]/10 pb-3 last:border-0 last:pb-0">
+                            <div key={idx} className="breakdown-item flex justify-between items-center text-[#0F2557]/80 border-b border-[#A0A0A0]/10 pb-3 last:border-0 last:pb-0">
                                 <span className="font-body-02 text-sm">{item.label}</span>
-                                <span className="font-mono text-[#3d5a45] font-bold">{formatCurrency(item.value)}</span>
+                                <span className="font-mono text-[#0F2557] font-bold">{formatCurrency(item.value)}</span>
                             </div>
                         ))}
                     </div>
@@ -455,31 +455,31 @@ export default function Step5Results({ onBack, data }: Step5Props) {
 
                 {/* Style Summary */}
                 <div className="space-y-4">
-                    <h3 className="text-[#3d5a45] font-heading-05 font-medium text-xl flex items-center gap-2">
-                        <span className="w-1 h-6 bg-[#3d5a45]" />
+                    <h3 className="text-[#0F2557] font-heading-05 font-medium text-xl flex items-center gap-2">
+                        <span className="w-1 h-6 bg-[#0F2557]" />
                         Selections
                     </h3>
-                    <div className="bg-white p-6 border border-[#ce7e48]/20 shadow-sm h-full">
+                    <div className="bg-white p-6 border border-[#A0A0A0]/20 shadow-sm h-full">
                         <div className="space-y-6">
                             <div className="flex items-center gap-4">
-                                <div className="w-10 h-10 border border-[#ce7e48]/30 flex items-center justify-center text-[#3d5a45] bg-[#f5f2eb]"><User className="w-5 h-5 stroke-1" /></div>
+                                <div className="w-10 h-10 border border-[#A0A0A0]/30 flex items-center justify-center text-[#0F2557] bg-[#f5f2eb]"><User className="w-5 h-5 stroke-1" /></div>
                                 <div>
-                                    <div className="text-[10px] text-[#ce7e48] uppercase tracking-widest">Style</div>
-                                    <div className="text-[#3d5a45] text-sm font-bold font-heading-07">{data.style || "Not Selected"}</div>
+                                    <div className="text-[10px] text-[#A0A0A0] uppercase tracking-widest">Style</div>
+                                    <div className="text-[#0F2557] text-sm font-bold font-heading-07">{data.style || "Not Selected"}</div>
                                 </div>
                             </div>
                             <div className="flex items-center gap-4">
-                                <div className="w-10 h-10 border border-[#ce7e48]/30 flex items-center justify-center text-[#3d5a45] bg-[#f5f2eb]"><CheckCircle className="w-5 h-5 stroke-1" /></div>
+                                <div className="w-10 h-10 border border-[#A0A0A0]/30 flex items-center justify-center text-[#0F2557] bg-[#f5f2eb]"><CheckCircle className="w-5 h-5 stroke-1" /></div>
                                 <div>
-                                    <div className="text-[10px] text-[#ce7e48] uppercase tracking-widest">Rooms</div>
-                                    <div className="text-[#3d5a45] text-sm font-bold font-heading-07">{data.rooms?.length} Spaces Included</div>
+                                    <div className="text-[10px] text-[#A0A0A0] uppercase tracking-widest">Rooms</div>
+                                    <div className="text-[#0F2557] text-sm font-bold font-heading-07">{data.rooms?.length} Spaces Included</div>
                                 </div>
                             </div>
                             <div className="flex items-center gap-4">
-                                <div className="w-10 h-10 border border-[#ce7e48]/30 flex items-center justify-center text-[#3d5a45] bg-[#f5f2eb]"><CheckCircle className="w-5 h-5 stroke-1" /></div>
+                                <div className="w-10 h-10 border border-[#A0A0A0]/30 flex items-center justify-center text-[#0F2557] bg-[#f5f2eb]"><CheckCircle className="w-5 h-5 stroke-1" /></div>
                                 <div>
-                                    <div className="text-[10px] text-[#ce7e48] uppercase tracking-widest">Add-ons</div>
-                                    <div className="text-[#3d5a45] text-sm font-bold font-heading-07">{data.addons?.length} Premium Features</div>
+                                    <div className="text-[10px] text-[#A0A0A0] uppercase tracking-widest">Add-ons</div>
+                                    <div className="text-[#0F2557] text-sm font-bold font-heading-07">{data.addons?.length} Premium Features</div>
                                 </div>
                             </div>
                         </div>
@@ -488,12 +488,12 @@ export default function Step5Results({ onBack, data }: Step5Props) {
             </div>
 
             {/* CTA */}
-            <div className="flex flex-col md:flex-row gap-6 justify-center pt-10 border-t border-[#ce7e48]/20">
-                <Button variant="outline" className="border-[#3d5a45] text-[#3d5a45] hover:bg-[#3d5a45] hover:text-white h-16 px-10 rounded-none font-medium tracking-[0.2em] text-xs uppercase transition-all duration-300" onClick={generatePDF}>
+            <div className="flex flex-col md:flex-row gap-6 justify-center pt-10 border-t border-[#A0A0A0]/20">
+                <Button variant="outline" className="border-[#0F2557] text-[#0F2557] hover:bg-[#0F2557] hover:text-white h-16 px-10 rounded-none font-medium tracking-[0.2em] text-xs uppercase transition-all duration-300" onClick={generatePDF}>
                     <Download className="w-4 h-4 mr-3" /> DOWNLOAD BREAKDOWN
                 </Button>
                 <Button
-                    className="bg-[#3d5a45] text-white hover:bg-[#2F4F2F] h-16 px-12 rounded-none font-medium tracking-[0.2em] text-xs uppercase shadow-xl hover:shadow-2xl transition-all duration-300"
+                    className="bg-[#0F2557] text-white hover:bg-[#2F4F2F] h-16 px-12 rounded-none font-medium tracking-[0.2em] text-xs uppercase shadow-xl hover:shadow-2xl transition-all duration-300"
                     onClick={() => setShowForm(!showForm)}
                 >
                     <Calendar className="w-4 h-4 mr-3" /> BOOK FREE CONSULTATION
@@ -501,8 +501,8 @@ export default function Step5Results({ onBack, data }: Step5Props) {
             </div>
 
             {showForm && (
-                <div className="bg-white border border-[#ce7e48]/20 shadow-2xl p-10 max-w-xl mx-auto animate-in slide-in-from-bottom-10 fade-in duration-700 relative mt-10">
-                    <h3 className="text-3xl font-heading-03 font-bold text-[#3d5a45] mb-8 text-center italic">Get Professional Advice</h3>
+                <div className="bg-white border border-[#A0A0A0]/20 shadow-2xl p-10 max-w-xl mx-auto animate-in slide-in-from-bottom-10 fade-in duration-700 relative mt-10">
+                    <h3 className="text-3xl font-heading-03 font-bold text-[#0F2557] mb-8 text-center italic">Get Professional Advice</h3>
 
                     {submitSuccess && (
                         <div className="mb-6 p-4 bg-green-500/10 border border-green-500/30 rounded-lg flex items-center gap-3">
@@ -519,42 +519,42 @@ export default function Step5Results({ onBack, data }: Step5Props) {
 
                     <div className="space-y-6">
                         <div className="relative group">
-                            <User className="absolute left-0 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-[#ce7e48] transition-colors w-5 h-5" />
+                            <User className="absolute left-0 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-[#A0A0A0] transition-colors w-5 h-5" />
                             <input
                                 type="text"
                                 placeholder="Your Name"
                                 value={consultationForm.name}
                                 onChange={(e) => setConsultationForm({ ...consultationForm, name: e.target.value })}
-                                className="w-full bg-transparent border-b border-gray-200 py-4 pl-8 text-[#3d5a45] focus:outline-none focus:border-[#ce7e48] placeholder:text-gray-400 font-body-02 transition-all"
+                                className="w-full bg-transparent border-b border-gray-200 py-4 pl-8 text-[#0F2557] focus:outline-none focus:border-[#A0A0A0] placeholder:text-gray-400 font-body-02 transition-all"
                                 required
                             />
                         </div>
                         <div className="relative group">
-                            <Phone className="absolute left-0 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-[#ce7e48] transition-colors w-5 h-5" />
+                            <Phone className="absolute left-0 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-[#A0A0A0] transition-colors w-5 h-5" />
                             <input
                                 type="tel"
                                 placeholder="Phone Number"
                                 value={consultationForm.phone}
                                 onChange={(e) => setConsultationForm({ ...consultationForm, phone: e.target.value })}
-                                className="w-full bg-transparent border-b border-gray-200 py-4 pl-8 text-[#3d5a45] focus:outline-none focus:border-[#ce7e48] placeholder:text-gray-400 font-body-02 transition-all"
+                                className="w-full bg-transparent border-b border-gray-200 py-4 pl-8 text-[#0F2557] focus:outline-none focus:border-[#A0A0A0] placeholder:text-gray-400 font-body-02 transition-all"
                                 required
                             />
                         </div>
                         <div className="relative group">
-                            <Mail className="absolute left-0 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-[#ce7e48] transition-colors w-5 h-5" />
+                            <Mail className="absolute left-0 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-[#A0A0A0] transition-colors w-5 h-5" />
                             <input
                                 type="email"
                                 placeholder="Email Address"
                                 value={consultationForm.email}
                                 onChange={(e) => setConsultationForm({ ...consultationForm, email: e.target.value })}
-                                className="w-full bg-transparent border-b border-gray-200 py-4 pl-8 text-[#3d5a45] focus:outline-none focus:border-[#ce7e48] placeholder:text-gray-400 font-body-02 transition-all"
+                                className="w-full bg-transparent border-b border-gray-200 py-4 pl-8 text-[#0F2557] focus:outline-none focus:border-[#A0A0A0] placeholder:text-gray-400 font-body-02 transition-all"
                                 required
                             />
                         </div>
                         <Button
                             onClick={handleConsultationSubmit}
                             disabled={submitting}
-                            className="w-full bg-[#3d5a45] text-white h-16 text-xs tracking-[0.2em] font-bold uppercase rounded-none hover:bg-[#2F4F2F] transition-colors mt-6 disabled:opacity-50 disabled:cursor-not-allowed"
+                            className="w-full bg-[#0F2557] text-white h-16 text-xs tracking-[0.2em] font-bold uppercase rounded-none hover:bg-[#2F4F2F] transition-colors mt-6 disabled:opacity-50 disabled:cursor-not-allowed"
                         >
                             {submitting ? (
                                 <>
@@ -570,7 +570,7 @@ export default function Step5Results({ onBack, data }: Step5Props) {
             )}
 
             <div className="text-center">
-                <button onClick={onBack} className="text-gray-400 hover:text-[#3d5a45] transition-colors text-sm underline underline-offset-4">
+                <button onClick={onBack} className="text-gray-400 hover:text-[#0F2557] transition-colors text-sm underline underline-offset-4">
                     Make adjustments to calculation
                 </button>
             </div>

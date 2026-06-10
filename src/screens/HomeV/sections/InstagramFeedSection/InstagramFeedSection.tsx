@@ -29,7 +29,7 @@ export const InstagramFeedSection = (): JSX.Element => {
         </h2>
 
         <a
-          href="https://www.instagram.com/infinityinteriors_18/"
+          href="https://www.instagram.com/bswinteriors_18/"
           target="_blank"
           rel="noopener noreferrer"
           className="flex items-center gap-2 hover:opacity-80 transition-opacity"

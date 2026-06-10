@@ -30,8 +30,8 @@ export default function Step3Style({ onBack, onNext, data, updateData }: Step3Pr
     return (
         <div ref={containerRef} className="space-y-12 max-w-5xl mx-auto">
             <div className="text-center space-y-3 mb-8">
-                <h2 className="font-heading-03 text-3xl md:text-4xl font-semi-bold text-[#3d5a45] italic">Choose your vibe</h2>
-                <p className="font-body-02 text-[#ce7e48] font-light">Select the aesthetic that resonates with you.</p>
+                <h2 className="font-heading-03 text-3xl md:text-4xl font-semi-bold text-[#0F2557] italic">Choose your vibe</h2>
+                <p className="font-body-02 text-[#A0A0A0] font-light">Select the aesthetic that resonates with you.</p>
             </div>
 
             {/* Grid Layout - No Scroll */}
@@ -45,8 +45,8 @@ export default function Step3Style({ onBack, onNext, data, updateData }: Step3Pr
                             className={cn(
                                 "relative w-full aspect-[3/4] overflow-hidden transition-all duration-300 group text-left bg-gray-100 border-0 shadow-md",
                                 isSelected
-                                    ? "ring-4 ring-[#ce7e48] ring-offset-0 scale-[1.02]"
-                                    : "hover:scale-[1.02] hover:shadow-xl hover:ring-1 hover:ring-[#3d5a45]"
+                                    ? "ring-4 ring-[#A0A0A0] ring-offset-0 scale-[1.02]"
+                                    : "hover:scale-[1.02] hover:shadow-xl hover:ring-1 hover:ring-[#0F2557]"
                             )}
                         >
                             {/* Real Image */}
@@ -59,7 +59,7 @@ export default function Step3Style({ onBack, onNext, data, updateData }: Step3Pr
                             {/* Gradient Overlay */}
                             <div className={cn(
                                 "absolute inset-0 transition-opacity duration-300",
-                                isSelected ? "bg-[#3d5a45]/60" : "bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-80 group-hover:bg-[#3d5a45]/40"
+                                isSelected ? "bg-[#0F2557]/60" : "bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-80 group-hover:bg-[#0F2557]/40"
                             )} />
 
                             <div className="absolute bottom-0 left-0 right-0 p-4 md:p-5 z-20">
@@ -68,7 +68,7 @@ export default function Step3Style({ onBack, onNext, data, updateData }: Step3Pr
                                         "text-lg md:text-xl font-heading-05 leading-none",
                                         isSelected ? "text-white" : "text-white/90"
                                     )}>{style.id}</h3>
-                                    {isSelected && <div className="w-1.5 h-1.5 bg-[#ce7e48] rounded-full mb-1" />}
+                                    {isSelected && <div className="w-1.5 h-1.5 bg-[#A0A0A0] rounded-full mb-1" />}
                                 </div>
                                 <p className="text-[10px] md:text-xs font-body-02 text-white/80 font-light leading-relaxed tracking-wide line-clamp-2 md:line-clamp-none">{style.desc}</p>
                             </div>
@@ -78,7 +78,7 @@ export default function Step3Style({ onBack, onNext, data, updateData }: Step3Pr
             </div>
 
             <div className="bg-white border border-gray-100 p-8 shadow-sm">
-                <h3 className="text-sm font-bold text-[#3d5a45] mb-6 text-center uppercase tracking-[0.2em] font-body-02">Material Quality</h3>
+                <h3 className="text-sm font-bold text-[#0F2557] mb-6 text-center uppercase tracking-[0.2em] font-body-02">Material Quality</h3>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-0 border border-gray-100 divide-y md:divide-y-0 md:divide-x divide-gray-100">
                     {['Standard', 'Premium', 'Luxury'].map((level) => (
                         <button
@@ -87,8 +87,8 @@ export default function Step3Style({ onBack, onNext, data, updateData }: Step3Pr
                             className={cn(
                                 "p-6 text-center transition-all font-heading-05 text-lg",
                                 data.materials?.quality === level
-                                    ? "bg-[#3d5a45] text-white"
-                                    : "bg-white text-gray-400 hover:text-[#3d5a45] hover:bg-[#f5f2eb]"
+                                    ? "bg-[#0F2557] text-white"
+                                    : "bg-white text-gray-400 hover:text-[#0F2557] hover:bg-[#f5f2eb]"
                             )}
                         >
                             {level}
@@ -98,11 +98,11 @@ export default function Step3Style({ onBack, onNext, data, updateData }: Step3Pr
             </div>
 
             <div className="flex justify-center gap-4 pt-10 border-t border-gray-100 mt-8">
-                <Button variant="ghost" className="text-gray-400 hover:text-[#3d5a45] hover:bg-transparent tracking-[0.2em] text-xs font-bold uppercase" onClick={onBack}>BACK</Button>
+                <Button variant="ghost" className="text-gray-400 hover:text-[#0F2557] hover:bg-transparent tracking-[0.2em] text-xs font-bold uppercase" onClick={onBack}>BACK</Button>
                 <Button
                     onClick={onNext}
                     disabled={!data.style}
-                    className="rounded-none px-12 py-7 bg-[#3d5a45] hover:bg-[#2F4F2F] text-white text-sm tracking-[0.2em] uppercase font-medium transition-all"
+                    className="rounded-none px-12 py-7 bg-[#0F2557] hover:bg-[#2F4F2F] text-white text-sm tracking-[0.2em] uppercase font-medium transition-all"
                 >
                     CONTINUE
                 </Button>

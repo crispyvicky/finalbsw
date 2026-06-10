@@ -92,13 +92,13 @@
   --label-small-font-weight: 400;
   --label-small-letter-spacing: 0px;
   --label-small-line-height: normal;
-  --primary-01: rgba(0, 0, 0, 1);
-  --primary-02: rgba(82, 56, 37, 1);
+  --primary-01: rgba(15, 37, 87, 1);
+  --primary-02: rgba(29, 53, 110, 1);
   --primary-03: rgba(252, 251, 250, 1);
-  --secondary-01: rgba(102, 82, 68, 1);
-  --secondary-02: rgba(168, 156, 147, 1);
-  --secondary-03: rgba(208, 194, 176, 1);
-  --secondary-05: rgba(248, 245, 243, 1);
+  --secondary-01: rgba(128, 128, 128, 1);
+  --secondary-02: rgba(160, 160, 160, 1);
+  --secondary-03: rgba(200, 200, 200, 1);
+  --secondary-05: rgba(245, 245, 245, 1);
 }
 
 :root {
@@ -302,8 +302,8 @@
 }
 
 ::-webkit-scrollbar-thumb {
-  background-color: #3d5a45;
-  /* Brand Green */
+  background-color: #0F2557;
+  /* Brand Navy */
   border: 3px solid #fdfbf7;
   /* Padding effect */
   border-radius: 99px;
@@ -311,8 +311,8 @@
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background-color: #ce7e48;
-  /* Brand Orange */
+  background-color: #A0A0A0;
+  /* Brand Grey */
 }
 
 /* Hide Default Cursor for fine pointers (Mouse) */

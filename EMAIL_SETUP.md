@@ -1,8 +1,8 @@
-# Email Setup Instructions for info@infinityinteriors.co
+# Email Setup Instructions for info@bswinteriors.com
 
 ## Current Implementation
 
-The email button now uses the API endpoint `/api/send-invoice-email` which formats professional invoice emails from `info@infinityinteriors.co`.
+The email button now uses the API endpoint `/api/send-invoice-email` which formats professional invoice emails from `info@bswinteriors.com`.
 
 Currently, it opens the user's default email client with pre-filled content. To send emails directly from the server, you need to set up one of the following options:
 
@@ -20,7 +20,7 @@ Resend is a modern email API that's perfect for Next.js applications.
    - Get your API key
 
 2. **Add your domain**
-   - Add `infinityinteriors.co` to Resend
+   - Add `bswinteriors.com` to Resend
    - Follow their DNS verification steps (add TXT records to GoDaddy)
 
 3. **Install Resend**
@@ -59,14 +59,14 @@ Use your existing GoDaddy email with SMTP.
 2. **Get GoDaddy SMTP Settings**
    - Server: `smtpout.secureserver.net`
    - Port: `465` (SSL) or `587` (TLS)
-   - Username: `info@infinityinteriors.co`
+   - Username: `info@bswinteriors.com`
    - Password: Your email password
 
 3. **Add to .env.local**
    ```
    EMAIL_HOST=smtpout.secureserver.net
    EMAIL_PORT=465
-   EMAIL_USER=info@infinityinteriors.co
+   EMAIL_USER=info@bswinteriors.com
    EMAIL_PASS=your_email_password_here
    ```
 
@@ -119,14 +119,14 @@ Use your existing GoDaddy email with SMTP.
    Thank you for your business!
 
    Best regards,
-   Infinity Interiors
-   www.infinityinteriors.co
-   Email: info@infinityinteriors.co
+   BSW Interiors
+   www.bswinteriors.com
+   Email: info@bswinteriors.com
            `.trim();
 
            // Send email
            await transporter.sendMail({
-               from: '"Infinity Interiors" <info@infinityinteriors.co>',
+               from: '"BSW Interiors" <info@bswinteriors.com>',
                to: to,
                subject: subject,
                text: emailBody,
@@ -180,7 +180,7 @@ After setup, test by:
 1. Creating an invoice
 2. Clicking the Email button
 3. Check if email is sent to client
-4. Verify it comes from `info@infinityinteriors.co`
+4. Verify it comes from `info@bswinteriors.com`
 
 ---
 

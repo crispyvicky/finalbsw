@@ -7,6 +7,6 @@ export default function robots(): MetadataRoute.Robots {
             allow: '/',
             disallow: ['/admin/', '/api/'], // Disallow admin and api routes
         },
-        sitemap: 'https://infinityinteriors.co/sitemap.xml',
+        sitemap: 'https://bswinteriors.com/sitemap.xml',
     }
 }

@@ -79,31 +79,31 @@ export default function Step1Property({ onNext, data, updateData }: Step1Props) 
             {/* Lead Details */}
             <div className="step-item grid grid-cols-1 md:grid-cols-2 gap-8">
                 <div className="space-y-3">
-                    <label className="text-xs font-bold text-[#ce7e48] uppercase tracking-[0.2em] font-body-02 ml-1">Your Name <span className="text-red-500">*</span></label>
+                    <label className="text-xs font-bold text-[#A0A0A0] uppercase tracking-[0.2em] font-body-02 ml-1">Your Name <span className="text-red-500">*</span></label>
                     <div className="relative group">
-                        <User className="absolute left-0 top-1/2 -translate-y-1/2 text-[#3d5a45]/40 w-5 h-5" />
+                        <User className="absolute left-0 top-1/2 -translate-y-1/2 text-[#0F2557]/40 w-5 h-5" />
                         <input
                             type="text"
                             placeholder="John Doe"
                             value={data.name || ''}
                             onChange={(e) => updateData({ name: e.target.value })}
                             required
-                            className="w-full bg-transparent border-b border-[#E0E0E0] py-3 pl-8 pr-4 text-[#3d5a45] font-heading-05 text-xl focus:outline-none focus:border-[#ce7e48] transition-all placeholder:text-[#3d5a45]/20 rounded-none"
+                            className="w-full bg-transparent border-b border-[#E0E0E0] py-3 pl-8 pr-4 text-[#0F2557] font-heading-05 text-xl focus:outline-none focus:border-[#A0A0A0] transition-all placeholder:text-[#0F2557]/20 rounded-none"
                         />
                     </div>
                 </div>
 
                 <div className="space-y-3">
-                    <label className="text-xs font-bold text-[#ce7e48] uppercase tracking-[0.2em] font-body-02 ml-1">Phone Number <span className="text-red-500">*</span></label>
+                    <label className="text-xs font-bold text-[#A0A0A0] uppercase tracking-[0.2em] font-body-02 ml-1">Phone Number <span className="text-red-500">*</span></label>
                     <div className="relative group">
-                        <Phone className="absolute left-0 top-1/2 -translate-y-1/2 text-[#3d5a45]/40 w-5 h-5" />
+                        <Phone className="absolute left-0 top-1/2 -translate-y-1/2 text-[#0F2557]/40 w-5 h-5" />
                         <input
                             type="tel"
                             placeholder="98765 43210"
                             value={data.phone || ''}
                             onChange={(e) => updateData({ phone: e.target.value })}
                             required
-                            className="w-full bg-transparent border-b border-[#E0E0E0] py-3 pl-8 pr-4 text-[#3d5a45] font-heading-05 text-xl focus:outline-none focus:border-[#ce7e48] transition-all placeholder:text-[#3d5a45]/20 rounded-none"
+                            className="w-full bg-transparent border-b border-[#E0E0E0] py-3 pl-8 pr-4 text-[#0F2557] font-heading-05 text-xl focus:outline-none focus:border-[#A0A0A0] transition-all placeholder:text-[#0F2557]/20 rounded-none"
                         />
                     </div>
                 </div>
@@ -111,7 +111,7 @@ export default function Step1Property({ onNext, data, updateData }: Step1Props) 
 
             {/* BHK Selection */}
             <div className="step-item space-y-5">
-                <label className="text-xs font-bold text-[#ce7e48] uppercase tracking-[0.2em] font-body-02 block text-center md:text-left">Property Type & Size</label>
+                <label className="text-xs font-bold text-[#A0A0A0] uppercase tracking-[0.2em] font-body-02 block text-center md:text-left">Property Type & Size</label>
                 <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
                     {BHKS.map((item) => {
                         const isSelected = data.bhk === item.label;
@@ -122,12 +122,12 @@ export default function Step1Property({ onNext, data, updateData }: Step1Props) 
                                 className={cn(
                                     "relative group flex flex-col items-center justify-center p-4 py-8 border transition-all duration-300 min-h-[140px]",
                                     isSelected
-                                        ? "bg-[#3d5a45] border-[#3d5a45] text-white shadow-lg" // Green Selected
-                                        : "bg-white border-[#E0E0E0] hover:border-[#3d5a45]/50 hover:bg-[#f5f2eb]" // Beige Hover
+                                        ? "bg-[#0F2557] border-[#0F2557] text-white shadow-lg" // Green Selected
+                                        : "bg-white border-[#E0E0E0] hover:border-[#0F2557]/50 hover:bg-[#f5f2eb]" // Beige Hover
                                 )}
                             >
-                                <Home className={cn("w-6 h-6 mb-4 transition-colors stroke-1", isSelected ? "text-white" : "text-[#BDBDBD] group-hover:text-[#3d5a45]")} />
-                                <span className={cn("text-lg font-heading-05 mb-2", isSelected ? "text-white" : "text-[#3d5a45]")}>
+                                <Home className={cn("w-6 h-6 mb-4 transition-colors stroke-1", isSelected ? "text-white" : "text-[#BDBDBD] group-hover:text-[#0F2557]")} />
+                                <span className={cn("text-lg font-heading-05 mb-2", isSelected ? "text-white" : "text-[#0F2557]")}>
                                     {item.label}
                                 </span>
                                 <span className={cn("text-[10px] font-medium tracking-wide uppercase font-body-02", isSelected ? "text-white/80" : "text-[#9E9E9E]")}>{item.area}</span>
@@ -140,13 +140,13 @@ export default function Step1Property({ onNext, data, updateData }: Step1Props) 
             {/* Carpet Area Slider - RESTORED & COLORED */}
             <div className="step-item space-y-6">
                 <div className="flex justify-between items-end border-b border-[#E0E0E0] pb-2">
-                    <label className="text-xs font-bold text-[#ce7e48] uppercase tracking-[0.2em] font-body-02">Carpet Area</label>
+                    <label className="text-xs font-bold text-[#A0A0A0] uppercase tracking-[0.2em] font-body-02">Carpet Area</label>
                     <div className="flex items-center gap-2">
                         <input
                             type="number"
                             value={data.size}
                             onChange={(e) => updateData({ size: Number(e.target.value) })}
-                            className="bg-transparent border-none text-right font-heading-01 text-4xl text-[#3d5a45] focus:outline-none w-40 p-0 leading-none"
+                            className="bg-transparent border-none text-right font-heading-01 text-4xl text-[#0F2557] focus:outline-none w-40 p-0 leading-none"
                         />
                         <span className="text-[#A1887F] text-sm font-medium font-body-02 mb-1">sq ft</span>
                     </div>
@@ -163,7 +163,7 @@ export default function Step1Property({ onNext, data, updateData }: Step1Props) 
                         className="w-full appearance-none bg-[#E0E0E0] h-[2px] rounded-none outline-none 
                         [&::-webkit-slider-thumb]:appearance-none 
                         [&::-webkit-slider-thumb]:w-6 [&::-webkit-slider-thumb]:h-6 
-                        [&::-webkit-slider-thumb]:bg-[#ce7e48] 
+                        [&::-webkit-slider-thumb]:bg-[#A0A0A0] 
                         [&::-webkit-slider-thumb]:cursor-pointer 
                         [&::-webkit-slider-thumb]:border-4 [&::-webkit-slider-thumb]:border-white 
                         [&::-webkit-slider-thumb]:shadow-[0_2px_10px_rgba(206,126,72,0.4)]
@@ -175,31 +175,31 @@ export default function Step1Property({ onNext, data, updateData }: Step1Props) 
             {/* City & Property Type */}
             <div className="step-item grid grid-cols-1 md:grid-cols-2 gap-8">
                 <div className="space-y-3">
-                    <label className="text-xs font-bold text-[#ce7e48] uppercase tracking-[0.2em] font-body-02 ml-1">City</label>
+                    <label className="text-xs font-bold text-[#A0A0A0] uppercase tracking-[0.2em] font-body-02 ml-1">City</label>
                     <div className="relative group">
-                        <MapPin className="absolute left-0 top-1/2 -translate-y-1/2 text-[#3d5a45]/40 w-5 h-5" />
+                        <MapPin className="absolute left-0 top-1/2 -translate-y-1/2 text-[#0F2557]/40 w-5 h-5" />
                         <select
                             value={data.city}
                             onChange={(e) => updateData({ city: e.target.value })}
-                            className="w-full bg-transparent border-b border-[#E0E0E0] py-3 pl-8 pr-4 text-[#3d5a45] font-heading-05 text-xl appearance-none focus:outline-none focus:border-[#ce7e48] transition-all cursor-pointer rounded-none"
+                            className="w-full bg-transparent border-b border-[#E0E0E0] py-3 pl-8 pr-4 text-[#0F2557] font-heading-05 text-xl appearance-none focus:outline-none focus:border-[#A0A0A0] transition-all cursor-pointer rounded-none"
                         >
-                            {CITIES.map(c => <option key={c} value={c} className="bg-white text-[#3d5a45]">{c}</option>)}
+                            {CITIES.map(c => <option key={c} value={c} className="bg-white text-[#0F2557]">{c}</option>)}
                         </select>
                     </div>
                 </div>
 
                 <div className="space-y-3">
-                    <label className="text-xs font-bold text-[#ce7e48] uppercase tracking-[0.2em] font-body-02 ml-1">Property Status</label>
+                    <label className="text-xs font-bold text-[#A0A0A0] uppercase tracking-[0.2em] font-body-02 ml-1">Property Status</label>
                     <div className="relative group">
-                        <Building2 className="absolute left-0 top-1/2 -translate-y-1/2 text-[#3d5a45]/40 w-5 h-5" />
+                        <Building2 className="absolute left-0 top-1/2 -translate-y-1/2 text-[#0F2557]/40 w-5 h-5" />
                         <select
                             value={data.propertyType}
                             onChange={(e) => updateData({ propertyType: e.target.value })}
-                            className="w-full bg-transparent border-b border-[#E0E0E0] py-3 pl-8 pr-4 text-[#3d5a45] font-heading-05 text-xl appearance-none focus:outline-none focus:border-[#ce7e48] transition-all cursor-pointer rounded-none"
+                            className="w-full bg-transparent border-b border-[#E0E0E0] py-3 pl-8 pr-4 text-[#0F2557] font-heading-05 text-xl appearance-none focus:outline-none focus:border-[#A0A0A0] transition-all cursor-pointer rounded-none"
                         >
-                            <option value="New" className="bg-white text-[#3d5a45]">New Property</option>
-                            <option value="Renovation" className="bg-white text-[#3d5a45]">Renovation</option>
-                            <option value="Rental" className="bg-white text-[#3d5a45]">Rental</option>
+                            <option value="New" className="bg-white text-[#0F2557]">New Property</option>
+                            <option value="Renovation" className="bg-white text-[#0F2557]">Renovation</option>
+                            <option value="Rental" className="bg-white text-[#0F2557]">Rental</option>
                         </select>
                     </div>
                 </div>
@@ -209,7 +209,7 @@ export default function Step1Property({ onNext, data, updateData }: Step1Props) 
                 <Button
                     onClick={handleContinue}
                     disabled={!data.name || !data.phone || !data.bhk || isSubmitting}
-                    className="rounded-none px-12 py-7 bg-[#3d5a45] hover:bg-[#2F4F2F] text-white text-sm tracking-[0.2em] uppercase font-medium transition-all shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="rounded-none px-12 py-7 bg-[#0F2557] hover:bg-[#2F4F2F] text-white text-sm tracking-[0.2em] uppercase font-medium transition-all shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                     {isSubmitting ? (
                         <>

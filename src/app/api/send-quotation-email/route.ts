@@ -11,7 +11,7 @@ export async function POST(request: Request) {
             port: Number(process.env.EMAIL_PORT) || 587,
             secure: process.env.EMAIL_PORT === '465',
             auth: {
-                user: process.env.EMAIL_USER || 'info@infinityinteriors.co',
+                user: process.env.EMAIL_USER || 'info@bswinteriors.com',
                 pass: process.env.EMAIL_PASS,
             },
             tls: {
@@ -29,8 +29,8 @@ export async function POST(request: Request) {
         // Format sections for email
         const sectionsHTML = quotationData.sections.map((section: any) => `
             <tr>
-                <td colspan="4" style="padding: 15px; background: #f8f9fa; border-bottom: 2px solid #3d5a45;">
-                    <strong style="color: #3d5a45; font-size: 16px;">${section.name}</strong>
+                <td colspan="4" style="padding: 15px; background: #f8f9fa; border-bottom: 2px solid #0F2557;">
+                    <strong style="color: #0F2557; font-size: 16px;">${section.name}</strong>
                 </td>
             </tr>
             ${section.items.map((item: any) => `
@@ -60,9 +60,9 @@ export async function POST(request: Request) {
                     
                     <!-- Header with Gradient -->
                     <tr>
-                        <td style="background: linear-gradient(135deg, #3d5a45 0%, #2a3f31 100%); padding: 40px 30px; text-align: center;">
-                            <img src="https://infinityinteriors.co/logo.png" alt="Infinity Interiors" style="height: 60px; margin-bottom: 15px;" />
-                            <h1 style="color: #ffffff; margin: 0; font-size: 28px; font-weight: 600; letter-spacing: 1px;">INFINITY INTERIORS</h1>
+                        <td style="background: linear-gradient(135deg, #0F2557 0%, #2a3f31 100%); padding: 40px 30px; text-align: center;">
+                            <img src="https://bswinteriors.com/logo.png" alt="BSW Interiors" style="height: 60px; margin-bottom: 15px;" />
+                            <h1 style="color: #ffffff; margin: 0; font-size: 28px; font-weight: 600; letter-spacing: 1px;">BSW INTERIORS</h1>
                             <p style="color: #d4af37; margin: 8px 0 0 0; font-size: 14px; font-style: italic; letter-spacing: 0.5px;">Where Dreams Meet Design</p>
                         </td>
                     </tr>
@@ -70,7 +70,7 @@ export async function POST(request: Request) {
                     <!-- Quotation Header -->
                     <tr>
                         <td style="padding: 30px 40px 20px 40px;">
-                            <h2 style="color: #3d5a45; margin: 0 0 5px 0; font-size: 16px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px;">Quotation</h2>
+                            <h2 style="color: #0F2557; margin: 0 0 5px 0; font-size: 16px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px;">Quotation</h2>
                             <p style="color: #666; margin: 0; font-size: 24px; font-weight: 700;">${quotationData.quoteNumber}</p>
                         </td>
                     </tr>
@@ -78,8 +78,8 @@ export async function POST(request: Request) {
                     <!-- Client Info -->
                     <tr>
                         <td style="padding: 0 40px 30px 40px;">
-                            <div style="background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%); padding: 20px; border-radius: 12px; border-left: 4px solid #ce7e48;">
-                                <p style="color: #3d5a45; margin: 0 0 8px 0; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">Prepared For</p>
+                            <div style="background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%); padding: 20px; border-radius: 12px; border-left: 4px solid #A0A0A0;">
+                                <p style="color: #0F2557; margin: 0 0 8px 0; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">Prepared For</p>
                                 <p style="color: #2d3748; margin: 0; font-size: 18px; font-weight: 600; text-transform: uppercase;">${quotationData.clientName}</p>
                                 <p style="color: #666; margin: 5px 0 0 0; font-size: 14px; text-transform: uppercase;">Project: ${quotationData.projectName}</p>
                             </div>
@@ -91,7 +91,7 @@ export async function POST(request: Request) {
                         <td style="padding: 0 40px 30px 40px;">
                             <table width="100%" cellpadding="0" cellspacing="0" style="border: 1px solid #e2e8f0; border-radius: 8px; overflow: hidden;">
                                 <thead>
-                                    <tr style="background: #3d5a45; color: white;">
+                                    <tr style="background: #0F2557; color: white;">
                                         <th style="padding: 12px 15px; text-align: left; font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px;">Description</th>
                                         <th style="padding: 12px 15px; text-align: center; font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px;">Area</th>
                                         <th style="padding: 12px 15px; text-align: right; font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px;">Rate</th>
@@ -142,7 +142,7 @@ export async function POST(request: Request) {
                                         <span style="color: #2d3748; font-size: 18px; font-weight: 700;">Grand Total</span>
                                     </td>
                                     <td align="right" style="padding: 20px 0 0 0;">
-                                        <span style="color: #3d5a45; font-size: 24px; font-weight: 700;">₹ ${finalTotal.toLocaleString('en-IN')}</span>
+                                        <span style="color: #0F2557; font-size: 24px; font-weight: 700;">₹ ${finalTotal.toLocaleString('en-IN')}</span>
                                     </td>
                                 </tr>
                             </table>
@@ -154,7 +154,7 @@ export async function POST(request: Request) {
                     <tr>
                         <td style="padding: 0 40px 30px 40px;">
                             <div style="background: #f8f9fa; padding: 20px; border-radius: 8px; border-left: 3px solid #d4af37;">
-                                <p style="color: #3d5a45; margin: 0 0 10px 0; font-size: 14px; font-weight: 600; text-transform: uppercase;">Terms & Conditions</p>
+                                <p style="color: #0F2557; margin: 0 0 10px 0; font-size: 14px; font-weight: 600; text-transform: uppercase;">Terms & Conditions</p>
                                 <p style="color: #666; margin: 0; font-size: 13px; line-height: 1.8; white-space: pre-line;">${quotationData.notes}</p>
                             </div>
                         </td>
@@ -164,24 +164,24 @@ export async function POST(request: Request) {
                     <!-- View Link -->
                     <tr>
                         <td style="padding: 0 40px 30px 40px; text-align: center;">
-                            <a href="${quotationData.quotationLink}" style="display: inline-block; background: #3d5a45; color: white; padding: 12px 30px; text-decoration: none; border-radius: 6px; font-weight: 600; font-size: 14px;">View Full Quotation</a>
+                            <a href="${quotationData.quotationLink}" style="display: inline-block; background: #0F2557; color: white; padding: 12px 30px; text-decoration: none; border-radius: 6px; font-weight: 600; font-size: 14px;">View Full Quotation</a>
                         </td>
                     </tr>
 
                     <!-- Footer Message -->
                     <tr>
                         <td style="padding: 30px 40px; background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%); border-top: 1px solid #e2e8f0;">
-                            <p style="color: #2d3748; margin: 0 0 10px 0; font-size: 15px; line-height: 1.6;">Thank you for choosing <strong>Infinity Interiors</strong> for your interior design needs!</p>
+                            <p style="color: #2d3748; margin: 0 0 10px 0; font-size: 15px; line-height: 1.6;">Thank you for choosing <strong>BSW Interiors</strong> for your interior design needs!</p>
                             <p style="color: #666; margin: 0; font-size: 13px; line-height: 1.6;">For any queries, please feel free to contact us. We're here to bring your vision to life.</p>
                         </td>
                     </tr>
 
                     <!-- Footer -->
                     <tr>
-                        <td style="background: linear-gradient(135deg, #3d5a45 0%, #2a3f31 100%); padding: 30px 40px; text-align: center;">
-                            <p style="color: #d4af37; margin: 0 0 15px 0; font-size: 13px; font-weight: 600; letter-spacing: 1px;">INFINITY INTERIORS</p>
-                            <p style="color: #ffffff; margin: 0 0 5px 0; font-size: 13px;">📧 info@infinityinteriors.co</p>
-                            <p style="color: #ffffff; margin: 0 0 15px 0; font-size: 13px;">🌐 www.infinityinteriors.co</p>
+                        <td style="background: linear-gradient(135deg, #0F2557 0%, #2a3f31 100%); padding: 30px 40px; text-align: center;">
+                            <p style="color: #d4af37; margin: 0 0 15px 0; font-size: 13px; font-weight: 600; letter-spacing: 1px;">BSW INTERIORS</p>
+                            <p style="color: #ffffff; margin: 0 0 5px 0; font-size: 13px;">📧 info@bswinteriors.com</p>
+                            <p style="color: #ffffff; margin: 0 0 15px 0; font-size: 13px;">🌐 www.bswinteriors.com</p>
                             <p style="color: #a0aec0; margin: 0; font-size: 11px; font-style: italic;">"Crafting Spaces, Creating Memories"</p>
                         </td>
                     </tr>
@@ -196,7 +196,7 @@ export async function POST(request: Request) {
 
         // Send email with HTML
         const info = await transporter.sendMail({
-            from: '"Infinity Interiors" <info@infinityinteriors.co>',
+            from: '"BSW Interiors" <info@bswinteriors.com>',
             to: to,
             subject: subject,
             html: htmlBody,

@@ -1,6 +1,6 @@
 export const ADMIN_CREDENTIALS = {
-    name: 'SATHISH',
-    pass: 'SSAATHISH@123'
+    name: 'bswbsw',
+    pass: 'bsw@1234'
 };
 
 export const login = (name: string, pass: string) => {

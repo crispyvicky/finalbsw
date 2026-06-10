@@ -67,12 +67,12 @@ export default function PublicQuotationView() {
             <div className="bg-white p-4 md:p-6 shadow-sm sticky top-0 z-50 print:hidden">
                 <div className="max-w-7xl mx-auto flex justify-between items-center">
                     <div>
-                        <div className="font-serif font-bold text-slate-900 text-lg md:text-xl">INFINITY INTERIORS</div>
+                        <div className="font-serif font-bold text-slate-900 text-lg md:text-xl">BSW INTERIORS</div>
                         <div className="text-xs md:text-sm text-slate-500 mt-1">Quotation #{quotation.quotationNo}</div>
                     </div>
                     <div className="flex gap-2 md:gap-3">
                         <a
-                            href="tel:+919885851127"
+                            href="tel:"
                             className="bg-emerald-600 hover:bg-emerald-700 text-white px-3 md:px-6 py-2 md:py-3 rounded-lg text-sm md:text-base font-bold flex items-center gap-2 transition-colors"
                         >
                             <Phone className="w-4 h-4" />
@@ -110,7 +110,7 @@ export default function PublicQuotationView() {
             <div className="fixed bottom-0 left-0 right-0 p-3 bg-white/95 backdrop-blur border-t border-slate-200 md:hidden print:hidden shadow-lg">
                 <div className="flex gap-3">
                     <a
-                        href="tel:+919885851127"
+                        href="tel:"
                         className="flex-1 bg-emerald-600 text-white py-3 rounded-lg font-bold flex justify-center items-center gap-2"
                     >
                         <Phone className="w-4 h-4" /> Call Us

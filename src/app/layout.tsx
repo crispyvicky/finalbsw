@@ -11,26 +11,26 @@ const playfair = Playfair_Display({
 });
 
 export const metadata: Metadata = {
-  title: "Infinity Interiors | Luxury Interior Designers in Hyderabad",
-  description: "Infinity Interiors: Rated the best interiors in Hyderabad. We craft timeless, luxury residential and commercial spaces since 2000. Transform your space with Hyderabad's premier design agency.",
-  keywords: ["Best Interiors in Hyderabad", "Luxury Interior Designers Hyderabad", "Top Interior Designers Hyderabad", "Infinity Interiors", "Premium Home Design Hyderabad", "Commercial Interior Design Hyderabad"],
-  metadataBase: new URL('https://infinityinteriors.co'),
+  title: "BSW Interiors | Luxury Interior Designers in Hyderabad",
+  description: "BSW Interiors: Rated the best interiors in Hyderabad. We craft timeless, luxury residential and commercial spaces since 2000. Transform your space with Hyderabad's premier design agency.",
+  keywords: ["Best Interiors in Hyderabad", "Luxury Interior Designers Hyderabad", "Top Interior Designers Hyderabad", "BSW Interiors", "Premium Home Design Hyderabad", "Commercial Interior Design Hyderabad"],
+  metadataBase: new URL('https://bswinteriors.com'),
   icons: {
     icon: '/logo.png',
     shortcut: '/logo.png',
     apple: '/logo.png',
   },
   openGraph: {
-    title: "Infinity Interiors | Luxury Interior Designers in Hyderabad",
-    description: "Discover why Infinity Interiors is rated the best in Hyderabad. Luxury, timeless design for your dream home or office.",
-    url: 'https://infinityinteriors.co',
-    siteName: 'Infinity Interiors',
+    title: "BSW Interiors | Luxury Interior Designers in Hyderabad",
+    description: "Discover why BSW Interiors is rated the best in Hyderabad. Luxury, timeless design for your dream home or office.",
+    url: 'https://bswinteriors.com',
+    siteName: 'BSW Interiors',
     images: [
       {
         url: '/opengraph-image.png',
         width: 1200,
         height: 630,
-        alt: 'Infinity Interiors - Best Interiors in Hyderabad',
+        alt: 'BSW Interiors - Best Interiors in Hyderabad',
       },
     ],
     locale: 'en_US',
@@ -38,7 +38,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: "Infinity Interiors | Luxury Interior Designers in Hyderabad",
+    title: "BSW Interiors | Luxury Interior Designers in Hyderabad",
     description: "Crafting legacies through timeless interior design. Hyderabad's premier luxury design agency.",
     images: ['/twitter-image.png'],
   },

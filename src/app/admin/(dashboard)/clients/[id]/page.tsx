@@ -214,7 +214,7 @@ export default function ClientDetailPage() {
                                             ))}
                                             {quotations.slice(0, 3).map(quote => (
                                                 <Link key={quote._id} href={`/admin/quotations/${quote._id}/print`} className="flex items-center p-3 bg-slate-50 rounded-lg border border-slate-100 hover:bg-slate-100 transition-colors">
-                                                    <div className="w-10 h-10 rounded-full bg-amber-100 flex items-center justify-center text-amber-600 mr-4">
+                                                    <div className="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 mr-4">
                                                         <FileText className="w-5 h-5" />
                                                     </div>
                                                     <div className="flex-1">
@@ -273,7 +273,7 @@ export default function ClientDetailPage() {
                                     {quotations.map(quote => (
                                         <div key={quote._id} className="flex items-center justify-between p-4 bg-white border border-slate-100 rounded-lg shadow-sm hover:shadow-md transition-shadow">
                                             <div className="flex items-center gap-4">
-                                                <div className="w-10 h-10 bg-amber-50 rounded-lg flex items-center justify-center text-amber-600">
+                                                <div className="w-10 h-10 bg-blue-50 rounded-lg flex items-center justify-center text-blue-600">
                                                     <FileText className="w-5 h-5" />
                                                 </div>
                                                 <div>
@@ -328,7 +328,7 @@ export default function ClientDetailPage() {
                                                     <div className="flex items-center gap-1 justify-end">
                                                         <span className={`text-xs px-2 py-0.5 rounded-full font-medium ${inv.status === 'Paid' ? 'bg-emerald-100 text-emerald-700' :
                                                                 inv.status === 'Overdue' ? 'bg-red-100 text-red-700' :
-                                                                    'bg-amber-100 text-amber-700'
+                                                                    'bg-blue-100 text-blue-700'
                                                             }`}>{inv.status}</span>
                                                         {inv.balance > 0 && <span className="text-xs text-red-500 font-bold">Due: ₹{inv.balance.toLocaleString('en-IN')}</span>}
                                                     </div>

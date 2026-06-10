@@ -98,7 +98,7 @@ export default function PaymentsPage() {
         switch (status) {
             case 'Paid': return 'bg-emerald-100 text-emerald-700';
             case 'Partially Paid': return 'bg-blue-100 text-blue-700';
-            case 'Pending': return 'bg-amber-100 text-amber-700';
+            case 'Pending': return 'bg-blue-100 text-blue-700';
             case 'Overdue': return 'bg-red-100 text-red-700';
         }
     };
@@ -172,7 +172,7 @@ export default function PaymentsPage() {
                         <p className="text-sm font-medium text-slate-500">Pending Amount</p>
                         <p className="text-2xl font-bold text-slate-900 mt-1">₹ {(pendingAmount / 100000).toFixed(2)}L</p>
                     </div>
-                    <div className="p-3 bg-amber-50 text-amber-600 rounded-lg">
+                    <div className="p-3 bg-blue-50 text-blue-600 rounded-lg">
                         <ClockIcon className="w-6 h-6" />
                     </div>
                 </div>

@@ -1,127 +1,104 @@
 "use client";
 
 import React, { useState } from "react";
-import Image from "next/image";
 import { cn } from "@/lib/utils";
+import { Sparkles, Hammer, Palette, ShieldCheck } from "lucide-react";
 
-// Categorized features
-const categories = [
+const features = [
   {
-    id: "bespoke",
+    id: "01",
     title: "Bespoke Interiors",
-    description: "Tailored spaces that reflect your personality.",
-    items: [
-      { icon: "/icons/homeInterior.gif", label: "Full Home Interiors" },
-      { icon: "/icons/livingArea.gif", label: "Living Area" },
-      { icon: "/icons/dining-room.gif", label: "Dining Room" },
-      { icon: "/icons/kidsBedRoom.gif", label: "Kids Bedroom" },
-      { icon: "/icons/bathroom.gif", label: "Bathroom Design" },
-      { icon: "/icons/foyerDesign.gif", label: "Foyer Design" },
-    ]
+    description: "Tailored spaces that reflect your personality. From expansive living areas to intimate reading nooks, every corner is designed with intention and purpose.",
+    icon: <Sparkles className="w-8 h-8 md:w-12 md:h-12 text-[#A0A0A0] stroke-[1.5]" />
   },
   {
-    id: "modular",
-    title: "Modular & Storage",
-    description: "Functional elegance for every corner.",
-    items: [
-      { icon: "/icons/modularKitchen.gif", label: "Modular Kitchen" },
-      { icon: "/icons/wardrobe.gif", label: "Wardrobes" },
-      { icon: "/icons/tvUnit.gif", label: "TV Units" },
-      { icon: "/icons/crockeryUnit.gif", label: "Crockery Units" },
-      { icon: "/icons/pujaUnit.gif", label: "Puja Units" },
-      { icon: "/icons/studyTables.gif", label: "Study Tables" },
-      { icon: "/icons/spaceSavingFurniture.gif", label: "Space Saving" },
-    ]
+    id: "02",
+    title: "Modular Mastery",
+    description: "Functional elegance for modern living. Our custom modular kitchens and wardrobe systems blend seamless aesthetics with uncompromising utility.",
+    icon: <Hammer className="w-8 h-8 md:w-12 md:h-12 text-[#A0A0A0] stroke-[1.5]" />
   },
   {
-    id: "decor",
-    title: "Decor & Finishes",
-    description: "The finishing touches that make a house a home.",
-    items: [
-      { icon: "/icons/falseCeling.gif", label: "False Ceiling" },
-      { icon: "/icons/lights.gif", label: "Lighting Solutions" },
-      { icon: "/icons/wallPaint.gif", label: "Wall Paint" },
-      { icon: "/icons/wallpaper.gif", label: "Wallpaper" },
-      { icon: "/icons/movaAbleFurnture.gif", label: "Movable Furniture" },
-    ]
+    id: "03",
+    title: "Curated Finishes",
+    description: "The finishing touches that elevate a house to a luxury estate. We source the finest materials, lighting, and textures to complete your vision.",
+    icon: <Palette className="w-8 h-8 md:w-12 md:h-12 text-[#A0A0A0] stroke-[1.5]" />
   },
   {
-    id: "promise",
-    title: "The Infinity Promise",
-    description: "Our commitment to quality and service.",
-    items: [
-      { icon: "/icons/desginExperts.gif", label: "Design Experts" },
-      { icon: "/icons/installationCare.gif", label: "Installation Care" },
-      { icon: "/icons/warranty.gif", label: "Warranty" },
-      { icon: "/icons/calendar.gif", label: "Timely Delivery" },
-    ]
+    id: "04",
+    title: "The BSW Promise",
+    description: "Our commitment to quality, timely delivery, and white-glove installation ensures a stress-free transformation of your most valued spaces.",
+    icon: <ShieldCheck className="w-8 h-8 md:w-12 md:h-12 text-[#A0A0A0] stroke-[1.5]" />
   }
 ];
 
 export const UniqueFeaturesSection = (): JSX.Element => {
-  const [activeCategory, setActiveCategory] = useState(categories[0]);
+  const [activeFeature, setActiveFeature] = useState(features[0].id);
 
   return (
-    <section className="w-full py-20 px-4 md:px-8 lg:px-[100px] bg-[#fdfbf7]">
-      <div className="container mx-auto">
-        {/* Header */}
-        <div className="text-center max-w-3xl mx-auto mb-12 space-y-4">
-          <span className="text-[#ce7e48] text-xs font-bold tracking-[0.2em] uppercase">Whatever you need, we've got it</span>
-          <h2 className="font-heading-03 text-3xl md:text-5xl text-[#3d5a45]">
-            Comprehensive Design Services
-          </h2>
-        </div>
-
-        {/* Tab Navigation */}
-        <div className="flex flex-wrap justify-center gap-4 mb-14">
-          {categories.map((cat) => (
-            <button
-              key={cat.id}
-              onClick={() => setActiveCategory(cat)}
-              className={cn(
-                "px-6 py-3 rounded-none text-sm font-medium tracking-wide transition-all duration-300 border",
-                activeCategory.id === cat.id
-                  ? "bg-[#3d5a45] text-white border-[#3d5a45] shadow-lg scale-105"
-                  : "bg-white text-[#3d5a45]/70 border-[#3d5a45]/20 hover:border-[#3d5a45] hover:text-[#3d5a45]"
-              )}
-            >
-              {cat.title}
-            </button>
-          ))}
-        </div>
-
-        {/* Dynamic Content */}
-        <div className="animate-in fade-in slide-in-from-bottom-4 duration-500 key={activeCategory.id}">
-          <div className="text-center mb-10">
-            <p className="text-[#3d5a45]/60 font-body-02 italic text-lg">{activeCategory.description}</p>
+    <section className="w-full py-24 md:py-32 px-4 md:px-8 bg-[#0F2557]">
+      <div className="container mx-auto max-w-[1400px]">
+        
+        <div className="flex flex-col lg:flex-row gap-16 lg:gap-24">
+          
+          {/* Left Column: Sticky Title */}
+          <div className="lg:w-1/3">
+            <div className="sticky top-32 space-y-8">
+              <span className="font-mono text-sm tracking-[0.3em] text-[#A0A0A0] uppercase block font-bold">
+                Why Choose Us
+              </span>
+              <h2 className="font-serif text-4xl md:text-5xl lg:text-6xl text-white leading-[1.1]">
+                Comprehensive <br />
+                <span className="italic text-[#A0A0A0]">Design Excellence</span>
+              </h2>
+              <div className="w-24 h-[1px] bg-[#A0A0A0]/30"></div>
+              <p className="font-sans text-white/70 text-lg leading-relaxed max-w-sm font-light">
+                We manage every detail of your project, from initial concept to the final, flawless execution.
+              </p>
+            </div>
           </div>
 
-          <div className="flex flex-wrap justify-center gap-6">
-            {activeCategory.items.map((feature, idx) => (
-              <div
-                key={idx}
-                className="w-full sm:w-[260px] lg:w-[280px] group relative flex flex-col items-center justify-center p-8 bg-white rounded-none shadow-[0_2px_15px_-4px_rgba(0,0,0,0.05)] hover:shadow-[0_10px_40px_-4px_rgba(61,90,69,0.15)] transition-all duration-300 hover:-translate-y-2 border border-transparent hover:border-[#ce7e48]/20"
+          {/* Right Column: Scrollable Feature List */}
+          <div className="lg:w-2/3 flex flex-col gap-8 md:gap-12">
+            {features.map((feature) => (
+              <div 
+                key={feature.id}
+                onMouseEnter={() => setActiveFeature(feature.id)}
+                className={cn(
+                  "flex flex-col md:flex-row gap-8 p-8 md:p-12 border transition-all duration-500 cursor-default",
+                  activeFeature === feature.id 
+                    ? "bg-white/5 border-[#A0A0A0]/50 translate-x-0 md:-translate-x-4" 
+                    : "bg-transparent border-white/10 hover:border-white/30"
+                )}
               >
-                {/* Icon Container with subtle bg */}
-                <div className="relative w-20 h-20 mb-6 p-4 rounded-none bg-[#3d5a45]/5 group-hover:bg-[#ce7e48]/10 transition-colors duration-300">
-                  <div className="relative w-full h-full transition-transform duration-500 group-hover:scale-110">
-                    <Image
-                      src={feature.icon}
-                      alt={feature.label}
-                      fill
-                      className="object-contain"
-                      unoptimized
-                    />
+                {/* Icon & Number */}
+                <div className="flex items-start justify-between md:flex-col md:justify-start gap-6 min-w-[80px]">
+                  <span className="font-mono text-4xl md:text-5xl font-bold text-[#A0A0A0]/30">
+                    {feature.id}
+                  </span>
+                  <div className={cn(
+                    "transition-all duration-500",
+                    activeFeature === feature.id ? "opacity-100 scale-110" : "opacity-40"
+                  )}>
+                    {feature.icon}
                   </div>
                 </div>
 
-                {/* Label */}
-                <h3 className="text-center font-heading-05 text-base text-[#3d5a45] group-hover:text-[#ce7e48] transition-colors duration-300 font-semibold tracking-wide">
-                  {feature.label}
-                </h3>
+                {/* Content */}
+                <div className="flex-1 space-y-4">
+                  <h3 className={cn(
+                    "font-serif text-2xl md:text-3xl transition-colors duration-500",
+                    activeFeature === feature.id ? "text-white" : "text-white/70"
+                  )}>
+                    {feature.title}
+                  </h3>
+                  <p className="font-sans text-white/60 text-lg leading-relaxed font-light">
+                    {feature.description}
+                  </p>
+                </div>
               </div>
             ))}
           </div>
+
         </div>
       </div>
     </section>

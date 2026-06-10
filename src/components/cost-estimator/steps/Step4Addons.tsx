@@ -42,7 +42,7 @@ export default function Step4Addons({ onBack, onNext, data, updateData }: Step4P
     return (
         <div ref={containerRef} className="space-y-10">
             <div className="space-y-3 text-center mb-10">
-                <h2 className="font-heading-03 text-3xl md:text-4xl font-semi-bold text-[#3d5a45] italic">
+                <h2 className="font-heading-03 text-3xl md:text-4xl font-semi-bold text-[#0F2557] italic">
                     Elevate your interiors
                 </h2>
                 <p className="font-body-02 text-gray-500 font-light">Add premium features to enhance your lifestyle.</p>
@@ -58,28 +58,28 @@ export default function Step4Addons({ onBack, onNext, data, updateData }: Step4P
                             className={cn(
                                 "group flex items-center justify-between p-6 border cursor-pointer transition-all duration-300 hover:shadow-lg hover:-translate-y-0.5",
                                 isSelected
-                                    ? "bg-[#fdfbf7] border-[#ce7e48] shadow-md relative"
-                                    : "bg-white border-gray-100 hover:border-[#ce7e48]/30"
+                                    ? "bg-[#fdfbf7] border-[#A0A0A0] shadow-md relative"
+                                    : "bg-white border-gray-100 hover:border-[#A0A0A0]/30"
                             )}
                         >
                             <div className="flex items-center gap-5">
                                 <div className={cn(
                                     "w-14 h-14 flex items-center justify-center transition-colors border shadow-sm rounded-none",
-                                    isSelected ? "bg-[#3d5a45] text-white border-[#3d5a45]" : "bg-[#f5f2eb] border-[#f5f2eb] text-[#3d5a45] group-hover:bg-white"
+                                    isSelected ? "bg-[#0F2557] text-white border-[#0F2557]" : "bg-[#f5f2eb] border-[#f5f2eb] text-[#0F2557] group-hover:bg-white"
                                 )}>
                                     <addon.icon className="w-6 h-6 stroke-1" />
                                 </div>
                                 <div>
-                                    <h3 className={cn("text-lg font-heading-05 transition-colors mb-1", isSelected ? "text-[#3d5a45]" : "text-[#3d5a45]/80")}>{addon.label}</h3>
-                                    <p className={cn("text-sm font-body-02 font-light transition-colors", isSelected ? "text-[#ce7e48]" : "text-gray-400")}>+ {addon.price}</p>
+                                    <h3 className={cn("text-lg font-heading-05 transition-colors mb-1", isSelected ? "text-[#0F2557]" : "text-[#0F2557]/80")}>{addon.label}</h3>
+                                    <p className={cn("text-sm font-body-02 font-light transition-colors", isSelected ? "text-[#A0A0A0]" : "text-gray-400")}>+ {addon.price}</p>
                                 </div>
                             </div>
 
                             <div className={cn(
                                 "w-6 h-6 border flex items-center justify-center transition-all duration-300 rounded-none",
-                                isSelected ? "bg-white border-[#ce7e48]" : "border-gray-200 group-hover:border-[#ce7e48]"
+                                isSelected ? "bg-white border-[#A0A0A0]" : "border-gray-200 group-hover:border-[#A0A0A0]"
                             )}>
-                                {isSelected && <div className="w-3 h-3 bg-[#ce7e48] rounded-none" />}
+                                {isSelected && <div className="w-3 h-3 bg-[#A0A0A0] rounded-none" />}
                             </div>
                         </div>
                     );
@@ -87,10 +87,10 @@ export default function Step4Addons({ onBack, onNext, data, updateData }: Step4P
             </div>
 
             <div className="flex justify-end gap-4 pt-10 border-t border-gray-100 mt-8">
-                <Button variant="ghost" className="text-gray-400 hover:text-[#3d5a45] hover:bg-transparent tracking-[0.2em] text-xs font-bold uppercase" onClick={onBack}>BACK</Button>
+                <Button variant="ghost" className="text-gray-400 hover:text-[#0F2557] hover:bg-transparent tracking-[0.2em] text-xs font-bold uppercase" onClick={onBack}>BACK</Button>
                 <Button
                     onClick={onNext}
-                    className="bg-[#3d5a45] hover:bg-[#2F4F2F] text-white px-12 py-7 rounded-none text-sm font-medium tracking-[0.2em] uppercase transition-all shadow-lg hover:shadow-xl"
+                    className="bg-[#0F2557] hover:bg-[#2F4F2F] text-white px-12 py-7 rounded-none text-sm font-medium tracking-[0.2em] uppercase transition-all shadow-lg hover:shadow-xl"
                 >
                     CALCULATE ESTIMATE
                 </Button>

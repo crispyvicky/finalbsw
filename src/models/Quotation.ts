@@ -9,7 +9,7 @@ const QuotationSchema = new Schema({
     projectId: { type: Schema.Types.ObjectId, ref: 'Project' }, // Linked Project
     projectName: { type: String },
 
-    // Structure matching "Infinity Interiors" Excel
+    // Structure matching "BSW Interiors" Excel
     sections: [{
         name: { type: String, required: true }, // e.g. "Master Bedroom"
         items: [{

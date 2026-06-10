@@ -67,8 +67,8 @@ export default function Step2Rooms({ onBack, onNext, data, updateData }: Step2Pr
     return (
         <div ref={containerRef} className="space-y-8 max-w-5xl mx-auto">
             <div className="text-center space-y-3 mb-10">
-                <h2 className="font-heading-03 text-3xl md:text-4xl font-semi-bold text-[#3d5a45] italic">Select rooms to design</h2>
-                <p className="font-body-02 text-[#ce7e48] font-light">Choose the spaces you want to get an estimate for.</p>
+                <h2 className="font-heading-03 text-3xl md:text-4xl font-semi-bold text-[#0F2557] italic">Select rooms to design</h2>
+                <p className="font-body-02 text-[#A0A0A0] font-light">Choose the spaces you want to get an estimate for.</p>
             </div>
 
             <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4">
@@ -81,8 +81,8 @@ export default function Step2Rooms({ onBack, onNext, data, updateData }: Step2Pr
                             className={cn(
                                 "relative group rounded-none overflow-hidden aspect-[340/420] flex flex-col items-center justify-end text-center transition-all duration-300",
                                 isSelected
-                                    ? "ring-4 ring-[#ce7e48] ring-offset-0"
-                                    : "hover:ring-1 hover:ring-[#3d5a45]"
+                                    ? "ring-4 ring-[#A0A0A0] ring-offset-0"
+                                    : "hover:ring-1 hover:ring-[#0F2557]"
                             )}
                         >
                             {/* Background Image */}
@@ -96,14 +96,14 @@ export default function Step2Rooms({ onBack, onNext, data, updateData }: Step2Pr
                             <div className={cn(
                                 "absolute inset-0 transition-all duration-300",
                                 isSelected
-                                    ? "bg-[#3d5a45]/60" // Green overlay
-                                    : "bg-gradient-to-t from-black/70 via-black/10 to-transparent group-hover:bg-[#3d5a45]/40"
+                                    ? "bg-[#0F2557]/60" // Green overlay
+                                    : "bg-gradient-to-t from-black/70 via-black/10 to-transparent group-hover:bg-[#0F2557]/40"
                             )} />
 
                             {/* Content */}
                             <div className="relative z-10 flex flex-col items-center p-4 w-full">
                                 {room.badge && (
-                                    <div className="absolute top-2 right-2 bg-[#ce7e48] text-white text-[9px] font-bold tracking-widest px-2 py-1 uppercase rounded-none">
+                                    <div className="absolute top-2 right-2 bg-[#A0A0A0] text-white text-[9px] font-bold tracking-widest px-2 py-1 uppercase rounded-none">
                                         {room.badge}
                                     </div>
                                 )}
@@ -127,7 +127,7 @@ export default function Step2Rooms({ onBack, onNext, data, updateData }: Step2Pr
                             <div className={cn(
                                 "absolute top-2 left-2 w-6 h-6 flex items-center justify-center transition-all duration-300 z-20 border border-white/50",
                                 isSelected
-                                    ? "bg-[#ce7e48] text-white scale-100 border-[#ce7e48]"
+                                    ? "bg-[#A0A0A0] text-white scale-100 border-[#A0A0A0]"
                                     : "bg-transparent text-transparent opacity-0"
                             )}>
                                 <Check className="w-3 h-3" />
@@ -138,15 +138,15 @@ export default function Step2Rooms({ onBack, onNext, data, updateData }: Step2Pr
             </div>
 
             <div className="flex items-center justify-between pt-8 border-t border-[#E0E0E0] mt-8">
-                <div className="text-[#ce7e48] font-medium font-body-02 text-xs uppercase tracking-widest">
+                <div className="text-[#A0A0A0] font-medium font-body-02 text-xs uppercase tracking-widest">
                     {data.rooms?.length || 0} rooms selected
                 </div>
                 <div className="flex gap-4">
-                    <Button variant="ghost" className="text-[#A1887F] hover:text-[#3d5a45] hover:bg-transparent tracking-[0.2em] text-xs font-bold uppercase" onClick={onBack}>BACK</Button>
+                    <Button variant="ghost" className="text-[#A1887F] hover:text-[#0F2557] hover:bg-transparent tracking-[0.2em] text-xs font-bold uppercase" onClick={onBack}>BACK</Button>
                     <Button
                         onClick={onNext}
                         disabled={data.rooms?.length === 0}
-                        className="rounded-none px-10 py-6 bg-[#3d5a45] hover:bg-[#2F4F2F] text-white text-sm tracking-[0.2em] uppercase font-medium transition-all"
+                        className="rounded-none px-10 py-6 bg-[#0F2557] hover:bg-[#2F4F2F] text-white text-sm tracking-[0.2em] uppercase font-medium transition-all"
                     >
                         CONTINUE
                     </Button>

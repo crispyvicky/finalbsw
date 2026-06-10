@@ -3,8 +3,10 @@
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, X, Check } from "lucide-react";
+import Link from "next/link";
 
 interface ServiceDetail {
+    id: string;
     title: string;
     description: string;
     image: string;
@@ -18,9 +20,10 @@ interface ServiceDetail {
 
 const services: ServiceDetail[] = [
     {
+        id: "01",
         title: "Residential Interiors",
-        description: "Your home is your sanctuary. We create warm, personalized living spaces that reflect your unique lifestyle and heritage.",
-        image: "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?q=80&w=1000&auto=format&fit=crop",
+        description: "Your home is your sanctuary. We create warm, personalized living spaces that reflect your unique lifestyle and heritage with an uncompromising standard of luxury.",
+        image: "/bedroom.png",
         details: {
             materials: ["Italian Marble", "Teak Wood", "Brass Accents", "Natural Stone"],
             styles: ["Modern Minimalist", "Contemporary Luxury", "Traditional Fusion", "Indo-Western"],
@@ -29,20 +32,22 @@ const services: ServiceDetail[] = [
         }
     },
     {
+        id: "02",
         title: "Commercial & Office",
-        description: "Designing productive and inspiring environments that elevate your brand identity and foster creativity.",
-        image: "https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=1920&auto=format&fit=crop",
+        description: "Designing productive and inspiring environments that elevate your brand identity, impress clients, and foster an atmosphere of corporate excellence.",
+        image: "/office.png",
         details: {
             materials: ["Acoustic Panels", "Glass Partitions", "Ergonomic Furniture", "Sustainable Wood"],
             styles: ["Industrial Chic", "Corporate Modern", "Biophilic Design", "Open Plan"],
             process: "Our focus is on workflow optimization and brand storytelling. We design spaces that boost employee morale and impress clients from the moment they walk in.",
-            idealFor: "Corporate HQs, Startups, Co-working Spaces"
+            idealFor: "Corporate HQs, Startups, Executive Suites"
         }
     },
     {
-        title: "Bespoke Furniture",
-        description: "Custom-designed furniture manufactured to perfection, ensuring every piece fits your space and needs exactly.",
-        image: "https://images.unsplash.com/photo-1556228453-efd6c1ff04f6?q=80&w=1920&auto=format&fit=crop",
+        id: "03",
+        title: "Bespoke Joinery",
+        description: "Custom-designed furniture and millwork manufactured to absolute perfection, ensuring every piece fits your space and specific needs exactly.",
+        image: "/kitchen.png",
         details: {
             materials: ["Solid Walnut", "Premium Leather", "Velvet Upholstery", "Gunmetal Finish"],
             styles: ["Art Deco", "Mid-Century Modern", "Avant-Garde", "Classic Revivals"],
@@ -57,119 +62,155 @@ export default function Services() {
 
     return (
         <div className="w-full bg-white relative">
-            {/* Header */}
-            <div className="py-24 px-4 text-center bg-secondary-05 animate-fade-in">
-                <h1 className="font-heading-02 text-5xl md:text-7xl text-primary-01 mb-6">Our Expertise</h1>
-                <p className="font-body-01 text-lg text-secondary-01 max-w-2xl mx-auto">
-                    Comprehensive design solutions tailored to your vision.
-                </p>
+            
+            {/* Minimalist Header */}
+            <div className="pt-32 pb-16 md:pt-48 md:pb-32 px-4 text-center bg-white border-b border-[#0F2557]/10 relative overflow-hidden">
+                <div className="absolute top-0 right-0 w-1/3 h-full bg-[#f8f9fa] skew-x-12 transform origin-top-right -z-10"></div>
+                <div className="container mx-auto max-w-[1400px]">
+                    <span className="font-mono text-sm tracking-[0.3em] text-[#A0A0A0] uppercase font-bold block mb-6">
+                        What We Do
+                    </span>
+                    <h1 className="font-serif text-5xl md:text-7xl lg:text-8xl text-[#0F2557] mb-8 leading-[1.1]">
+                        Our <span className="italic text-[#A0A0A0]">Expertise</span>
+                    </h1>
+                    <p className="font-sans text-[#0F2557]/70 max-w-2xl mx-auto text-lg font-light leading-relaxed">
+                        Comprehensive design solutions tailored to your absolute highest standards.
+                    </p>
+                </div>
             </div>
 
-            {/* Services List - Alternating Layout */}
-            <div className="flex flex-col">
+            {/* Pinned Scroll Services Layout */}
+            <div className="w-full bg-[#f8f9fa] relative">
                 {services.map((service, index) => (
-                    <div
-                        key={index}
-                        className="flex flex-col md:flex-row h-auto md:h-[500px] group overflow-hidden animate-fade-up"
-                        style={{ animationDelay: `${index * 0.2}s` }}
+                    <div 
+                        key={service.id} 
+                        className="flex flex-col lg:flex-row min-h-[80vh] border-b border-[#0F2557]/10 last:border-b-0"
                     >
-                        {/* Image Side */}
-                        <div className={`w-full md:w-1/2 h-[300px] md:h-full overflow-hidden relative ${index % 2 !== 0 ? 'md:order-2' : ''}`}>
-                            <img
-                                src={service.image}
-                                alt={service.title}
-                                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                            />
-                            <div className="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors duration-500" />
+                        {/* Sticky Image Container (Left Side) */}
+                        <div className="w-full lg:w-1/2 h-[50vh] lg:h-auto relative lg:sticky lg:top-0">
+                            <div className="absolute inset-0 p-4 md:p-8">
+                                <div className="w-full h-full relative overflow-hidden">
+                                    <div 
+                                        className="absolute inset-0 bg-cover bg-center transition-transform duration-[2000ms] hover:scale-105"
+                                        style={{ backgroundImage: `url(${service.image})` }}
+                                    />
+                                    <div className="absolute inset-0 bg-gradient-to-t from-[#0F2557]/60 to-transparent" />
+                                    
+                                    {/* Number Overlay */}
+                                    <div className="absolute bottom-8 left-8">
+                                        <span className="font-serif text-6xl md:text-8xl text-white/90 drop-shadow-lg">
+                                            {service.id}
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
 
-                        {/* Content Side */}
-                        <div className={`w-full md:w-1/2 min-h-[300px] md:h-full bg-white flex flex-col justify-center p-8 md:px-16 lg:px-24 transition-colors duration-500 group-hover:bg-primary-01 group-hover:text-white ${index % 2 !== 0 ? 'md:order-1' : ''}`}>
-                            <span className="text-sm tracking-[0.3em] font-light mb-4 opacity-50 block">0{index + 1}</span>
-                            <h2 className="font-heading-02 text-3xl md:text-4xl mb-6 transition-colors duration-300 group-hover:text-white text-primary-01">
+                        {/* Content Container (Right Side) */}
+                        <div className="w-full lg:w-1/2 py-16 px-4 md:px-12 lg:py-32 lg:px-24 flex flex-col justify-center bg-white">
+                            <h2 className="font-serif text-4xl md:text-5xl lg:text-6xl text-[#0F2557] mb-8 leading-tight">
                                 {service.title}
                             </h2>
-                            <p className="font-body-01 text-lg mb-8 text-secondary-01 transition-colors duration-300 group-hover:text-gray-300">
+                            <p className="font-sans text-[#0F2557]/70 text-lg md:text-xl leading-relaxed font-light mb-12">
                                 {service.description}
                             </p>
+                            
+                            <div className="space-y-6 mb-12">
+                                <div className="grid grid-cols-2 gap-4 border-t border-[#0F2557]/10 pt-6">
+                                    <div className="text-sm font-mono tracking-widest text-[#A0A0A0] uppercase">Signature Styles</div>
+                                    <div className="text-[#0F2557] font-medium">{service.details.styles[0]}, {service.details.styles[1]}</div>
+                                </div>
+                                <div className="grid grid-cols-2 gap-4 border-t border-[#0F2557]/10 pt-6">
+                                    <div className="text-sm font-mono tracking-widest text-[#A0A0A0] uppercase">Key Materials</div>
+                                    <div className="text-[#0F2557] font-medium">{service.details.materials[0]}, {service.details.materials[1]}</div>
+                                </div>
+                            </div>
+
                             <Button
-                                variant="ghost"
                                 onClick={() => setSelectedService(service)}
-                                className="w-fit p-0 hover:bg-transparent group-hover:text-white text-primary-01 flex items-center gap-2 tracking-widest text-sm"
+                                className="w-fit bg-transparent text-[#0F2557] border border-[#0F2557] hover:bg-[#0F2557] hover:text-white rounded-none px-10 py-7 text-xs tracking-[0.2em] font-bold uppercase transition-all duration-300 flex items-center gap-3 group"
                             >
-                                LEARN MORE <ArrowRight className="w-4 h-4 ml-1 transition-transform group-hover:translate-x-1" />
+                                View Details
+                                <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
                             </Button>
                         </div>
                     </div>
                 ))}
             </div>
 
-            {/* Full Screen Stats Overlay */}
+            {/* Quick Contact CTA */}
+            <div className="py-24 bg-[#0F2557] text-center px-4">
+                <span className="font-mono text-sm tracking-[0.3em] text-[#A0A0A0] uppercase font-bold block mb-6">
+                    Ready to Begin?
+                </span>
+                <h2 className="font-serif text-4xl md:text-5xl text-white mb-8">
+                    Let's discuss your next project.
+                </h2>
+                <Link href="/contact">
+                    <Button className="bg-white text-[#0F2557] hover:bg-[#A0A0A0] hover:text-white rounded-none px-10 py-7 text-xs tracking-[0.2em] font-bold uppercase transition-all duration-300">
+                        Contact Us Today
+                    </Button>
+                </Link>
+            </div>
+
+            {/* Modal Overlay Details */}
             {selectedService && (
-                <div className="fixed inset-0 z-50 flex items-center justify-center p-4 md:p-8 animate-in fade-in duration-300">
-                    {/* Backdrop */}
+                <div className="fixed inset-0 z-50 flex items-center justify-center p-0 md:p-8 animate-in fade-in duration-300">
                     <div
-                        className="absolute inset-0 bg-black/90 backdrop-blur-sm"
+                        className="absolute inset-0 bg-[#0F2557]/90 backdrop-blur-sm"
                         onClick={() => setSelectedService(null)}
                     />
 
-                    {/* Content Card */}
-                    <div className="relative w-full max-w-6xl h-full md:h-auto md:max-h-[90vh] bg-white text-primary-01 overflow-y-auto animate-in slide-in-from-bottom-10 zoom-in-95 duration-500 shadow-2xl flex flex-col md:flex-row">
-
+                    <div className="relative w-full max-w-6xl h-full md:h-auto md:max-h-[90vh] bg-white text-[#0F2557] overflow-y-auto shadow-2xl flex flex-col lg:flex-row">
                         <button
                             onClick={() => setSelectedService(null)}
-                            className="absolute top-4 right-4 z-50 p-2 bg-white/10 hover:bg-black/10 rounded-full transition-colors"
+                            className="absolute top-4 right-4 z-50 p-2 bg-white/20 hover:bg-[#0F2557] hover:text-white rounded-none border border-[#0F2557]/20 transition-all backdrop-blur-md"
                         >
                             <X className="w-6 h-6" />
                         </button>
 
-                        {/* Image Column */}
-                        <div className="w-full md:w-2/5 h-[300px] md:h-auto relative">
+                        {/* Modal Image Column */}
+                        <div className="w-full lg:w-2/5 h-[300px] lg:h-auto relative">
                             <img
                                 src={selectedService.image}
                                 alt={selectedService.title}
                                 className="w-full h-full object-cover"
                             />
-                            <div className="absolute inset-0 bg-primary-01/20" />
+                            <div className="absolute inset-0 bg-gradient-to-t from-[#0F2557]/80 to-transparent" />
                             <div className="absolute bottom-8 left-8 text-white">
-                                <span className="text-xs tracking-[0.3em] uppercase opacity-80 mb-2 block">Service Detail</span>
-                                <h2 className="font-heading-02 text-4xl">{selectedService.title}</h2>
+                                <span className="font-mono text-xs tracking-[0.3em] uppercase text-[#A0A0A0] mb-4 block font-bold">Service Detail</span>
+                                <h2 className="font-serif text-4xl leading-tight">{selectedService.title}</h2>
                             </div>
                         </div>
 
-                        {/* Details Column */}
-                        <div className="w-full md:w-3/5 p-8 md:p-12 lg:p-16 bg-white overflow-y-auto">
+                        {/* Modal Details Column */}
+                        <div className="w-full lg:w-3/5 p-8 md:p-12 lg:p-16 bg-white overflow-y-auto">
                             <div className="space-y-12">
-
-                                {/* Process Section */}
                                 <div>
-                                    <h3 className="font-label-medium text-xs tracking-widest text-secondary-02 mb-4 uppercase">Our Process</h3>
-                                    <p className="font-body-01 text-lg md:text-xl text-secondary-01 leading-relaxed">
+                                    <h3 className="font-mono text-xs tracking-[0.3em] text-[#A0A0A0] mb-4 uppercase font-bold border-b border-[#0F2557]/10 pb-4">Our Process</h3>
+                                    <p className="font-sans text-lg text-[#0F2557]/80 leading-relaxed font-light">
                                         {selectedService.details.process}
                                     </p>
                                 </div>
 
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
-                                    {/* Styles */}
                                     <div>
-                                        <h3 className="font-label-medium text-xs tracking-widest text-secondary-02 mb-6 uppercase">Design Styles</h3>
-                                        <ul className="space-y-3">
+                                        <h3 className="font-mono text-xs tracking-[0.3em] text-[#A0A0A0] mb-6 uppercase font-bold border-b border-[#0F2557]/10 pb-4">Design Styles</h3>
+                                        <ul className="space-y-4">
                                             {selectedService.details.styles.map((style, i) => (
-                                                <li key={i} className="flex items-center gap-3 text-primary-01 font-medium">
-                                                    <span className="w-1.5 h-1.5 rounded-full bg-primary-02" />
+                                                <li key={i} className="flex items-center gap-3 text-[#0F2557] font-light">
+                                                    <span className="w-[1px] h-4 bg-[#A0A0A0]" />
                                                     {style}
                                                 </li>
                                             ))}
                                         </ul>
                                     </div>
-
-                                    {/* Materials */}
                                     <div>
-                                        <h3 className="font-label-medium text-xs tracking-widest text-secondary-02 mb-6 uppercase">Key Materials</h3>
-                                        <ul className="space-y-3">
+                                        <h3 className="font-mono text-xs tracking-[0.3em] text-[#A0A0A0] mb-6 uppercase font-bold border-b border-[#0F2557]/10 pb-4">Key Materials</h3>
+                                        <ul className="space-y-4">
                                             {selectedService.details.materials.map((mat, i) => (
-                                                <li key={i} className="flex items-center gap-3 text-secondary-01">
-                                                    <Check className="w-4 h-4 text-green-600/60" />
+                                                <li key={i} className="flex items-center gap-3 text-[#0F2557]/80 font-light">
+                                                    <Check className="w-4 h-4 text-[#0F2557]" />
                                                     {mat}
                                                 </li>
                                             ))}
@@ -177,17 +218,14 @@ export default function Services() {
                                     </div>
                                 </div>
 
-                                {/* Ideal For */}
-                                <div className="p-6 bg-secondary-05 border-l-4 border-primary-02">
-                                    <span className="block text-xs font-bold text-primary-02 uppercase tracking-wider mb-1">Perfect For</span>
-                                    <p className="text-primary-01 font-heading-04 italic text-xl">
-                                        {selectedService.details.idealFor}
+                                <div className="p-8 bg-[#f8f9fa] border-l-2 border-[#0F2557]">
+                                    <span className="block font-mono text-xs text-[#A0A0A0] tracking-[0.3em] uppercase mb-4 font-bold">Perfect For</span>
+                                    <p className="text-[#0F2557] font-serif italic text-2xl">
+                                        "{selectedService.details.idealFor}"
                                     </p>
                                 </div>
-
                             </div>
                         </div>
-
                     </div>
                 </div>
             )}

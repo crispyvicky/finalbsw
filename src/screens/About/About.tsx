@@ -11,10 +11,10 @@ export const About = (): JSX.Element => {
                 <div className="absolute inset-0 bg-black/50" /> {/* Overlay for text visibility */}
                 <div className="relative z-10 text-center px-4 max-w-4xl mx-auto">
                     <span className="block text-white/90 tracking-[0.4em] text-sm md:text-base mb-6 font-light animate-fade-in">
-                        ESTABLISHED 2000
+                        ESTABLISHED 1996
                     </span>
                     <h1 className="font-heading-01 text-5xl md:text-8xl text-white mb-8 animate-fade-up">
-                        INFINITY INTERIORS
+                        BSW INTERIORS
                     </h1>
                     <p className="font-body-01 text-xl text-gray-200 tracking-wide font-light max-w-2xl mx-auto animate-fade-up" style={{ animationDelay: "0.2s" }}>
                         Crafting legacies through timeless interior design.
@@ -45,10 +45,10 @@ export const About = (): JSX.Element => {
                         </h2>
                         <div className="w-32 h-1 bg-primary-01 opacity-20"></div>
                         <p className="font-body-01 text-lg text-secondary-01 leading-relaxed">
-                            This philosophy drives everything we do at INFINITY  Interiors. Founded in 2000 in Hyderabad, our journey is not just about decorating rooms; it's about elevating lifestyles. We believe that every space should be a vantage point—a place where you feel at the peak of comfort, style, and inspiration.
+                            This philosophy drives everything we do at BSW  Interiors. Founded in 1996 in Hyderabad, our journey is not just about decorating rooms; it's about elevating lifestyles. We believe that every space should be a vantage point—a place where you feel at the peak of comfort, style, and inspiration.
                         </p>
                         <p className="font-body-01 text-lg text-secondary-01 leading-relaxed">
-                            INFINITY  stands for <strong>INFINITY INTERIORS</strong>. For nearly 30 years, our family of artisans has blended traditional Indian craftsmanship with modern design sensibilities.
+                            BSW  stands for <strong>BSW INTERIORS</strong>. For nearly 30 years, our family of artisans has blended traditional Indian craftsmanship with modern design sensibilities.
                         </p>
                     </div>
                 </div>

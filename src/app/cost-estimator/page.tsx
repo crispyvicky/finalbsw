@@ -4,15 +4,15 @@ import EstimatorContainer from "@/components/cost-estimator/EstimatorContainer";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-    title: "Interior Design Cost Estimator | Calculate Home Interior Price - Infinity Interiors",
+    title: "Interior Design Cost Estimator | Calculate Home Interior Price - BSW Interiors",
     description: "Get an instant estimated cost for your premium home interiors in Hyderabad. Use our AI-powered calculator for 1BHK, 2BHK, 3BHK, and Villa pricing. Accurate, transparent, and tailored to your needs.",
-    keywords: ["Interior design cost estimator", "interior cost calculator hyderabad", "home interior pricing", "luxury interior design cost", "1BHK interior cost", "2BHK interior cost", "3BHK interior cost", "villa interior design price", "Infinity Interiors cost estimator"],
+    keywords: ["Interior design cost estimator", "interior cost calculator hyderabad", "home interior pricing", "luxury interior design cost", "1BHK interior cost", "2BHK interior cost", "3BHK interior cost", "villa interior design price", "BSW Interiors cost estimator"],
     openGraph: {
-        title: "Interior Design Cost Estimator | Calculate Home Interior Price - Infinity Interiors",
+        title: "Interior Design Cost Estimator | Calculate Home Interior Price - BSW Interiors",
         description: "Get an instant estimated cost for your premium home interiors in Hyderabad. Use our AI-powered calculator for 1BHK, 2BHK, 3BHK, and Villa pricing.",
         type: "website",
-        url: "https://infinityinteriors.co/cost-estimator", // Assuming valid URL, can be adjusted
-        siteName: "Infinity Interiors",
+        url: "https://bswinteriors.com/cost-estimator", // Assuming valid URL, can be adjusted
+        siteName: "BSW Interiors",
         images: [
             {
                 url: "https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?q=80&w=2000&auto=format&fit=crop", // Using Hero image for consistency
@@ -28,7 +28,7 @@ export default function CostEstimatorPage() {
     const jsonLd = {
         "@context": "https://schema.org",
         "@type": "SoftwareApplication",
-        "name": "Infinity Interiors Cost Estimator",
+        "name": "BSW Interiors Cost Estimator",
         "applicationCategory": "DesignApplication",
         "operatingSystem": "Web",
         "offers": {

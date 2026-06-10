@@ -116,11 +116,11 @@ export default function ClientsPage() {
                         </div>
 
                         <div className="grid grid-cols-2 gap-3 text-sm pt-2 relative z-10">
-                            <a href={`tel:${client.phone}`} className="flex items-center gap-2 text-slate-600 hover:text-amber-600 p-2 bg-slate-50 rounded-lg transition-colors hover:bg-amber-50">
+                            <a href={`tel:${client.phone}`} className="flex items-center gap-2 text-slate-600 hover:text-blue-600 p-2 bg-slate-50 rounded-lg transition-colors hover:bg-blue-50">
                                 <Phone className="w-4 h-4 text-slate-400" />
                                 {client.phone}
                             </a>
-                            <a href={`mailto:${client.email}`} className="flex items-center gap-2 text-slate-600 hover:text-amber-600 p-2 bg-slate-50 rounded-lg transition-colors hover:bg-amber-50">
+                            <a href={`mailto:${client.email}`} className="flex items-center gap-2 text-slate-600 hover:text-blue-600 p-2 bg-slate-50 rounded-lg transition-colors hover:bg-blue-50">
                                 <Mail className="w-4 h-4 text-slate-400" />
                                 <span className="truncate">{client.email || 'No Email'}</span>
                             </a>

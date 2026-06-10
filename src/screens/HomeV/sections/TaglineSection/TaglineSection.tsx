@@ -1,42 +1,58 @@
+"use client";
+
 import React from "react";
 import Link from "next/link";
 import { Button } from "../../../../components/ui/button";
+import { ArrowRight } from "lucide-react";
 
 export const TaglineSection = (): JSX.Element => {
   return (
-    <section className="relative w-full py-20 md:py-32 px-4 bg-secondary-05 overflow-hidden">
-      {/* Background Image */}
-      <div className="absolute inset-0 z-0 flex items-center justify-center opacity-30 pointer-events-none">
-        <img
-          src="/p.png"
-          alt="Quote Background"
-          className="w-auto h-[200px] md:h-[400px] object-contain opacity-100 mix-blend-multiply brightness-[0.4] contrast-125 saturate-150"
-        />
-      </div>
+    <section className="relative w-full py-24 md:py-40 px-4 md:px-8 bg-white overflow-hidden">
+      
+      {/* Decorative Background Elements */}
+      <div className="absolute top-0 right-0 w-1/2 h-full bg-[#f8f9fa] skew-x-12 transform origin-top-right -z-10"></div>
+      
+      <div className="container mx-auto max-w-[1400px] relative z-10">
+        <div className="flex flex-col lg:flex-row gap-16 lg:gap-24 items-center">
+          
+          {/* Typographic Left Side */}
+          <div className="lg:w-3/5 space-y-12 relative">
+            {/* Absolute decorative accent */}
+            <div className="absolute -top-12 -left-8 text-9xl font-serif text-[#0F2557]/5 select-none pointer-events-none">
+              "
+            </div>
 
-      <div className="relative z-10 container mx-auto flex flex-col items-center justify-center text-center max-w-4xl">
-        <span className="font-label-medium text-secondary-02 tracking-[0.2em] mb-6 uppercase text-sm md:text-base">
-          Our Philosophy
-        </span>
+            <span className="font-mono text-[#A0A0A0] tracking-[0.3em] uppercase text-sm md:text-base font-bold block">
+              The BSW Philosophy
+            </span>
 
-        <h2 className="font-heading-02 text-primary-01 text-3xl md:text-5xl lg:text-6xl leading-tight mb-8">
-          "We believe that every space has a story to tell. Our mission is to write yours."
-        </h2>
+            <h2 className="font-serif text-[#0F2557] text-4xl md:text-5xl lg:text-7xl leading-[1.1] relative z-10">
+              Architecture is the learned game, <br className="hidden md:block" />
+              <span className="italic text-[#A0A0A0]">correct and magnificent,</span> <br className="hidden md:block" />
+              of forms assembled in the light.
+            </h2>
+          </div>
 
-        <div className="w-24 h-1 bg-primary-01 mb-8 opacity-20"></div>
+          {/* Right Side Content */}
+          <div className="lg:w-2/5 flex flex-col items-start lg:pl-12 border-l border-[#A0A0A0]/30 space-y-8">
+            
+            <p className="font-sans text-slate-600 text-lg md:text-xl leading-relaxed font-light">
+              At BSW Interiors, we honor the craft of creating spaces that inspire. Every element is meticulously chosen to deliver an uncompromising standard of luxury and comfort, tailored exclusively for you.
+            </p>
 
-        <p className="font-body-02 text-secondary-01 text-base md:text-lg leading-relaxed max-w-2xl mb-10">
-          Since 2000, INFINITY  Interiors has been at the forefront of luxury design, creating environments that inspire, comfort, and endure. We don't just fill rooms; we curate lifestyles.
-        </p>
+            <Link href="/about" className="inline-block mt-4">
+              <Button
+                variant="ghost"
+                className="group h-auto p-0 text-[#0F2557] hover:bg-transparent hover:text-[#A0A0A0] font-mono tracking-widest uppercase text-sm font-bold flex items-center gap-3 transition-colors duration-300"
+              >
+                Discover Our Story
+                <span className="w-10 h-[1px] bg-[#0F2557] group-hover:bg-[#A0A0A0] transition-colors duration-300"></span>
+                <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-2" />
+              </Button>
+            </Link>
 
-        <Link href="/about">
-          <Button
-            variant="outline"
-            className="border-primary-01 text-primary-01 hover:bg-primary-01 hover:text-white transition-all duration-300 rounded-none px-8 py-6 tracking-widest text-sm"
-          >
-            DISCOVER OUR STORY
-          </Button>
-        </Link>
+          </div>
+        </div>
       </div>
     </section>
   );

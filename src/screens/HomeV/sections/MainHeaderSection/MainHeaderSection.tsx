@@ -10,11 +10,7 @@ const navigationItems = [
   { label: "PORTFOLIO", path: "/portfolio" },
   { label: "SERVICES", path: "/services" },
   { label: "PROCESS", path: "/process" },
-  { label: "LOOKBOOK", path: "/lookbook" },
-  { label: "AI CREATOR", path: "/visualizer" },
-  // { label: "BLOG", path: "/blog" },
   { label: "ABOUT", path: "/about" },
-  { label: "COST ESTIMATOR", path: "/cost-estimator" },
   { label: "CONTACT", path: "/contact" },
 ];
 
@@ -30,7 +26,7 @@ export const MainHeaderSection = (): JSX.Element => {
         <div className="w-full h-10 relative bg-primary-01 flex-shrink-0">
           <div className="flex items-center justify-center h-full relative">
             <div className="font-label-small text-primary-03 text-xs tracking-widest text-center px-4 uppercase">
-              Transforming Spaces Since 2000
+              Transforming Spaces Since 1996
             </div>
           </div>
         </div>
@@ -38,7 +34,7 @@ export const MainHeaderSection = (): JSX.Element => {
         {/* Desktop Header */}
         <div className="w-full py-4 px-4 md:px-8 lg:px-[60px] hidden md:flex items-center justify-between border-b border-gray-100">
           <Link href="/" className="flex items-center justify-center flex-shrink-0 group">
-            <img src="/logo.png" alt="Infinity Interiors" className="h-16 w-24 object-contain group-hover:opacity-80 transition-opacity" />
+            <img src="/logo.png" alt="BSW Interiors" className="h-16 w-24 object-contain group-hover:opacity-80 transition-opacity" />
           </Link>
 
           <nav className="flex-1 flex items-center justify-center gap-6 lg:gap-10 px-4">
@@ -78,7 +74,7 @@ export const MainHeaderSection = (): JSX.Element => {
           </Button>
 
           <Link href="/" className="flex items-center justify-center">
-            <img src="/logo.png" alt="Infinity Interiors" className="h-10 w-auto object-contain" />
+            <img src="/logo.png" alt="BSW Interiors" className="h-10 w-auto object-contain" />
           </Link>
 
           <div className="w-6"></div> {/* Spacer for alignment */}
@@ -120,7 +116,7 @@ export const MainHeaderSection = (): JSX.Element => {
           {/* Footer in Menu */}
           <div className="p-8 bg-white/5 border-t border-white/10">
             <p className="text-white/50 text-sm mb-2">Hyderabad, India</p>
-            <p className="text-xl font-heading-04 italic">INFINITY INTERIORS</p>
+            <p className="text-xl font-heading-04 italic">BSW INTERIORS</p>
           </div>
         </div>
       </div>

@@ -74,8 +74,8 @@ export default function EstimatorContainer() {
                                             <div
                                                 className={cn(
                                                     "w-12 h-12 flex items-center justify-center transition-all duration-300 relative z-20 border rounded-sm",
-                                                    isActive ? "bg-[#3d5a45] border-[#3d5a45] text-white shadow-lg scale-105" : // Green Active
-                                                        isCompleted ? "bg-[#Fdfbf7] border-[#ce7e48] text-[#ce7e48]" : // Beige/Orange Completed
+                                                    isActive ? "bg-[#0F2557] border-[#0F2557] text-white shadow-lg scale-105" : // Green Active
+                                                        isCompleted ? "bg-[#Fdfbf7] border-[#A0A0A0] text-[#A0A0A0]" : // Beige/Orange Completed
                                                             "bg-white border-[#E0E0E0] text-[#BDBDBD]"
                                                 )}
                                             >
@@ -85,7 +85,7 @@ export default function EstimatorContainer() {
 
                                         <span className={cn(
                                             "text-[10px] font-bold uppercase tracking-[0.15em] transition-all duration-300 font-body-02",
-                                            isActive ? "text-[#3d5a45]" : isCompleted ? "text-[#ce7e48]" : "text-[#BDBDBD]"
+                                            isActive ? "text-[#0F2557]" : isCompleted ? "text-[#A0A0A0]" : "text-[#BDBDBD]"
                                         )}>
                                             {s.label}
                                         </span>

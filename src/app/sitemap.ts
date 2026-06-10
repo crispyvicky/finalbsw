@@ -2,7 +2,7 @@ import { MetadataRoute } from 'next'
 import { blogPosts } from '@/lib/blog-data'
 
 export default function sitemap(): MetadataRoute.Sitemap {
-    const baseUrl = 'https://infinityinteriors.co'
+    const baseUrl = 'https://bswinteriors.com'
 
     return [
         {

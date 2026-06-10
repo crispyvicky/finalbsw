@@ -98,7 +98,7 @@ export default function ReportsPage() {
                             return (
                                 <div key={i} className="w-full bg-slate-100 rounded-t-lg relative group">
                                     <div
-                                        className="absolute bottom-0 w-full bg-slate-900 rounded-t-lg transition-all duration-500 hover:bg-amber-500"
+                                        className="absolute bottom-0 w-full bg-slate-900 rounded-t-lg transition-all duration-500 hover:bg-blue-500"
                                         style={{ height: `${height}%` }}
                                         title={`₹${amount.toLocaleString()}`}
                                     ></div>

@@ -15,14 +15,14 @@ export const blogPosts: BlogPost[] = [
         id: '1',
         slug: 'why-we-are-rated-best-interiors-in-hyderabad',
         title: 'Why We Are Rated the Best Interiors in Hyderabad',
-        excerpt: 'Discover the commitment to quality, heritage, and modern luxury that makes Infinity Interiors the top choice for discerning homeowners in Hyderabad.',
+        excerpt: 'Discover the commitment to quality, heritage, and modern luxury that makes BSW Interiors the top choice for discerning homeowners in Hyderabad.',
         coverImage: '/blog/blog_luxury_living_room_1767421642181.png',
         date: 'October 24, 2025',
-        author: 'Infinity Interiors Team',
+        author: 'BSW Interiors Team',
         tags: ['Best Interiors', 'Luxury Design', 'Hyderabad'],
         content: `
       <h2>Setting the Standard for Luxury Interiors in Hyderabad</h2>
-      <p>When searching for the <strong>best interiors in Hyderabad</strong>, discerning clients define "best" not just by aesthetics, but by a seamless blend of functionality, heritage, and innovation. At Infinity Interiors, we have spent over two decades perfecting this balance.</p>
+      <p>When searching for the <strong>best interiors in Hyderabad</strong>, discerning clients define "best" not just by aesthetics, but by a seamless blend of functionality, heritage, and innovation. At BSW Interiors, we have spent over two decades perfecting this balance.</p>
       
       <h3>A Legacy of Excellence Since 2000</h3>
       <p>Our journey began with a simple mission: to bring world-class design to Hyderabad while honoring our deep-rooted Indian heritage. This philosophy is what sets us apart as the top interior designers in the city. We don't just fill spaces; we curate lifestyles.</p>
@@ -96,7 +96,7 @@ export const blogPosts: BlogPost[] = [
         excerpt: 'Witness the magic of design. See how we transformed ordinary shells into extraordinary luxury residences.',
         coverImage: '/blog/blog_before_after_transformation_1767421697194.png',
         date: 'December 1, 2025',
-        author: 'Infinity Interiors Team',
+        author: 'BSW Interiors Team',
         tags: ['Case Study', 'Transformation', 'Before After'],
         content: `
       <h2>From Shell to Sanctuary</h2>

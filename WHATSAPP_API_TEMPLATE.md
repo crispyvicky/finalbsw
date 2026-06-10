@@ -37,7 +37,7 @@ Content-Type: application/json
           {
             "type": "image",
             "image": {
-              "link": "https://infinityinteriors.co/images/quotation-banner.jpg"
+              "link": "https://bswinteriors.com/images/quotation-banner.jpg"
             }
           }
         ]
@@ -83,7 +83,7 @@ Content-Type: application/json
 4. **Header**: Select "Media" -> "Image".
 5. **Body Text**:
    ```
-   ✨ *INFINITY INTERIORS*
+   ✨ *BSW INTERIORS*
    _Where Dreams Meet Design_
 
    Hi *{{1}}*,
@@ -102,12 +102,12 @@ Content-Type: application/json
 
    _Crafting Spaces, Creating Memories_ 🏡
    ```
-6. **Footer**: (Optional) "Infinity Interiors Support"
+6. **Footer**: (Optional) "BSW Interiors Support"
 7. **Buttons**: 
    - Type: **Visit Website**
    - Button Text: `View Full Quotation`
    - URL Type: **Dynamic**
-   - Base URL: `https://infinityinteriors.co/quote/`
+   - Base URL: `https://bswinteriors.com/quote/`
    - Example suffix: `12345`
 
 ### Why this works

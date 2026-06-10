@@ -46,7 +46,7 @@ export default function EnquiriesPage() {
     const getStatusColor = (status: EnquiryStatus) => {
         switch (status) {
             case 'New': return 'bg-blue-100 text-blue-700';
-            case 'Follow-up': return 'bg-amber-100 text-amber-700';
+            case 'Follow-up': return 'bg-blue-100 text-blue-700';
             case 'Converted': return 'bg-emerald-100 text-emerald-700';
             case 'Lost': return 'bg-red-100 text-red-700';
             default: return 'bg-slate-100 text-slate-700';
@@ -279,7 +279,7 @@ export default function EnquiriesPage() {
                         </div>
 
                         {enquiry.notes && (
-                            <div className="text-xs text-slate-500 bg-amber-50/50 p-3 rounded-lg border border-amber-100 italic">
+                            <div className="text-xs text-slate-500 bg-blue-50/50 p-3 rounded-lg border border-blue-100 italic">
                                 "{enquiry.notes}"
                             </div>
                         )}

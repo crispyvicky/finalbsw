@@ -67,7 +67,7 @@ export default function PrintQuotationPage() {
             return;
         }
 
-        const message = `✨ *INFINITY INTERIORS*
+        const message = `✨ *BSW INTERIORS*
 _Where Dreams Meet Design_
 
 Hi *${quotation.clientName.toUpperCase()}*,
@@ -191,7 +191,7 @@ _Thank you for choosing us!_ 🏡`;
                         <button
                             onClick={handleEmail}
                             disabled={sendingEmail}
-                            className="px-2 md:px-4 py-2 hover:bg-slate-700 text-white font-medium rounded-md flex items-center gap-2 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                            className="hidden px-2 md:px-4 py-2 hover:bg-slate-700 text-white font-medium rounded-md flex items-center gap-2 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                         >
                             {sendingEmail ? (
                                 <Loader2 className="w-4 h-4 animate-spin" />
